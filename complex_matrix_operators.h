@@ -5,23 +5,23 @@
 #include<time.h>
 #include<fstream>
 #include"complex_operators.h"
-//¸´Êı¾ØÕóÀà
+//å¤æ•°çŸ©é˜µç±»
 class ComplexMatrix
 {
 public:
-	//¹¹Ôìº¯Êı
+	//æ„é€ å‡½æ•°
 	explicit ComplexMatrix(int m = 1, int n = 1, bool flag = 0, Complex** incm = NULL);
 	ComplexMatrix(double** a, int m, int n);
 	ComplexMatrix(const ComplexMatrix& A);
-	//Îö¹¹º¯Êı
+	//ææ„å‡½æ•°
 	~ComplexMatrix();
-	//Çå³ı
+	//æ¸…é™¤
 	void clear();
-	//*************************************³õÊ¼»¯ÎªÌØÊâ¾ØÕó*************************************
-	//µ¥Î»Õó
+	//*************************************åˆå§‹åŒ–ä¸ºç‰¹æ®ŠçŸ©é˜µ*************************************
+	//å•ä½é˜µ
 	ComplexMatrix make_eyes(int n);
 
-	//*************************************ÔËËã·ûÖØÔØ******************************************
+	//*************************************è¿ç®—ç¬¦é‡è½½******************************************
 	friend ComplexMatrix operator + (ComplexMatrix& cm1, ComplexMatrix& cm2);
 	friend ComplexMatrix operator + (ComplexMatrix& cm1, double**& d1);
 	friend ComplexMatrix operator + (double**& d1, ComplexMatrix& cm1);
@@ -45,108 +45,108 @@ public:
 	ComplexMatrix operator !();
 	ComplexMatrix& operator = (const ComplexMatrix A);
 
-	//*************************************³£ÓÃĞĞÁĞ²Ù×÷****************************************
-	//»»ĞĞ
+	//*************************************å¸¸ç”¨è¡Œåˆ—æ“ä½œ****************************************
+	//æ¢è¡Œ
 	void exchange_row(int i1, int i2);
-	//»»ÁĞ
+	//æ¢åˆ—
 	void exchange_column(int j1, int j2);
-	//»»ÁĞµÄÒ»¸ö·¶Î§ÄÚµÄĞĞ
+	//æ¢åˆ—çš„ä¸€ä¸ªèŒƒå›´å†…çš„è¡Œ
 	void exchange_some_rows_of_column(int j1, int j2, int i1, int i2);
-	//µÃµ½ĞĞ£¨²ÎÊıÎª´æ´¢ÏÂ±ê£©
+	//å¾—åˆ°è¡Œï¼ˆå‚æ•°ä¸ºå­˜å‚¨ä¸‹æ ‡ï¼‰
 	ComplexMatrix get_row(int i);
-	//µÃµ½ÁĞ£¨²ÎÊıÎª´æ´¢ÏÂ±ê£©
+	//å¾—åˆ°åˆ—ï¼ˆå‚æ•°ä¸ºå­˜å‚¨ä¸‹æ ‡ï¼‰
 	ComplexMatrix get_column(int j);
-	//µÃµ½Á¬ĞøµÄĞí¶àĞĞ£¨²ÎÊıÎª´æ´¢ÏÂ±ê·¶Î§£©
+	//å¾—åˆ°è¿ç»­çš„è®¸å¤šè¡Œï¼ˆå‚æ•°ä¸ºå­˜å‚¨ä¸‹æ ‡èŒƒå›´ï¼‰
 	ComplexMatrix get_rows(int i1, int i2);
-	//µÃµ½×Ó¾ØÕó£¨²ÎÊıÎª´æ´¢ÏÂ±ê·¶Î§£©
+	//å¾—åˆ°å­çŸ©é˜µï¼ˆå‚æ•°ä¸ºå­˜å‚¨ä¸‹æ ‡èŒƒå›´ï¼‰
 	ComplexMatrix get_sub_matrix(int i1, int i2, int j1, int j2);
 
-	//ÁĞºÏ²¢£ºĞĞÊıÏàÍ¬£¬Æ´³É¸ü¶àÁĞµÄÒ»¸ö¾ØÕó
+	//åˆ—åˆå¹¶ï¼šè¡Œæ•°ç›¸åŒï¼Œæ‹¼æˆæ›´å¤šåˆ—çš„ä¸€ä¸ªçŸ©é˜µ
 	ComplexMatrix combine_columns(ComplexMatrix& A, ComplexMatrix& B);
-	//ĞĞºÏ²¢£ºÁĞÊıÏàÍ¬£¬Æ´³É¸ü¶àĞĞµÄÒ»¸ö¾ØÕó
+	//è¡Œåˆå¹¶ï¼šåˆ—æ•°ç›¸åŒï¼Œæ‹¼æˆæ›´å¤šè¡Œçš„ä¸€ä¸ªçŸ©é˜µ
 	ComplexMatrix combine_rows(ComplexMatrix& A, ComplexMatrix& B);
-	//È¥³ıÖ¸¶¨µÄÒ»ÁĞ£¨²ÎÊıÎª´æ´¢ÏÂ±ê£©
+	//å»é™¤æŒ‡å®šçš„ä¸€åˆ—ï¼ˆå‚æ•°ä¸ºå­˜å‚¨ä¸‹æ ‡ï¼‰
 	ComplexMatrix column_delete(int j);
 
-	//*****************************************½âÈı½ÇÕó****************************************
-	//Ç°Ïò´øÈëÏûÔªµÃµ½½âx£¨ÊµÊı£©
+	//*****************************************è§£ä¸‰è§’é˜µ****************************************
+	//å‰å‘å¸¦å…¥æ¶ˆå…ƒå¾—åˆ°è§£xï¼ˆå®æ•°ï¼‰
 	void forward_substitution(ComplexMatrix& A_b, ComplexMatrix& x);
-	//Ç°Ïò´øÈëÏûÔªµÃµ½½âx£¨¸´Êı£©
+	//å‰å‘å¸¦å…¥æ¶ˆå…ƒå¾—åˆ°è§£xï¼ˆå¤æ•°ï¼‰
 	void forward_substitution__Complex(ComplexMatrix& A_b, ComplexMatrix& x);
-	//ºóÏò´øÈëÏûÔªµÃµ½½âx£¨ÊµÊı£©
+	//åå‘å¸¦å…¥æ¶ˆå…ƒå¾—åˆ°è§£xï¼ˆå®æ•°ï¼‰
 	void backward_substitution(ComplexMatrix& A_b, ComplexMatrix& x);
-	//ºóÏò´øÈëÏûÔªµÃµ½½âx£¨¸´Êı£©
+	//åå‘å¸¦å…¥æ¶ˆå…ƒå¾—åˆ°è§£xï¼ˆå¤æ•°ï¼‰
 	void backward_substitution__Complex(ComplexMatrix& A_b, ComplexMatrix& x);
 
-	//*****************************************ÇóÄæ********************************************
-	//·½ÕóÇóÄæ£¨¸´Êı£©
+	//*****************************************æ±‚é€†********************************************
+	//æ–¹é˜µæ±‚é€†ï¼ˆå¤æ•°ï¼‰
 	ComplexMatrix square_inverse();
-	//ÇóÎ±Äæ£¨¸´Êı£©
+	//æ±‚ä¼ªé€†ï¼ˆå¤æ•°ï¼‰
 	ComplexMatrix Moore_Penrose_pseudo_inverse();
 
-	//*****************************************Çó·¶Êı******************************************
-	//ÏòÁ¿2-·¶Êı£¨Å·¼¸ÀïµÃ·¶Êı£©£¨¸´Êı£©
+	//*****************************************æ±‚èŒƒæ•°******************************************
+	//å‘é‡2-èŒƒæ•°ï¼ˆæ¬§å‡ é‡Œå¾—èŒƒæ•°ï¼‰ï¼ˆå¤æ•°ï¼‰
 	double vector_2_norm();
 
-	//*****************************************¸ßË¹ÏûÔª****************************************
-	//²¿·ÖÑ¡Ö÷Ôª¸ßË¹ÏûÔª£¨ÊµÊı£©
+	//*****************************************é«˜æ–¯æ¶ˆå…ƒ****************************************
+	//éƒ¨åˆ†é€‰ä¸»å…ƒé«˜æ–¯æ¶ˆå…ƒï¼ˆå®æ•°ï¼‰
 	void Gaussian_elimination_partial_pivoting(ComplexMatrix& A_b, ComplexMatrix& x);
-	//²¿·ÖÑ¡Ö÷Ôª¸ßË¹ÏûÔª£¨¸´Êı£©
+	//éƒ¨åˆ†é€‰ä¸»å…ƒé«˜æ–¯æ¶ˆå…ƒï¼ˆå¤æ•°ï¼‰
 	void Gaussian_elimination_partial_pivoting__Complex(ComplexMatrix& A_b, ComplexMatrix& x);
 
-	//*****************************************QR·Ö½â*****************************************
-	//½âQR·Ö½âºóµÄÔö¹ã¾ØÕó±íÊ¾µÄ³¬¶¨·½³Ì£¨ÊµÊı£©
+	//*****************************************QRåˆ†è§£*****************************************
+	//è§£QRåˆ†è§£åçš„å¢å¹¿çŸ©é˜µè¡¨ç¤ºçš„è¶…å®šæ–¹ç¨‹ï¼ˆå®æ•°ï¼‰
 	void solution_of_augmentedMatrix_after_QR(ComplexMatrix& Ab, ComplexMatrix& x);
-	//Ôö¹ã¾ØÕóµÄHouseholder±ä»»£¨ÊµÊı£©
+	//å¢å¹¿çŸ©é˜µçš„Householderå˜æ¢ï¼ˆå®æ•°ï¼‰
 	void Householder_QR_augmented(ComplexMatrix& A);
-	//Ôö¹ã¾ØÕóµÄ¼ªÎÄË¹Ğı×ª±ä»»£¨ÊµÊı£©
+	//å¢å¹¿çŸ©é˜µçš„å‰æ–‡æ–¯æ—‹è½¬å˜æ¢ï¼ˆå®æ•°ï¼‰
 	void Givens_QR(ComplexMatrix& A);
-	//¹Åµä¸ñÀ­Ä·-Ê©ÃÜÌØÕı½»»¯µÄQR·Ö½â£¨ÊµÊı£©
+	//å¤å…¸æ ¼æ‹‰å§†-æ–½å¯†ç‰¹æ­£äº¤åŒ–çš„QRåˆ†è§£ï¼ˆå®æ•°ï¼‰
 	ComplexMatrix Gram_Schmidt_QR_classical(ComplexMatrix& Q);
-	//¸Ä½ø¸ñÀ­Ä·-Ê©ÃÜÌØÕı½»»¯µÄQR·Ö½â£¨ÊµÊı£©
+	//æ”¹è¿›æ ¼æ‹‰å§†-æ–½å¯†ç‰¹æ­£äº¤åŒ–çš„QRåˆ†è§£ï¼ˆå®æ•°ï¼‰
 	ComplexMatrix Gram_Schmidt_QR_modified(ComplexMatrix& Q);
-	//¸Ä½ø¸ñÀ­Ä·-Ê©ÃÜÌØÕı½»»¯µÄQR·Ö½â£¨¸´Êı£©
+	//æ”¹è¿›æ ¼æ‹‰å§†-æ–½å¯†ç‰¹æ­£äº¤åŒ–çš„QRåˆ†è§£ï¼ˆå¤æ•°ï¼‰
 	ComplexMatrix Gram_Schmidt_QR_modified__Complex(ComplexMatrix& Q);
-	//ÓĞÑ¡ÔñµÄ¸Ä½ø¸ñÀ­Ä·-Ê©ÃÜÌØÕı½»»¯µÄQR·Ö½â£¨¸´Êı£©
-	//Ëã·¨À´Ô´£º´ó¶şÉÏ¡¶ÊıÖµ¼ÆËã·½·¨¡·Éæ¼°µÄÂÛÎÄ Efficient Algorithm for Detecting Layered Space-Time Codes
+	//æœ‰é€‰æ‹©çš„æ”¹è¿›æ ¼æ‹‰å§†-æ–½å¯†ç‰¹æ­£äº¤åŒ–çš„QRåˆ†è§£ï¼ˆå¤æ•°ï¼‰
+	//Efficient Algorithm for Detecting Layered Space-Time Codes
 	ComplexMatrix sorted_Gram_Schmidt_QR_modified__Complex(ComplexMatrix& Q, int* S);
 
-	//*****************************************²åÖµ********************************************
-	//Å£¶Ù²åÖµ»ñµÃ¶àÏîÊ½£¨ÊµÊı£©
+	//*****************************************æ’å€¼********************************************
+	//ç‰›é¡¿æ’å€¼è·å¾—å¤šé¡¹å¼ï¼ˆå®æ•°ï¼‰
 	ComplexMatrix Newton_interpolation_get_polynomial(ComplexMatrix& t, ComplexMatrix& y);
-	//Å£¶Ù²åÖµ¶àÏîÊ½ÇØ¾ÅÉØËã·¨ËãÖµ£¨ÊµÊı£©
+	//ç‰›é¡¿æ’å€¼å¤šé¡¹å¼ç§¦ä¹éŸ¶ç®—æ³•ç®—å€¼ï¼ˆå®æ•°ï¼‰
 	double Newton_interpolation_get_value(double t, ComplexMatrix& t_x, ComplexMatrix& pi);
-	//Å£¶Ù²åÖµ¶àÒ»¸öµãµÃµ½ĞÂµÄ¶àÏîÊ½£¨ÊµÊı£©
+	//ç‰›é¡¿æ’å€¼å¤šä¸€ä¸ªç‚¹å¾—åˆ°æ–°çš„å¤šé¡¹å¼ï¼ˆå®æ•°ï¼‰
 	ComplexMatrix Newton_interpolation_add_one_point(double& x_new, double& y_new, ComplexMatrix& t, ComplexMatrix& pi);
-	//Å£¶Ù²åÖµ»ñµÃ¶àÏîÊ½£¨µİ¹é·½·¨£©£¨ÊäÈë²ÎÊıÎª×î´óÏÂ±ê£©£¨ÊµÊı£©
+	//ç‰›é¡¿æ’å€¼è·å¾—å¤šé¡¹å¼ï¼ˆé€’å½’æ–¹æ³•ï¼‰ï¼ˆè¾“å…¥å‚æ•°ä¸ºæœ€å¤§ä¸‹æ ‡ï¼‰ï¼ˆå®æ•°ï¼‰
 	ComplexMatrix Newton_interpolation_get_polynomial_recursive(ComplexMatrix& t, ComplexMatrix& y, int count);
 
-	//*****************************************ÓÅ»¯********************************************
-	//ÓÅ»¯£º×îËÙÏÂ½µ·¨£¨ÊµÊı£©
+	//*****************************************ä¼˜åŒ–********************************************
+	//ä¼˜åŒ–ï¼šæœ€é€Ÿä¸‹é™æ³•ï¼ˆå®æ•°ï¼‰
 	double Steepest_Descent(ComplexMatrix& x0, double(*f)(ComplexMatrix& x), double(*grad[])(ComplexMatrix& x));
-	//ÓÅ»¯£ºÅ£¶Ù·¨£¨ÊµÊı£©
+	//ä¼˜åŒ–ï¼šç‰›é¡¿æ³•ï¼ˆå®æ•°ï¼‰
 	double Newton_unconstrained_optimization
 	(ComplexMatrix& x0, double(*f)(ComplexMatrix& x), double(*grad[])(ComplexMatrix& x), double(*Hessian[])(ComplexMatrix& x));
-	//ÓÅ»¯£º×èÄáÅ£¶Ù·¨£¨ÊµÊı£©
+	//ä¼˜åŒ–ï¼šé˜»å°¼ç‰›é¡¿æ³•ï¼ˆå®æ•°ï¼‰
 	double damped_Newton_unconstrained_optimization
 	(ComplexMatrix& x0, double(*f)(ComplexMatrix& x), double(*grad[])(ComplexMatrix& x), double(*Hessian[])(ComplexMatrix& x));
-	//ÎŞÔ¼ÊøÓÅ»¯µÄBFGS¸îÏßĞŞÕı·¨£¨ÊµÊı£©
+	//æ— çº¦æŸä¼˜åŒ–çš„BFGSå‰²çº¿ä¿®æ­£æ³•ï¼ˆå®æ•°ï¼‰
 	double BFGS_optimization(ComplexMatrix& x0, double(*f)(ComplexMatrix& x), double(*grad[])(ComplexMatrix& x));
-	//ÎŞÔ¼ÊøÓÅ»¯µÄ¹²éîÌİ¶È·¨£¨ÊµÊı£©betaÓÉFletcher-Reeves¹«Ê½¸ø³ö
+	//æ— çº¦æŸä¼˜åŒ–çš„å…±è½­æ¢¯åº¦æ³•ï¼ˆå®æ•°ï¼‰betaç”±Fletcher-Reeveså…¬å¼ç»™å‡º
 	double Conjugate_Gradient_F_R(ComplexMatrix& x0, double(*f)(ComplexMatrix& x), double(*grad[])(ComplexMatrix& x));
-	//ÎŞÔ¼ÊøÓÅ»¯µÄ¹²éîÌİ¶È·¨£¨ÊµÊı£©betaÓÉPolak-Ribiere¹«Ê½¸ø³ö
+	//æ— çº¦æŸä¼˜åŒ–çš„å…±è½­æ¢¯åº¦æ³•ï¼ˆå®æ•°ï¼‰betaç”±Polak-Ribiereå…¬å¼ç»™å‡º
 	double Conjugate_Gradient_P_R(ComplexMatrix& x0, double(*f)(ComplexMatrix& x), double(*grad[])(ComplexMatrix& x));
-	//·ÇÏßĞÔ×îĞ¡¶ş³Ë£º¸ßË¹-Å£¶Ù·¨£¨ÊµÊı£©
+	//éçº¿æ€§æœ€å°äºŒä¹˜ï¼šé«˜æ–¯-ç‰›é¡¿æ³•ï¼ˆå®æ•°ï¼‰
 	ComplexMatrix Gauss_Newton_nonlinear_least_squares
 	(ComplexMatrix& x0, const ComplexMatrix& t, const ComplexMatrix& y, 
 		double(*f)(double, ComplexMatrix&), double(*Jacobian[])(double, ComplexMatrix&));
-	//µÈÊ½Ô¼ÊøÓÅ»¯£ºÀ­¸ñÀÊÈÕ³Ë×Ó·¨£¬Öğ´Î¶ş´Î¹æ»®£¨ÊµÊı£©
+	//ç­‰å¼çº¦æŸä¼˜åŒ–ï¼šæ‹‰æ ¼æœ—æ—¥ä¹˜å­æ³•ï¼Œé€æ¬¡äºŒæ¬¡è§„åˆ’ï¼ˆå®æ•°ï¼‰
 	double Lagrange_multipliers_sequential_quadratic_programming(ComplexMatrix& x0, ComplexMatrix& lambda0,
 		double(*f)(ComplexMatrix& x), double(*gradf[])(ComplexMatrix& x),double(*Hf[])(ComplexMatrix& x),
 		double(*g[])(ComplexMatrix& x), double(*Jg[])(ComplexMatrix& x),  double(*Hg[])(ComplexMatrix& x));
 public:
-	int lr;		//ĞĞÊı
-	int lc;		//ÁĞÊı
-	Complex** c;	//ÔªËØ
-	bool is_real;	//±ê¼ÇÊÇ·ñÊÇÊµÊı¾ØÕó
+	int lr;		//è¡Œæ•°
+	int lc;		//åˆ—æ•°
+	Complex** c;	//å…ƒç´ 
+	bool is_real;	//æ ‡è®°æ˜¯å¦æ˜¯å®æ•°çŸ©é˜µ
 };
