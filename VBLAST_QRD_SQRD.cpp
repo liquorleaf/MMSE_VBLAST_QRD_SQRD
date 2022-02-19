@@ -1,11 +1,11 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include"complex_matrix_operators.h"
 
-//************************************¸¨Öúº¯Êı**********************************************
+//************************************è¾…åŠ©å‡½æ•°**********************************************
 
-//»ñµÃÒ»¸ö¾ùÖµÎªÁã£¬·½²îÎª1µÄ¸ßË¹±äÁ¿Öµ£»³Ë¦Ò£¬¼Ó¦Ì£¬¿É±äÎª±ê×¼²î¦Ò£¬¾ùÖµ¦ÌµÄ¸ßË¹±äÁ¿
-//Ê¹ÓÃµÄBox-MullerËã·¨ÔøÔÚÉÏÑ§ÆÚMATLAB¿ÎÉæ¼°
-//´úÂë²Î¿¼:https://blog.csdn.net/a616905919/article/details/45080539
+//è·å¾—ä¸€ä¸ªå‡å€¼ä¸ºé›¶ï¼Œæ–¹å·®ä¸º1çš„é«˜æ–¯å˜é‡å€¼ï¼›ä¹˜Ïƒï¼ŒåŠ Î¼ï¼Œå¯å˜ä¸ºæ ‡å‡†å·®Ïƒï¼Œå‡å€¼Î¼çš„é«˜æ–¯å˜é‡
+//ä½¿ç”¨Box-Mullerç®—æ³•
+//ä»£ç å‚è€ƒ:https://blog.csdn.net/a616905919/article/details/45080539
 double gaussianrand()
 {
 	static double V1, V2, S;
@@ -18,36 +18,36 @@ double gaussianrand()
 			V1 = 2 * U1 - 1;
 			V2 = 2 * U2 - 1;
 			S = V1 * V1 + V2 * V2;
-		} while (S >= 1 || S == 0);	//ÓÉÓÚÉæ¼°Çó¶ÔÊı£¬ÉáÈ¥S=0Õâ¸öµãÇé¿ö£¬²»Ó°ÏìÁ¬ĞøËæ»ú±äÁ¿µÄ·Ö²¼
+		} while (S >= 1 || S == 0);	//ç”±äºæ¶‰åŠæ±‚å¯¹æ•°ï¼Œèˆå»S=0è¿™ä¸ªç‚¹æƒ…å†µï¼Œä¸å½±å“è¿ç»­éšæœºå˜é‡çš„åˆ†å¸ƒ
 		X = V1 * sqrt(-2 * log(S) / S);
 	}
 	else
 		X = V2 * sqrt(-2 * log(S) / S);
-	phase = 1 - phase;	//Á½¸öX¶¼·ş´Ó¾ùÖµÎª0£¬·½²îÎª1µÄ¸ßË¹·Ö²¼£¬µ«Ã¿´ÎÑ¡ÆäÖĞÒ»¸ö£¬ÏÂ´ÎÑ¡ÁíÒ»¸ö
+	phase = 1 - phase;	//ä¸¤ä¸ªXéƒ½æœä»å‡å€¼ä¸º0ï¼Œæ–¹å·®ä¸º1çš„é«˜æ–¯åˆ†å¸ƒï¼Œä½†æ¯æ¬¡é€‰å…¶ä¸­ä¸€ä¸ªï¼Œä¸‹æ¬¡é€‰å¦ä¸€ä¸ª
 	return X;
 }
 
 
-//************************************²úÉúĞÅºÅ¡¢ĞÅµÀ¡¢ÔëÉù************************************
+//************************************äº§ç”Ÿä¿¡å·ã€ä¿¡é“ã€å™ªå£°************************************
 
-//±¾ÊµÑéÖĞµÄµ÷ÖÆĞÅºÅ¹ÀËã
+//æœ¬å®éªŒä¸­çš„è°ƒåˆ¶ä¿¡å·ä¼°ç®—
 Complex estimating_quantization_operation(Complex y)
 {
 	Complex result;
-	//µÚÒ»ÏóÏŞºÍÕı°ëÊµÖáÉÏµÄ¹ÀËãÎª(1+j)/sqrt(2)
+	//ç¬¬ä¸€è±¡é™å’Œæ­£åŠå®è½´ä¸Šçš„ä¼°ç®—ä¸º(1+j)/sqrt(2)
 	if ((y.re > 0) && (y.im >= 0)) { result.re = 1.0 / sqrt(2.0); result.im = 1.0 / sqrt(2.0); }
-	//µÚ¶şÏóÏŞºÍÕı°ëĞéÖáÉÏµÄ¹ÀËãÎª(-1+j)/sqrt(2)
+	//ç¬¬äºŒè±¡é™å’Œæ­£åŠè™šè½´ä¸Šçš„ä¼°ç®—ä¸º(-1+j)/sqrt(2)
 	else if ((y.re <= 0) && (y.im > 0)) { result.re = -1.0 / sqrt(2.0); result.im = 1.0 / sqrt(2.0); }
-	//µÚÈıÏóÏŞºÍ¸º°ëÊµÖáÉÏµÄ¹ÀËãÎª(-1-j)/sqrt(2)
+	//ç¬¬ä¸‰è±¡é™å’Œè´ŸåŠå®è½´ä¸Šçš„ä¼°ç®—ä¸º(-1-j)/sqrt(2)
 	else if ((y.re < 0) && (y.im <= 0)) { result.re = -1.0 / sqrt(2.0); result.im = -1.0 / sqrt(2.0); }
-	//µÚËÄÏóÏŞºÍ¸º°ëĞéÖáÉÏµÄ¹ÀËãÎª(1-j)/sqrt(2)
+	//ç¬¬å››è±¡é™å’Œè´ŸåŠè™šè½´ä¸Šçš„ä¼°ç®—ä¸º(1-j)/sqrt(2)
 	else if ((y.re >= 0) && (y.im < 0)) { result.re = 1.0 / sqrt(2.0); result.im = -1.0 / sqrt(2.0); }
-	//Ô­µãÉÏµÄ¹ÀËãÎª1+j
+	//åŸç‚¹ä¸Šçš„ä¼°ç®—ä¸º1+j
 	else { result.re = 1.0 / sqrt(2.0); result.im = 1.0 / sqrt(2.0); }
 	return result;
 }
 
-//²úÉú¾ùÔÈ·Ö²¼µÄËæ»ú01ĞòÁĞ£¬×¢ÒâÊäÈë²ÎÊınTÊÇÉÔºóµ÷ÖÆºóµÄ·¢ÉäÌìÏßÊı£¬¹Ê×Ü±ÈÌØÊıÎªnTµÄÁ½±¶
+//äº§ç”Ÿå‡åŒ€åˆ†å¸ƒçš„éšæœº01åºåˆ—ï¼Œæ³¨æ„è¾“å…¥å‚æ•°nTæ˜¯ç¨åè°ƒåˆ¶åçš„å‘å°„å¤©çº¿æ•°ï¼Œæ•…æ€»æ¯”ç‰¹æ•°ä¸ºnTçš„ä¸¤å€
 int* generate_bits(int nT)
 {
 	double* random_nums = new double[nT * 2];
@@ -62,7 +62,7 @@ int* generate_bits(int nT)
 	return result;
 }
 
-//°ÑËæ»úÉú³ÉµÄbitsµ÷ÖÆ£¬00µ½1+j£¬01µ½1-j£¬10µ½-1+j£¬11µ½-1-j£¬²¢ÇÒ¶¼/sqrt(2)
+//æŠŠéšæœºç”Ÿæˆçš„bitsè°ƒåˆ¶ï¼Œ00åˆ°1+jï¼Œ01åˆ°1-jï¼Œ10åˆ°-1+jï¼Œ11åˆ°-1-jï¼Œå¹¶ä¸”éƒ½/sqrt(2)
 ComplexMatrix generate_signal(int* bits, int nT)
 {
 	ComplexMatrix signal(nT, 1, false);
@@ -75,7 +75,7 @@ ComplexMatrix generate_signal(int* bits, int nT)
 	return signal;
 }
 
-//°Ñ»¹Ô­³öµÄĞÅºÅ·­Òë»Øbits
+//æŠŠè¿˜åŸå‡ºçš„ä¿¡å·ç¿»è¯‘å›bits
 int* signal_to_bits(ComplexMatrix& c_hat)
 {
 	int* bits = new int[c_hat.lr * 2];
@@ -88,8 +88,8 @@ int* signal_to_bits(ComplexMatrix& c_hat)
 	return bits;
 }
 
-//²úÉúÒ»¸ö¸ßË¹Ëæ»ú±äÁ¿ĞÅµÀ¾ØÕó£¨¾ùÖµ0£¬·½²î1£¬»¥Ïà¶ÀÁ¢£©
-//¸ù¾İ±¾´¦Ê¹ÓÃµÄ¶¨Òå£¬Êµ²¿Ğé²¿·Ö±ğÎª£¨¾ùÖµ0£¬·½²î1£©µÄ¶ÀÁ¢¸ßË¹±äÁ¿µÄ¸´ÊıÎª£¨¾ùÖµ0£¬·½²î1£©µÄ¸´¸ßË¹±äÁ¿
+//äº§ç”Ÿä¸€ä¸ªé«˜æ–¯éšæœºå˜é‡ä¿¡é“çŸ©é˜µï¼ˆå‡å€¼0ï¼Œæ–¹å·®1ï¼Œäº’ç›¸ç‹¬ç«‹ï¼‰
+//æ ¹æ®æœ¬å¤„ä½¿ç”¨çš„å®šä¹‰ï¼Œå®éƒ¨è™šéƒ¨åˆ†åˆ«ä¸ºï¼ˆå‡å€¼0ï¼Œæ–¹å·®1ï¼‰çš„ç‹¬ç«‹é«˜æ–¯å˜é‡çš„å¤æ•°ä¸ºï¼ˆå‡å€¼0ï¼Œæ–¹å·®1ï¼‰çš„å¤é«˜æ–¯å˜é‡
 ComplexMatrix generate_H(int nR, int nT)
 {
 	ComplexMatrix H(nR, nT, false);
@@ -102,8 +102,8 @@ ComplexMatrix generate_H(int nR, int nT)
 	return H;
 }
 
-//²úÉúÒ»¸ö¸ßË¹Ëæ»ú±äÁ¿ÔëÉùÏòÁ¿£¨¾ùÖµ0£¬·½²î1£¬»¥Ïà¶ÀÁ¢£©
-//¸ù¾İ±¾´¦Ê¹ÓÃµÄ¶¨Òå£¬Êµ²¿Ğé²¿·Ö±ğÎª£¨¾ùÖµ0£¬·½²î1£©µÄ¶ÀÁ¢¸ßË¹±äÁ¿µÄ¸´ÊıÎª£¨¾ùÖµ0£¬·½²î1£©µÄ¸´¸ßË¹±äÁ¿
+//äº§ç”Ÿä¸€ä¸ªé«˜æ–¯éšæœºå˜é‡å™ªå£°å‘é‡ï¼ˆå‡å€¼0ï¼Œæ–¹å·®1ï¼Œäº’ç›¸ç‹¬ç«‹ï¼‰
+//æ ¹æ®æœ¬å¤„ä½¿ç”¨çš„å®šä¹‰ï¼Œå®éƒ¨è™šéƒ¨åˆ†åˆ«ä¸ºï¼ˆå‡å€¼0ï¼Œæ–¹å·®1ï¼‰çš„ç‹¬ç«‹é«˜æ–¯å˜é‡çš„å¤æ•°ä¸ºï¼ˆå‡å€¼0ï¼Œæ–¹å·®1ï¼‰çš„å¤é«˜æ–¯å˜é‡
 ComplexMatrix generate_noise(int nR)
 {
 	ComplexMatrix niu(nR, 1, false);
@@ -115,53 +115,53 @@ ComplexMatrix generate_noise(int nR)
 	return niu;
 }
 
-//************************************»¹Ô­Ëã·¨**********************************************
+//************************************è¿˜åŸç®—æ³•**********************************************
 
-//Ö±½Ó³ËÎ±ÄæËã·¨
+//ç›´æ¥ä¹˜ä¼ªé€†ç®—æ³•
 ComplexMatrix Pseudo_inverse(ComplexMatrix& x, ComplexMatrix& H)
 {
-	//½ÓÊÕx:nR * 1		//ĞÅµÀH:nR * nT		//»¹Ô­³öc_hat:nT * 1
-	ComplexMatrix x_temp(x.lr, x.lc, x.is_real, x.c);	//±¾´ÎĞÅºÅ´¦ÀíÖĞxµÄÁÙÊ±¸±±¾£¬·ÀÖ¹Ô­x±»¸Ä
-	ComplexMatrix c_hat(H.lc, 1, x.is_real);			//¹ÀËãµÄ»¹Ô­³öµÄ·¢ÉäĞÅºÅ
-	ComplexMatrix G = H.Moore_Penrose_pseudo_inverse();	//HµÄÎ±Äæ
+	//æ¥æ”¶x:nR * 1		//ä¿¡é“H:nR * nT		//è¿˜åŸå‡ºc_hat:nT * 1
+	ComplexMatrix x_temp(x.lr, x.lc, x.is_real, x.c);	//æœ¬æ¬¡ä¿¡å·å¤„ç†ä¸­xçš„ä¸´æ—¶å‰¯æœ¬ï¼Œé˜²æ­¢åŸxè¢«æ”¹
+	ComplexMatrix c_hat(H.lc, 1, x.is_real);			//ä¼°ç®—çš„è¿˜åŸå‡ºçš„å‘å°„ä¿¡å·
+	ComplexMatrix G = H.Moore_Penrose_pseudo_inverse();	//Hçš„ä¼ªé€†
 	x_temp = G * x_temp;
 	for (int i = 0; i < H.lc; i++)c_hat.c[i][0] = estimating_quantization_operation(x_temp.c[i][0]);
-	//ÊÍ·ÅÄÚ´æ
+	//é‡Šæ”¾å†…å­˜
 	//x_temp.clear(); G.clear();;
 	return c_hat;
 }
 
-//V-BLASTËã·¨
+//V-BLASTç®—æ³•
 ComplexMatrix V_BLAST(ComplexMatrix& x, ComplexMatrix& H)
 {
-	//½ÓÊÕx:nR * 1		//ĞÅµÀH:nR * nT		//»¹Ô­³öc_hat:nT * 1
-	ComplexMatrix x_temp(x.lr, x.lc, x.is_real, x.c);	//±¾´ÎĞÅºÅ´¦ÀíÖĞxµÄÁÙÊ±¸±±¾£¬·ÀÖ¹Ô­x±»¸Ä
-	ComplexMatrix c_hat(H.lc, 1, x.is_real);			//¹ÀËãµÄ»¹Ô­³öµÄ·¢ÉäĞÅºÅ
-	ComplexMatrix y(1, 1);								//»¹Ô­³öµÄ·¢ÉäĞÅºÅºÍÔëÉùÖ®ºÍ
-	Complex y_ = 0.0;									//»¹Ô­³öµÄ·¢ÉäĞÅºÅºÍÔëÉùÖ®ºÍ
-	ComplexMatrix G;									//HµÄÎ±Äæ
-	ComplexMatrix g;									//´æ´¢gµÄĞĞ
-	double g_2_norm;									//´æ´¢gµÄ2-·¶Êı
-	double g_2_norm_min = 0.0;							//´æ´¢GµÄ2-·¶Êı×îĞ¡µÄÒ»ĞĞµÄ2-·¶Êı
-	int g_2_norm_min_row = 0;							//´æ´¢GµÄ2-·¶Êı×îĞ¡µÄÒ»ĞĞµÄ´æ´¢ÏÂ±ê
-	ComplexMatrix H_temp;								//´æ´¢HÔÚµü´ú¹ı³ÌÖĞÃ¿´Î¼õÒ»ÁĞºóµÄ½á¹û
-	ComplexMatrix h;									//´æ´¢H_tempµÄÁĞ
-	ComplexMatrix temp;									//¼ÆËãÖĞ½é
-	//¼ÇÂ¼HµÄÁĞÊÇ·ñÒÑ±»´¦Àí£¬ÒÔ±ãÔÚĞÂÒ»ÂÖÖĞHÈ¥µô¶ÔÓ¦ÁĞ
+	//æ¥æ”¶x:nR * 1		//ä¿¡é“H:nR * nT		//è¿˜åŸå‡ºc_hat:nT * 1
+	ComplexMatrix x_temp(x.lr, x.lc, x.is_real, x.c);	//æœ¬æ¬¡ä¿¡å·å¤„ç†ä¸­xçš„ä¸´æ—¶å‰¯æœ¬ï¼Œé˜²æ­¢åŸxè¢«æ”¹
+	ComplexMatrix c_hat(H.lc, 1, x.is_real);			//ä¼°ç®—çš„è¿˜åŸå‡ºçš„å‘å°„ä¿¡å·
+	ComplexMatrix y(1, 1);								//è¿˜åŸå‡ºçš„å‘å°„ä¿¡å·å’Œå™ªå£°ä¹‹å’Œ
+	Complex y_ = 0.0;									//è¿˜åŸå‡ºçš„å‘å°„ä¿¡å·å’Œå™ªå£°ä¹‹å’Œ
+	ComplexMatrix G;									//Hçš„ä¼ªé€†
+	ComplexMatrix g;									//å­˜å‚¨gçš„è¡Œ
+	double g_2_norm;									//å­˜å‚¨gçš„2-èŒƒæ•°
+	double g_2_norm_min = 0.0;							//å­˜å‚¨Gçš„2-èŒƒæ•°æœ€å°çš„ä¸€è¡Œçš„2-èŒƒæ•°
+	int g_2_norm_min_row = 0;							//å­˜å‚¨Gçš„2-èŒƒæ•°æœ€å°çš„ä¸€è¡Œçš„å­˜å‚¨ä¸‹æ ‡
+	ComplexMatrix H_temp;								//å­˜å‚¨Håœ¨è¿­ä»£è¿‡ç¨‹ä¸­æ¯æ¬¡å‡ä¸€åˆ—åçš„ç»“æœ
+	ComplexMatrix h;									//å­˜å‚¨H_tempçš„åˆ—
+	ComplexMatrix temp;									//è®¡ç®—ä¸­ä»‹
+	//è®°å½•Hçš„åˆ—æ˜¯å¦å·²è¢«å¤„ç†ï¼Œä»¥ä¾¿åœ¨æ–°ä¸€è½®ä¸­Hå»æ‰å¯¹åº”åˆ—
 	int** flag1 = new int* [2];
 	flag1[0] = new int[H.lc];
 	flag1[1] = new int[H.lc];
 	for (int i = 0; i < H.lc; i++)
 	{
-		flag1[0][i] = i;	//flag1µÚÒ»ĞĞ¼ÇÂ¼ÁĞÏÂ±ê
-		flag1[1][i] = 0;	//flag1µÚ¶şĞĞ¼ÇÂ¼µ±Ç°ÁĞÊÇ·ñÒÑ±»´¦Àí£¬³õÊ¼Îª0(Î´´¦Àí)
+		flag1[0][i] = i;	//flag1ç¬¬ä¸€è¡Œè®°å½•åˆ—ä¸‹æ ‡
+		flag1[1][i] = 0;	//flag1ç¬¬äºŒè¡Œè®°å½•å½“å‰åˆ—æ˜¯å¦å·²è¢«å¤„ç†ï¼Œåˆå§‹ä¸º0(æœªå¤„ç†)
 	}
-	int k = 0;	//¼ÇÂ¼flag2¸³Öµµ½ÄÄÒ»ÁĞÁË
+	int k = 0;	//è®°å½•flag2èµ‹å€¼åˆ°å“ªä¸€åˆ—äº†
 
-	//¹²Ñ­»·nT´Î
+	//å…±å¾ªç¯nTæ¬¡
 	for (int i = 0; i < H.lc; i++)
 	{
-		//¸ù¾İflag1Æ´³öÈ¥µôÒÑ´¦ÀíÁĞµÄĞÂH£¬ºÍ¼ÇÂ¼µ±Ç°Ê£ÏÂµÄÁĞ¶ÔÓ¦µÄÔ­ÏÂ±êµÄflag2
+		//æ ¹æ®flag1æ‹¼å‡ºå»æ‰å·²å¤„ç†åˆ—çš„æ–°Hï¼Œå’Œè®°å½•å½“å‰å‰©ä¸‹çš„åˆ—å¯¹åº”çš„åŸä¸‹æ ‡çš„flag2
 		int* flag2 = new int[H.lc - i];
 		k = 0;
 		for (int j = 0; j < H.lc; j++)
@@ -176,9 +176,9 @@ ComplexMatrix V_BLAST(ComplexMatrix& x, ComplexMatrix& H)
 			h = H.get_column(flag2[j]);
 			H_temp = H_temp.combine_columns(H_temp, h);
 		}
-		//ÇóH_tempµÄÎ±ÄæG
+		//æ±‚H_tempçš„ä¼ªé€†G
 		G = H_temp.Moore_Penrose_pseudo_inverse();
-		//ÕÒ³öGÖĞ2-·¶Êı×îĞ¡µÄÒ»ĞĞ£¨³õÊ¼ÎªµÚÒ»ĞĞ£©
+		//æ‰¾å‡ºGä¸­2-èŒƒæ•°æœ€å°çš„ä¸€è¡Œï¼ˆåˆå§‹ä¸ºç¬¬ä¸€è¡Œï¼‰
 		g_2_norm_min_row = 0;
 		g = G.get_row(0);
 		g_2_norm_min = g.vector_2_norm();
@@ -192,61 +192,61 @@ ComplexMatrix V_BLAST(ComplexMatrix& x, ComplexMatrix& H)
 				g_2_norm_min = g_2_norm;
 			}
 		}
-		//È¡µÃGÖĞ2-·¶Êı×îĞ¡µÄÒ»ĞĞ
+		//å–å¾—Gä¸­2-èŒƒæ•°æœ€å°çš„ä¸€è¡Œ
 		g = G.get_row(g_2_norm_min_row);
-		//½ÓÊÕĞÅºÅ»¹Ô­
+		//æ¥æ”¶ä¿¡å·è¿˜åŸ
 		y = g * x_temp;
-		//»¹Ô­µÄĞÅºÅÓÃÁ¿»¯Ëã×Ó¹ÀËã£¨¾­¹ıÉè¼Æ£¬±¾ÊµÑé²âÊÔÔËĞĞ·¶Î§ÄÚ²»»áÔ½½ç£©
+		//è¿˜åŸçš„ä¿¡å·ç”¨é‡åŒ–ç®—å­ä¼°ç®—ï¼ˆç»è¿‡è®¾è®¡ï¼Œæœ¬å®éªŒæµ‹è¯•è¿è¡ŒèŒƒå›´å†…ä¸ä¼šè¶Šç•Œï¼‰
 		c_hat.c[flag2[g_2_norm_min_row]][0] = estimating_quantization_operation(y.c[0][0]);
-		//ÓÃ¹ÀËãµÄ»¹Ô­ĞÅºÅĞŞÕı½ÓÊÕĞÅºÅx_temp
+		//ç”¨ä¼°ç®—çš„è¿˜åŸä¿¡å·ä¿®æ­£æ¥æ”¶ä¿¡å·x_temp
 		h = H_temp.get_column(g_2_norm_min_row);
 		temp = h * c_hat.c[flag2[g_2_norm_min_row]][0];
 		x_temp = x_temp - temp;
-		//flag1ÖĞµ±Ç°´¦ÀíµÄÒ»ÁĞ±ê¼ÇÎªÒÑ´¦Àí
+		//flag1ä¸­å½“å‰å¤„ç†çš„ä¸€åˆ—æ ‡è®°ä¸ºå·²å¤„ç†
 		flag1[1][flag2[g_2_norm_min_row]] = 1;
-		//ÊÍ·ÅÄÚ´æ
+		//é‡Šæ”¾å†…å­˜
 		delete[]flag2;
 	}
-	//ÊÍ·ÅÄÚ´æ
+	//é‡Šæ”¾å†…å­˜
 	delete[]flag1[1];	delete[]flag1[0];	delete[]flag1;
 	//x_temp.clear();	y.clear(); G.clear(); g.clear(); H_temp.clear(); h.clear(); temp.clear();
 	return c_hat;
 }
 
-//V-BLAST·Ö²ãÎóÂëÂÊ¼ì²â
+//V-BLASTåˆ†å±‚è¯¯ç ç‡æ£€æµ‹
 ComplexMatrix V_BLAST_layer(ComplexMatrix& x, ComplexMatrix& H, int* bits)
 {
-	//½ÓÊÕx:nR * 1		//ĞÅµÀH:nR * nT		//»¹Ô­³öc_hat:nT * 1
-	ComplexMatrix x_temp(x.lr, x.lc, x.is_real, x.c);	//±¾´ÎĞÅºÅ´¦ÀíÖĞxµÄÁÙÊ±¸±±¾£¬·ÀÖ¹Ô­x±»¸Ä
-	ComplexMatrix c_hat(H.lc, 1, x.is_real);			//¹ÀËãµÄ»¹Ô­³öµÄ·¢ÉäĞÅºÅ
-	ComplexMatrix y(1, 1);								//»¹Ô­³öµÄ·¢ÉäĞÅºÅºÍÔëÉùÖ®ºÍ
-	Complex y_ = 0.0;									//»¹Ô­³öµÄ·¢ÉäĞÅºÅºÍÔëÉùÖ®ºÍ
-	ComplexMatrix G;									//HµÄÎ±Äæ
-	ComplexMatrix g;									//´æ´¢gµÄĞĞ
-	double g_2_norm;									//´æ´¢gµÄ2-·¶Êı
-	double g_2_norm_min = 0.0;							//´æ´¢GµÄ2-·¶Êı×îĞ¡µÄÒ»ĞĞµÄ2-·¶Êı
-	int g_2_norm_min_row = 0;							//´æ´¢GµÄ2-·¶Êı×îĞ¡µÄÒ»ĞĞµÄ´æ´¢ÏÂ±ê
-	ComplexMatrix H_temp;								//´æ´¢HÔÚµü´ú¹ı³ÌÖĞÃ¿´Î¼õÒ»ÁĞºóµÄ½á¹û
-	ComplexMatrix h;									//´æ´¢H_tempµÄÁĞ
-	ComplexMatrix temp;									//¼ÆËãÖĞ½é
+	//æ¥æ”¶x:nR * 1		//ä¿¡é“H:nR * nT		//è¿˜åŸå‡ºc_hat:nT * 1
+	ComplexMatrix x_temp(x.lr, x.lc, x.is_real, x.c);	//æœ¬æ¬¡ä¿¡å·å¤„ç†ä¸­xçš„ä¸´æ—¶å‰¯æœ¬ï¼Œé˜²æ­¢åŸxè¢«æ”¹
+	ComplexMatrix c_hat(H.lc, 1, x.is_real);			//ä¼°ç®—çš„è¿˜åŸå‡ºçš„å‘å°„ä¿¡å·
+	ComplexMatrix y(1, 1);								//è¿˜åŸå‡ºçš„å‘å°„ä¿¡å·å’Œå™ªå£°ä¹‹å’Œ
+	Complex y_ = 0.0;									//è¿˜åŸå‡ºçš„å‘å°„ä¿¡å·å’Œå™ªå£°ä¹‹å’Œ
+	ComplexMatrix G;									//Hçš„ä¼ªé€†
+	ComplexMatrix g;									//å­˜å‚¨gçš„è¡Œ
+	double g_2_norm;									//å­˜å‚¨gçš„2-èŒƒæ•°
+	double g_2_norm_min = 0.0;							//å­˜å‚¨Gçš„2-èŒƒæ•°æœ€å°çš„ä¸€è¡Œçš„2-èŒƒæ•°
+	int g_2_norm_min_row = 0;							//å­˜å‚¨Gçš„2-èŒƒæ•°æœ€å°çš„ä¸€è¡Œçš„å­˜å‚¨ä¸‹æ ‡
+	ComplexMatrix H_temp;								//å­˜å‚¨Håœ¨è¿­ä»£è¿‡ç¨‹ä¸­æ¯æ¬¡å‡ä¸€åˆ—åçš„ç»“æœ
+	ComplexMatrix h;									//å­˜å‚¨H_tempçš„åˆ—
+	ComplexMatrix temp;									//è®¡ç®—ä¸­ä»‹
 
-	//¼ÇÂ¼HµÄÁĞÊÇ·ñÒÑ±»´¦Àí£¬ÒÔ±ãÔÚĞÂÒ»ÂÖÖĞHÈ¥µô¶ÔÓ¦ÁĞ
+	//è®°å½•Hçš„åˆ—æ˜¯å¦å·²è¢«å¤„ç†ï¼Œä»¥ä¾¿åœ¨æ–°ä¸€è½®ä¸­Hå»æ‰å¯¹åº”åˆ—
 	int** flag1 = new int* [3];
 	flag1[0] = new int[H.lc];
 	flag1[1] = new int[H.lc];
 	flag1[2] = new int[H.lc];
 	for (int i = 0; i < H.lc; i++)
 	{
-		flag1[0][i] = i;	//flag1µÚÒ»ĞĞ¼ÇÂ¼ÁĞÏÂ±ê
-		flag1[1][i] = 0;	//flag1µÚ¶şĞĞ¼ÇÂ¼µ±Ç°ÁĞÊÇ·ñÒÑ±»´¦Àí£¬³õÊ¼Îª0(Î´´¦Àí)
-		flag1[2][i] = 0;	//flag1µÚÈıĞĞ¼ÇÂ¼µ±Ç°ÁĞÊÇµÚ¼¸¸ö±»´¦ÀíµÄ
+		flag1[0][i] = i;	//flag1ç¬¬ä¸€è¡Œè®°å½•åˆ—ä¸‹æ ‡
+		flag1[1][i] = 0;	//flag1ç¬¬äºŒè¡Œè®°å½•å½“å‰åˆ—æ˜¯å¦å·²è¢«å¤„ç†ï¼Œåˆå§‹ä¸º0(æœªå¤„ç†)
+		flag1[2][i] = 0;	//flag1ç¬¬ä¸‰è¡Œè®°å½•å½“å‰åˆ—æ˜¯ç¬¬å‡ ä¸ªè¢«å¤„ç†çš„
 	}
-	int k = 0;	//¼ÇÂ¼flag2¸³Öµµ½ÄÄÒ»ÁĞÁË
+	int k = 0;	//è®°å½•flag2èµ‹å€¼åˆ°å“ªä¸€åˆ—äº†
 
-	//¹²Ñ­»·nT´Î
+	//å…±å¾ªç¯nTæ¬¡
 	for (int i = 0; i < H.lc; i++)
 	{
-		//¸ù¾İflag1Æ´³öÈ¥µôÒÑ´¦ÀíÁĞµÄĞÂH£¬ºÍ¼ÇÂ¼µ±Ç°Ê£ÏÂµÄÁĞ¶ÔÓ¦µÄÔ­ÏÂ±êµÄflag2
+		//æ ¹æ®flag1æ‹¼å‡ºå»æ‰å·²å¤„ç†åˆ—çš„æ–°Hï¼Œå’Œè®°å½•å½“å‰å‰©ä¸‹çš„åˆ—å¯¹åº”çš„åŸä¸‹æ ‡çš„flag2
 		int* flag2 = new int[H.lc - i];
 		k = 0;
 		for (int j = 0; j < H.lc; j++)
@@ -261,9 +261,9 @@ ComplexMatrix V_BLAST_layer(ComplexMatrix& x, ComplexMatrix& H, int* bits)
 			h = H.get_column(flag2[j]);
 			H_temp = H_temp.combine_columns(H_temp, h);
 		}
-		//ÇóH_tempµÄÎ±ÄæG
+		//æ±‚H_tempçš„ä¼ªé€†G
 		G = H_temp.Moore_Penrose_pseudo_inverse();
-		//ÕÒ³öGÖĞ2-·¶Êı×îĞ¡µÄÒ»ĞĞ£¨³õÊ¼ÎªµÚÒ»ĞĞ£©
+		//æ‰¾å‡ºGä¸­2-èŒƒæ•°æœ€å°çš„ä¸€è¡Œï¼ˆåˆå§‹ä¸ºç¬¬ä¸€è¡Œï¼‰
 		g_2_norm_min_row = 0;
 		g = G.get_row(0);
 		g_2_norm_min = g.vector_2_norm();
@@ -277,63 +277,63 @@ ComplexMatrix V_BLAST_layer(ComplexMatrix& x, ComplexMatrix& H, int* bits)
 				g_2_norm_min = g_2_norm;
 			}
 		}
-		//È¡µÃGÖĞ2-·¶Êı×îĞ¡µÄÒ»ĞĞ
+		//å–å¾—Gä¸­2-èŒƒæ•°æœ€å°çš„ä¸€è¡Œ
 		g = G.get_row(g_2_norm_min_row);
-		//½ÓÊÕĞÅºÅ»¹Ô­
+		//æ¥æ”¶ä¿¡å·è¿˜åŸ
 		y = g * x_temp;
-		//»¹Ô­µÄĞÅºÅÓÃÁ¿»¯Ëã×Ó¹ÀËã£¨¾­¹ıÉè¼Æ£¬±¾ÊµÑé²âÊÔÔËĞĞ·¶Î§ÄÚ²»»áÔ½½ç£©
+		//è¿˜åŸçš„ä¿¡å·ç”¨é‡åŒ–ç®—å­ä¼°ç®—ï¼ˆç»è¿‡è®¾è®¡ï¼Œæœ¬å®éªŒæµ‹è¯•è¿è¡ŒèŒƒå›´å†…ä¸ä¼šè¶Šç•Œï¼‰
 		c_hat.c[flag2[g_2_norm_min_row]][0] = estimating_quantization_operation(y.c[0][0]);
-		//ÓÃ¹ÀËãµÄ»¹Ô­ĞÅºÅĞŞÕı½ÓÊÕĞÅºÅx_temp
+		//ç”¨ä¼°ç®—çš„è¿˜åŸä¿¡å·ä¿®æ­£æ¥æ”¶ä¿¡å·x_temp
 		h = H_temp.get_column(g_2_norm_min_row);
 		temp = h * c_hat.c[flag2[g_2_norm_min_row]][0];
 		x_temp = x_temp - temp;
-		//flag1ÖĞµ±Ç°´¦ÀíµÄÒ»ÁĞ±ê¼ÇÎªÒÑ´¦Àí£¬²¢¼ÇÂ¼±»´¦ÀíË³Ğò
+		//flag1ä¸­å½“å‰å¤„ç†çš„ä¸€åˆ—æ ‡è®°ä¸ºå·²å¤„ç†ï¼Œå¹¶è®°å½•è¢«å¤„ç†é¡ºåº
 		flag1[1][flag2[g_2_norm_min_row]] = 1;
 		flag1[2][flag2[g_2_norm_min_row]] = i;
-		//ÊÍ·ÅÄÚ´æ
+		//é‡Šæ”¾å†…å­˜
 		delete[]flag2;
 	}
-	//»¹Ô­ĞÅºÅ·­Òë»Ø±ÈÌØÁ÷
+	//è¿˜åŸä¿¡å·ç¿»è¯‘å›æ¯”ç‰¹æµ
 	int* bits_hat = signal_to_bits(c_hat);
-	//°´ÕÕ¼ÇÂ¼µÄ´¦ÀíË³ĞòÖ´ĞĞ·Ö²ãÎóÂëÂÊ¼ì²â£¬×îÏÈÎª×î¸ß²ã
-	ComplexMatrix BER_per_layer(1, H.lc, true);			//³õÊ¼»¯·Ö²ãÎóÂëÂÊ¼ÇÂ¼¾ØÕó
-	for (int i = 0; i < H.lc; i++)						//¹²nT²ã
+	//æŒ‰ç…§è®°å½•çš„å¤„ç†é¡ºåºæ‰§è¡Œåˆ†å±‚è¯¯ç ç‡æ£€æµ‹ï¼Œæœ€å…ˆä¸ºæœ€é«˜å±‚
+	ComplexMatrix BER_per_layer(1, H.lc, true);			//åˆå§‹åŒ–åˆ†å±‚è¯¯ç ç‡è®°å½•çŸ©é˜µ
+	for (int i = 0; i < H.lc; i++)						//å…±nTå±‚
 	{
-		int order = flag1[2][i];		//µÚiÁĞµÄ´¦ÀíË³Î»(0¿ªÊ¼)
-		int layer = H.lc - order;		//µÚiÁĞµÄ²ãÊı(µÚ0¸ö´¦Àí¶ÔÓ¦µÚnT²ã£¬Ö®ºó´¦ÀíË³Î»Ã¿+1£¬²ãÊı-1)
-		//»ñÈ¡µÚiÁĞÔ­Ê¼µÄ2Î»±ÈÌØ
+		int order = flag1[2][i];		//ç¬¬iåˆ—çš„å¤„ç†é¡ºä½(0å¼€å§‹)
+		int layer = H.lc - order;		//ç¬¬iåˆ—çš„å±‚æ•°(ç¬¬0ä¸ªå¤„ç†å¯¹åº”ç¬¬nTå±‚ï¼Œä¹‹åå¤„ç†é¡ºä½æ¯+1ï¼Œå±‚æ•°-1)
+		//è·å–ç¬¬iåˆ—åŸå§‹çš„2ä½æ¯”ç‰¹
 		int bit0 = bits[2 * i];
 		int bit1 = bits[2 * i + 1];
-		//»ñÈ¡µÚiÁĞ·­Òë»ØµÄ2Î»±ÈÌØ
+		//è·å–ç¬¬iåˆ—ç¿»è¯‘å›çš„2ä½æ¯”ç‰¹
 		int bit0_hat = bits_hat[2 * i];
 		int bit1_hat = bits_hat[2 * i + 1];
-		//µÚiÁĞÊÇµÚlayer²ã£¬´¢´æÔÚÎóÂëÂÊ¼ì²âµÄµÚ(layer-1)ÁĞ
-		//ÎóÂëÂÊ£º´íÎóÒ»¸öÂë¼Ó1£¬×îºó³ıÒÔ2
+		//ç¬¬iåˆ—æ˜¯ç¬¬layerå±‚ï¼Œå‚¨å­˜åœ¨è¯¯ç ç‡æ£€æµ‹çš„ç¬¬(layer-1)åˆ—
+		//è¯¯ç ç‡ï¼šé”™è¯¯ä¸€ä¸ªç åŠ 1ï¼Œæœ€åé™¤ä»¥2
 		BER_per_layer.c[0][layer - 1].re += (bit0 != bit0_hat);
 		BER_per_layer.c[0][layer - 1].re += (bit1 != bit1_hat);
 		BER_per_layer.c[0][layer - 1].re /= 2.0;
 	}
-	//ÊÍ·ÅÄÚ´æ
+	//é‡Šæ”¾å†…å­˜
 	delete[] flag1[2]; delete[]flag1[1]; delete[]flag1[0];	delete[]flag1;	delete[] bits_hat;
 	//x_temp.clear();	y.clear(); G.clear(); g.clear(); H_temp.clear(); h.clear(); temp.clear();
 	return BER_per_layer;
 }
 
-//ÎŞÅÅĞòQRDËã·¨
+//æ— æ’åºQRDç®—æ³•
 ComplexMatrix QRD(ComplexMatrix& x, ComplexMatrix& H)
 {
-	//½ÓÊÕx:nR * 1		//ĞÅµÀH:nR * nT		//»¹Ô­³öc_hat:nT * 1
-	ComplexMatrix c_hat(H.lc, 1, x.is_real);		//¹ÀËãµÄ»¹Ô­³öµÄ·¢ÉäĞÅºÅ
-	ComplexMatrix H_temp(H.lr, H.lc, H.is_real, H.c);	//´æ´¢HÔÚ±¾´ÎV-BLAST¼ÆËãÖĞµÄÁÙÊ±¸´ÖÆ
-	ComplexMatrix y;		//´æ´¢½ÓÊÕĞÅºÅx±»QĞŞÕıºóµÄĞÅºÅ
-	ComplexMatrix Q_H;		//´æ´¢QµÄ¹²éî×ªÖÃ
-	Complex temp;		//¼ÆËãÖĞ½é
-	//¶ÔH_temp½øĞĞQR·Ö½â£¬Ö®ºóH_tempÖĞ´æ´¢ÁËQ
+	//æ¥æ”¶x:nR * 1		//ä¿¡é“H:nR * nT		//è¿˜åŸå‡ºc_hat:nT * 1
+	ComplexMatrix c_hat(H.lc, 1, x.is_real);		//ä¼°ç®—çš„è¿˜åŸå‡ºçš„å‘å°„ä¿¡å·
+	ComplexMatrix H_temp(H.lr, H.lc, H.is_real, H.c);	//å­˜å‚¨Håœ¨æœ¬æ¬¡V-BLASTè®¡ç®—ä¸­çš„ä¸´æ—¶å¤åˆ¶
+	ComplexMatrix y;		//å­˜å‚¨æ¥æ”¶ä¿¡å·xè¢«Qä¿®æ­£åçš„ä¿¡å·
+	ComplexMatrix Q_H;		//å­˜å‚¨Qçš„å…±è½­è½¬ç½®
+	Complex temp;		//è®¡ç®—ä¸­ä»‹
+	//å¯¹H_tempè¿›è¡ŒQRåˆ†è§£ï¼Œä¹‹åH_tempä¸­å­˜å‚¨äº†Q
 	ComplexMatrix R = H_temp.Gram_Schmidt_QR_modified__Complex(H_temp);
-	//x¸ù¾İQ±ä»»Îªy
+	//xæ ¹æ®Qå˜æ¢ä¸ºy
 	Q_H = !H_temp;
 	y = Q_H * x;
-	//ÀûÓÃRµÄnTĞĞºÍy»¹Ô­³ö·¢ÉäĞÅºÅ
+	//åˆ©ç”¨Rçš„nTè¡Œå’Œyè¿˜åŸå‡ºå‘å°„ä¿¡å·
 	for (int i = c_hat.lr - 1; i >= 0; i--)
 	{
 		c_hat.c[i][0] = y.c[i][0];
@@ -345,30 +345,30 @@ ComplexMatrix QRD(ComplexMatrix& x, ComplexMatrix& H)
 		c_hat.c[i][0] = c_hat.c[i][0] / R.c[i][i];
 		c_hat.c[i][0] = estimating_quantization_operation(c_hat.c[i][0]);
 	}
-	//ÊÍ·ÅÄÚ´æ
+	//é‡Šæ”¾å†…å­˜
 	//H_temp.clear();	y.clear(); Q_H.clear(); R.clear();
 	return c_hat;
 }
 
-//SQRDËã·¨
+//SQRDç®—æ³•
 ComplexMatrix SQRD(ComplexMatrix& x, ComplexMatrix& H)
 {
-	//½ÓÊÕx:nR * 1		//ĞÅµÀH:nR * nT		//»¹Ô­³öc_hat:nT * 1
-	ComplexMatrix c_hat(H.lc, 1, x.is_real);		//¹ÀËãµÄ»¹Ô­³öµÄ·¢ÉäĞÅºÅ
-	ComplexMatrix c_hat_temp(H.lc, 1, x.is_real);	//¹ÀËãµÄ»¹Ô­³öµÄ·¢ÉäĞÅºÅµÄÁÙÊ±¸±±¾
-	ComplexMatrix H_temp(H.lr, H.lc, H.is_real, H.c);	//´æ´¢HÔÚ±¾´ÎV-BLAST¼ÆËãÖĞµÄÁÙÊ±¸´ÖÆ
-	ComplexMatrix y;		//´æ´¢½ÓÊÕĞÅºÅx±»QĞŞÕıºóµÄĞÅºÅ
-	ComplexMatrix Q_H;		//´æ´¢QµÄ¹²éî×ªÖÃ
-	Complex temp;		//¼ÆËãÖĞ½é
-	//³õÊ¼»¯´æ´¢½»»»¼ÇÂ¼µÄÏòÁ¿
+	//æ¥æ”¶x:nR * 1		//ä¿¡é“H:nR * nT		//è¿˜åŸå‡ºc_hat:nT * 1
+	ComplexMatrix c_hat(H.lc, 1, x.is_real);		//ä¼°ç®—çš„è¿˜åŸå‡ºçš„å‘å°„ä¿¡å·
+	ComplexMatrix c_hat_temp(H.lc, 1, x.is_real);	//ä¼°ç®—çš„è¿˜åŸå‡ºçš„å‘å°„ä¿¡å·çš„ä¸´æ—¶å‰¯æœ¬
+	ComplexMatrix H_temp(H.lr, H.lc, H.is_real, H.c);	//å­˜å‚¨Håœ¨æœ¬æ¬¡V-BLASTè®¡ç®—ä¸­çš„ä¸´æ—¶å¤åˆ¶
+	ComplexMatrix y;		//å­˜å‚¨æ¥æ”¶ä¿¡å·xè¢«Qä¿®æ­£åçš„ä¿¡å·
+	ComplexMatrix Q_H;		//å­˜å‚¨Qçš„å…±è½­è½¬ç½®
+	Complex temp;		//è®¡ç®—ä¸­ä»‹
+	//åˆå§‹åŒ–å­˜å‚¨äº¤æ¢è®°å½•çš„å‘é‡
 	int* S = new int[H.lc];
 	for (int j = 0; j < H.lc; j++) S[j] = j;
-	//¶ÔH_temp½øĞĞÓĞÅÅĞòµÄQR·Ö½â£¬Ö®ºóH_tempÖĞ´æ´¢ÁËQ
+	//å¯¹H_tempè¿›è¡Œæœ‰æ’åºçš„QRåˆ†è§£ï¼Œä¹‹åH_tempä¸­å­˜å‚¨äº†Q
 	ComplexMatrix R = H_temp.sorted_Gram_Schmidt_QR_modified__Complex(H_temp, S);
-	//x¸ù¾İQ±ä»»Îªy
+	//xæ ¹æ®Qå˜æ¢ä¸ºy
 	Q_H = !H_temp;
 	y = Q_H * x;
-	//ÀûÓÃRµÄnTĞĞºÍy»¹Ô­³ö·¢ÉäĞÅºÅ
+	//åˆ©ç”¨Rçš„nTè¡Œå’Œyè¿˜åŸå‡ºå‘å°„ä¿¡å·
 	for (int i = H.lc - 1; i >= 0; i--)
 	{
 		c_hat.c[i][0] = y.c[i][0];
@@ -380,75 +380,75 @@ ComplexMatrix SQRD(ComplexMatrix& x, ComplexMatrix& H)
 		c_hat.c[i][0] = c_hat.c[i][0] / R.c[i][i];
 		c_hat.c[i][0] = estimating_quantization_operation(c_hat.c[i][0]);
 	}
-	//´ÓSÖĞ»¹Ô­·¢ÉäĞÅºÅcµÄÔ­Ë³Ğò£¨ÏÈ¸´ÖÆÒ»·İ£¬ÔÙ°´SË³Ğò½«¸´ÖÆÆ·ÖĞµÄÔªËØÏò½á¹ûÏòÁ¿ÖĞÈû£©
+	//ä»Sä¸­è¿˜åŸå‘å°„ä¿¡å·cçš„åŸé¡ºåºï¼ˆå…ˆå¤åˆ¶ä¸€ä»½ï¼Œå†æŒ‰Sé¡ºåºå°†å¤åˆ¶å“ä¸­çš„å…ƒç´ å‘ç»“æœå‘é‡ä¸­å¡ï¼‰
 	for (int i = 0; i < H.lc; i++) c_hat_temp.c[i][0] = c_hat.c[i][0];
 	for (int i = 0; i < H.lc; i++) c_hat.c[S[i]][0] = c_hat_temp.c[i][0];
-	//ÊÍ·ÅÄÚ´æ
+	//é‡Šæ”¾å†…å­˜
 	delete[]S;
 	//c_hat_temp.clear(); H_temp.clear();	y.clear(); Q_H.clear(); R.clear();
 	return c_hat;
 }
 
-//************************************MMSE»¹Ô­Ëã·¨******************************************
+//************************************MMSEè¿˜åŸç®—æ³•******************************************
 
-//MMSE-ÏßĞÔ(Ö±½Ó³ËÎ±Äæ)Ëã·¨
+//MMSE-çº¿æ€§(ç›´æ¥ä¹˜ä¼ªé€†)ç®—æ³•
 ComplexMatrix MMSE_Pseudo_inverse(ComplexMatrix& x, ComplexMatrix& H)
 {
-	//½ÓÊÕx:nR * 1		//ĞÅµÀH:nR * nT		//»¹Ô­³öc_hat:nT * 1
-	ComplexMatrix x_temp(x.lr, x.lc, x.is_real, x.c);	//±¾´ÎĞÅºÅ´¦ÀíÖĞxµÄÁÙÊ±¸±±¾£¬·ÀÖ¹Ô­x±»¸Ä
-	ComplexMatrix x0(H.lc, 1, x.is_real);				//ÓÃÓÚÆ´½ÓµÄÁÙÊ±ÁãÏòÁ¿
-	x_temp = x_temp.combine_rows(x_temp, x0);			//MMSE¼ì²âÆ÷ËùÓÃ½ÓÊÕÏòÁ¿
-	ComplexMatrix c_hat(H.lc, 1, x.is_real);			//´¢´æ¹ÀËãµÄ»¹Ô­³öµÄ·¢ÉäĞÅºÅ
+	//æ¥æ”¶x:nR * 1		//ä¿¡é“H:nR * nT		//è¿˜åŸå‡ºc_hat:nT * 1
+	ComplexMatrix x_temp(x.lr, x.lc, x.is_real, x.c);	//æœ¬æ¬¡ä¿¡å·å¤„ç†ä¸­xçš„ä¸´æ—¶å‰¯æœ¬ï¼Œé˜²æ­¢åŸxè¢«æ”¹
+	ComplexMatrix x0(H.lc, 1, x.is_real);				//ç”¨äºæ‹¼æ¥çš„ä¸´æ—¶é›¶å‘é‡
+	x_temp = x_temp.combine_rows(x_temp, x0);			//MMSEæ£€æµ‹å™¨æ‰€ç”¨æ¥æ”¶å‘é‡
+	ComplexMatrix c_hat(H.lc, 1, x.is_real);			//å‚¨å­˜ä¼°ç®—çš„è¿˜åŸå‡ºçš„å‘å°„ä¿¡å·
 
-	ComplexMatrix H_temp(H);							//HµÄÁÙÊ±¸±±¾
-	ComplexMatrix I0 = H.make_eyes(H.lc);				//µ¥Î»Õó
-	H_temp = H_temp.combine_rows(H_temp, I0);			//MMSE¼ì²âÆ÷ËùÓÃH¾ØÕó
-	ComplexMatrix G = H_temp.Moore_Penrose_pseudo_inverse();	//MMSE-HµÄÎ±Äæ
+	ComplexMatrix H_temp(H);							//Hçš„ä¸´æ—¶å‰¯æœ¬
+	ComplexMatrix I0 = H.make_eyes(H.lc);				//å•ä½é˜µ
+	H_temp = H_temp.combine_rows(H_temp, I0);			//MMSEæ£€æµ‹å™¨æ‰€ç”¨HçŸ©é˜µ
+	ComplexMatrix G = H_temp.Moore_Penrose_pseudo_inverse();	//MMSE-Hçš„ä¼ªé€†
 
 	x_temp = G * x_temp;
 	for (int i = 0; i < H.lc; i++)c_hat.c[i][0] = estimating_quantization_operation(x_temp.c[i][0]);
-	//ÊÍ·ÅÄÚ´æ
+	//é‡Šæ”¾å†…å­˜
 	//x_temp.clear(); G.clear();;
 	return c_hat;
 }
 
-//MMSE-V-BLASTËã·¨
+//MMSE-V-BLASTç®—æ³•
 ComplexMatrix MMSE_V_BLAST(ComplexMatrix& x, ComplexMatrix& H)
 {
-	//½ÓÊÕx:nR * 1		//ĞÅµÀH:nR * nT		//»¹Ô­³öc_hat:nT * 1
-	ComplexMatrix x_temp(x.lr, x.lc, x.is_real, x.c);	//±¾´ÎĞÅºÅ´¦ÀíÖĞxµÄÁÙÊ±¸±±¾£¬·ÀÖ¹Ô­x±»¸Ä
-	ComplexMatrix x0(H.lc, 1, x.is_real);				//ÓÃÓÚÆ´½ÓµÄÁÙÊ±ÁãÏòÁ¿
-	x_temp = x_temp.combine_rows(x_temp, x0);			//MMSE¼ì²âÆ÷ËùÓÃ½ÓÊÕÏòÁ¿
-	ComplexMatrix c_hat(H.lc, 1, x.is_real);			//¹ÀËãµÄ»¹Ô­³öµÄ·¢ÉäĞÅºÅ
+	//æ¥æ”¶x:nR * 1		//ä¿¡é“H:nR * nT		//è¿˜åŸå‡ºc_hat:nT * 1
+	ComplexMatrix x_temp(x.lr, x.lc, x.is_real, x.c);	//æœ¬æ¬¡ä¿¡å·å¤„ç†ä¸­xçš„ä¸´æ—¶å‰¯æœ¬ï¼Œé˜²æ­¢åŸxè¢«æ”¹
+	ComplexMatrix x0(H.lc, 1, x.is_real);				//ç”¨äºæ‹¼æ¥çš„ä¸´æ—¶é›¶å‘é‡
+	x_temp = x_temp.combine_rows(x_temp, x0);			//MMSEæ£€æµ‹å™¨æ‰€ç”¨æ¥æ”¶å‘é‡
+	ComplexMatrix c_hat(H.lc, 1, x.is_real);			//ä¼°ç®—çš„è¿˜åŸå‡ºçš„å‘å°„ä¿¡å·
 
-	ComplexMatrix I0 = H.make_eyes(H.lc);				//µ¥Î»Õó
-	ComplexMatrix H_temp0 = H.combine_rows(H, I0);		//MMSE¼ì²âÆ÷ËùÓÃĞÅµÀ¾ØÕó
+	ComplexMatrix I0 = H.make_eyes(H.lc);				//å•ä½é˜µ
+	ComplexMatrix H_temp0 = H.combine_rows(H, I0);		//MMSEæ£€æµ‹å™¨æ‰€ç”¨ä¿¡é“çŸ©é˜µ
 
-	ComplexMatrix y(1, 1);								//»¹Ô­³öµÄ·¢ÉäĞÅºÅºÍÔëÉùÖ®ºÍ
-	Complex y_ = 0.0;									//»¹Ô­³öµÄ·¢ÉäĞÅºÅºÍÔëÉùÖ®ºÍ
-	ComplexMatrix G;									//MMSE-HµÄÎ±Äæ
-	ComplexMatrix g;									//´æ´¢gµÄĞĞ
-	double g_2_norm;									//´æ´¢gµÄ2-·¶Êı
-	double g_2_norm_min = 0.0;							//´æ´¢GµÄ2-·¶Êı×îĞ¡µÄÒ»ĞĞµÄ2-·¶Êı
-	int g_2_norm_min_row = 0;							//´æ´¢GµÄ2-·¶Êı×îĞ¡µÄÒ»ĞĞµÄ´æ´¢ÏÂ±ê
-	ComplexMatrix H_temp;								//´æ´¢HÔÚµü´ú¹ı³ÌÖĞÃ¿´Î¼õÒ»ÁĞºóµÄ½á¹û
-	ComplexMatrix h;									//´æ´¢H_tempµÄÁĞ
-	ComplexMatrix temp;									//¼ÆËãÖĞ½é
-	//¼ÇÂ¼HµÄÁĞÊÇ·ñÒÑ±»´¦Àí£¬ÒÔ±ãÔÚĞÂÒ»ÂÖÖĞHÈ¥µô¶ÔÓ¦ÁĞ
+	ComplexMatrix y(1, 1);								//è¿˜åŸå‡ºçš„å‘å°„ä¿¡å·å’Œå™ªå£°ä¹‹å’Œ
+	Complex y_ = 0.0;									//è¿˜åŸå‡ºçš„å‘å°„ä¿¡å·å’Œå™ªå£°ä¹‹å’Œ
+	ComplexMatrix G;									//MMSE-Hçš„ä¼ªé€†
+	ComplexMatrix g;									//å­˜å‚¨gçš„è¡Œ
+	double g_2_norm;									//å­˜å‚¨gçš„2-èŒƒæ•°
+	double g_2_norm_min = 0.0;							//å­˜å‚¨Gçš„2-èŒƒæ•°æœ€å°çš„ä¸€è¡Œçš„2-èŒƒæ•°
+	int g_2_norm_min_row = 0;							//å­˜å‚¨Gçš„2-èŒƒæ•°æœ€å°çš„ä¸€è¡Œçš„å­˜å‚¨ä¸‹æ ‡
+	ComplexMatrix H_temp;								//å­˜å‚¨Håœ¨è¿­ä»£è¿‡ç¨‹ä¸­æ¯æ¬¡å‡ä¸€åˆ—åçš„ç»“æœ
+	ComplexMatrix h;									//å­˜å‚¨H_tempçš„åˆ—
+	ComplexMatrix temp;									//è®¡ç®—ä¸­ä»‹
+	//è®°å½•Hçš„åˆ—æ˜¯å¦å·²è¢«å¤„ç†ï¼Œä»¥ä¾¿åœ¨æ–°ä¸€è½®ä¸­Hå»æ‰å¯¹åº”åˆ—
 	int** flag1 = new int* [2];
 	flag1[0] = new int[H_temp0.lc];
 	flag1[1] = new int[H_temp0.lc];
 	for (int i = 0; i < H_temp0.lc; i++)
 	{
-		flag1[0][i] = i;	//flag1µÚÒ»ĞĞ¼ÇÂ¼ÁĞÏÂ±ê
-		flag1[1][i] = 0;	//flag1µÚ¶şĞĞ¼ÇÂ¼µ±Ç°ÁĞÊÇ·ñÒÑ±»´¦Àí£¬³õÊ¼Îª0(Î´´¦Àí)
+		flag1[0][i] = i;	//flag1ç¬¬ä¸€è¡Œè®°å½•åˆ—ä¸‹æ ‡
+		flag1[1][i] = 0;	//flag1ç¬¬äºŒè¡Œè®°å½•å½“å‰åˆ—æ˜¯å¦å·²è¢«å¤„ç†ï¼Œåˆå§‹ä¸º0(æœªå¤„ç†)
 	}
-	int k = 0;	//¼ÇÂ¼flag2¸³Öµµ½ÄÄÒ»ÁĞÁË
+	int k = 0;	//è®°å½•flag2èµ‹å€¼åˆ°å“ªä¸€åˆ—äº†
 
-	//¹²Ñ­»·nT´Î
+	//å…±å¾ªç¯nTæ¬¡
 	for (int i = 0; i < H_temp0.lc; i++)
 	{
-		//¸ù¾İflag1Æ´³öÈ¥µôÒÑ´¦ÀíÁĞµÄĞÂHºÍÈ¥ÏàÓ¦ĞĞµÄx£¬ºÍ¼ÇÂ¼µ±Ç°Ê£ÏÂµÄÁĞ¶ÔÓ¦µÄÔ­ÏÂ±êµÄflag2
+		//æ ¹æ®flag1æ‹¼å‡ºå»æ‰å·²å¤„ç†åˆ—çš„æ–°Hå’Œå»ç›¸åº”è¡Œçš„xï¼Œå’Œè®°å½•å½“å‰å‰©ä¸‹çš„åˆ—å¯¹åº”çš„åŸä¸‹æ ‡çš„flag2
 		int* flag2 = new int[H_temp0.lc - i];
 		k = 0;
 		for (int j = 0; j < H_temp0.lc; j++)
@@ -463,9 +463,9 @@ ComplexMatrix MMSE_V_BLAST(ComplexMatrix& x, ComplexMatrix& H)
 			h = H_temp0.get_column(flag2[j]);
 			H_temp = H_temp.combine_columns(H_temp, h);
 		}
-		//ÇóH_tempµÄÎ±ÄæG
+		//æ±‚H_tempçš„ä¼ªé€†G
 		G = H_temp.Moore_Penrose_pseudo_inverse();
-		//ÕÒ³öGÖĞ2-·¶Êı×îĞ¡µÄÒ»ĞĞ£¨³õÊ¼ÎªµÚÒ»ĞĞ£©
+		//æ‰¾å‡ºGä¸­2-èŒƒæ•°æœ€å°çš„ä¸€è¡Œï¼ˆåˆå§‹ä¸ºç¬¬ä¸€è¡Œï¼‰
 		g_2_norm_min_row = 0;
 		g = G.get_row(0);
 		g_2_norm_min = g.vector_2_norm();
@@ -479,66 +479,66 @@ ComplexMatrix MMSE_V_BLAST(ComplexMatrix& x, ComplexMatrix& H)
 				g_2_norm_min = g_2_norm;
 			}
 		}
-		//È¡µÃGÖĞ2-·¶Êı×îĞ¡µÄÒ»ĞĞ
+		//å–å¾—Gä¸­2-èŒƒæ•°æœ€å°çš„ä¸€è¡Œ
 		g = G.get_row(g_2_norm_min_row);
-		//½ÓÊÕĞÅºÅ»¹Ô­
+		//æ¥æ”¶ä¿¡å·è¿˜åŸ
 		y = g * x_temp;
-		//»¹Ô­µÄĞÅºÅÓÃÁ¿»¯Ëã×Ó¹ÀËã£¨¾­¹ıÉè¼Æ£¬±¾ÊµÑé²âÊÔÔËĞĞ·¶Î§ÄÚ²»»áÔ½½ç£©
+		//è¿˜åŸçš„ä¿¡å·ç”¨é‡åŒ–ç®—å­ä¼°ç®—ï¼ˆç»è¿‡è®¾è®¡ï¼Œæœ¬å®éªŒæµ‹è¯•è¿è¡ŒèŒƒå›´å†…ä¸ä¼šè¶Šç•Œï¼‰
 		c_hat.c[flag2[g_2_norm_min_row]][0] = estimating_quantization_operation(y.c[0][0]);
-		//ÓÃ¹ÀËãµÄ»¹Ô­ĞÅºÅĞŞÕı½ÓÊÕĞÅºÅx_temp
+		//ç”¨ä¼°ç®—çš„è¿˜åŸä¿¡å·ä¿®æ­£æ¥æ”¶ä¿¡å·x_temp
 		h = H_temp.get_column(g_2_norm_min_row);
 		temp = h * c_hat.c[flag2[g_2_norm_min_row]][0];
 		x_temp = x_temp - temp;
-		//flag1ÖĞµ±Ç°´¦ÀíµÄÒ»ÁĞ±ê¼ÇÎªÒÑ´¦Àí
+		//flag1ä¸­å½“å‰å¤„ç†çš„ä¸€åˆ—æ ‡è®°ä¸ºå·²å¤„ç†
 		flag1[1][flag2[g_2_norm_min_row]] = 1;
-		//ÊÍ·ÅÄÚ´æ
+		//é‡Šæ”¾å†…å­˜
 		delete[]flag2;
 	}
-	//ÊÍ·ÅÄÚ´æ
+	//é‡Šæ”¾å†…å­˜
 	delete[]flag1[1];	delete[]flag1[0];	delete[]flag1;
 	//x_temp.clear();	y.clear(); G.clear(); g.clear(); H_temp.clear(); h.clear(); temp.clear();
 	return c_hat;
 }
 
-//MMSE-V-BLAST·Ö²ãÎóÂëÂÊ¼ì²â
+//MMSE-V-BLASTåˆ†å±‚è¯¯ç ç‡æ£€æµ‹
 ComplexMatrix MMSE_V_BLAST_layer(ComplexMatrix& x, ComplexMatrix& H, int* bits)
 {
-	//½ÓÊÕx:nR * 1		//ĞÅµÀH:nR * nT		//»¹Ô­³öc_hat:nT * 1
-	ComplexMatrix x_temp(x.lr, x.lc, x.is_real, x.c);	//±¾´ÎĞÅºÅ´¦ÀíÖĞxµÄÁÙÊ±¸±±¾£¬·ÀÖ¹Ô­x±»¸Ä
-	ComplexMatrix x0(H.lc, 1, x.is_real);				//ÓÃÓÚÆ´½ÓµÄÁÙÊ±ÁãÏòÁ¿
-	x_temp = x_temp.combine_rows(x_temp, x0);			//MMSE¼ì²âÆ÷ËùÓÃ½ÓÊÕÏòÁ¿
-	ComplexMatrix c_hat(H.lc, 1, x.is_real);			//¹ÀËãµÄ»¹Ô­³öµÄ·¢ÉäĞÅºÅ
+	//æ¥æ”¶x:nR * 1		//ä¿¡é“H:nR * nT		//è¿˜åŸå‡ºc_hat:nT * 1
+	ComplexMatrix x_temp(x.lr, x.lc, x.is_real, x.c);	//æœ¬æ¬¡ä¿¡å·å¤„ç†ä¸­xçš„ä¸´æ—¶å‰¯æœ¬ï¼Œé˜²æ­¢åŸxè¢«æ”¹
+	ComplexMatrix x0(H.lc, 1, x.is_real);				//ç”¨äºæ‹¼æ¥çš„ä¸´æ—¶é›¶å‘é‡
+	x_temp = x_temp.combine_rows(x_temp, x0);			//MMSEæ£€æµ‹å™¨æ‰€ç”¨æ¥æ”¶å‘é‡
+	ComplexMatrix c_hat(H.lc, 1, x.is_real);			//ä¼°ç®—çš„è¿˜åŸå‡ºçš„å‘å°„ä¿¡å·
 
-	ComplexMatrix I0 = H.make_eyes(H.lc);				//µ¥Î»Õó
-	ComplexMatrix H_temp0 = H.combine_rows(H, I0);		//MMSE¼ì²âÆ÷ËùÓÃĞÅµÀ¾ØÕó
+	ComplexMatrix I0 = H.make_eyes(H.lc);				//å•ä½é˜µ
+	ComplexMatrix H_temp0 = H.combine_rows(H, I0);		//MMSEæ£€æµ‹å™¨æ‰€ç”¨ä¿¡é“çŸ©é˜µ
 
-	ComplexMatrix y(1, 1);								//»¹Ô­³öµÄ·¢ÉäĞÅºÅºÍÔëÉùÖ®ºÍ
-	Complex y_ = 0.0;									//»¹Ô­³öµÄ·¢ÉäĞÅºÅºÍÔëÉùÖ®ºÍ
-	ComplexMatrix G;									//MMSE-HµÄÎ±Äæ
-	ComplexMatrix g;									//´æ´¢gµÄĞĞ
-	double g_2_norm;									//´æ´¢gµÄ2-·¶Êı
-	double g_2_norm_min = 0.0;							//´æ´¢GµÄ2-·¶Êı×îĞ¡µÄÒ»ĞĞµÄ2-·¶Êı
-	int g_2_norm_min_row = 0;							//´æ´¢GµÄ2-·¶Êı×îĞ¡µÄÒ»ĞĞµÄ´æ´¢ÏÂ±ê
-	ComplexMatrix H_temp;								//´æ´¢HÔÚµü´ú¹ı³ÌÖĞÃ¿´Î¼õÒ»ÁĞºóµÄ½á¹û
-	ComplexMatrix h;									//´æ´¢H_tempµÄÁĞ
-	ComplexMatrix temp;									//¼ÆËãÖĞ½é
-	//¼ÇÂ¼HµÄÁĞÊÇ·ñÒÑ±»´¦Àí£¬ÒÔ±ãÔÚĞÂÒ»ÂÖÖĞHÈ¥µô¶ÔÓ¦ÁĞ
+	ComplexMatrix y(1, 1);								//è¿˜åŸå‡ºçš„å‘å°„ä¿¡å·å’Œå™ªå£°ä¹‹å’Œ
+	Complex y_ = 0.0;									//è¿˜åŸå‡ºçš„å‘å°„ä¿¡å·å’Œå™ªå£°ä¹‹å’Œ
+	ComplexMatrix G;									//MMSE-Hçš„ä¼ªé€†
+	ComplexMatrix g;									//å­˜å‚¨gçš„è¡Œ
+	double g_2_norm;									//å­˜å‚¨gçš„2-èŒƒæ•°
+	double g_2_norm_min = 0.0;							//å­˜å‚¨Gçš„2-èŒƒæ•°æœ€å°çš„ä¸€è¡Œçš„2-èŒƒæ•°
+	int g_2_norm_min_row = 0;							//å­˜å‚¨Gçš„2-èŒƒæ•°æœ€å°çš„ä¸€è¡Œçš„å­˜å‚¨ä¸‹æ ‡
+	ComplexMatrix H_temp;								//å­˜å‚¨Håœ¨è¿­ä»£è¿‡ç¨‹ä¸­æ¯æ¬¡å‡ä¸€åˆ—åçš„ç»“æœ
+	ComplexMatrix h;									//å­˜å‚¨H_tempçš„åˆ—
+	ComplexMatrix temp;									//è®¡ç®—ä¸­ä»‹
+	//è®°å½•Hçš„åˆ—æ˜¯å¦å·²è¢«å¤„ç†ï¼Œä»¥ä¾¿åœ¨æ–°ä¸€è½®ä¸­Hå»æ‰å¯¹åº”åˆ—
 	int** flag1 = new int* [3];
 	flag1[0] = new int[H_temp0.lc];
 	flag1[1] = new int[H_temp0.lc];
 	flag1[2] = new int[H_temp0.lc];
 	for (int i = 0; i < H_temp0.lc; i++)
 	{
-		flag1[0][i] = i;	//flag1µÚÒ»ĞĞ¼ÇÂ¼ÁĞÏÂ±ê
-		flag1[1][i] = 0;	//flag1µÚ¶şĞĞ¼ÇÂ¼µ±Ç°ÁĞÊÇ·ñÒÑ±»´¦Àí£¬³õÊ¼Îª0(Î´´¦Àí)
-		flag1[2][i] = 0;	//flag1µÚÈıĞĞ¼ÇÂ¼µ±Ç°ÁĞÊÇµÚ¼¸¸ö±»´¦ÀíµÄ
+		flag1[0][i] = i;	//flag1ç¬¬ä¸€è¡Œè®°å½•åˆ—ä¸‹æ ‡
+		flag1[1][i] = 0;	//flag1ç¬¬äºŒè¡Œè®°å½•å½“å‰åˆ—æ˜¯å¦å·²è¢«å¤„ç†ï¼Œåˆå§‹ä¸º0(æœªå¤„ç†)
+		flag1[2][i] = 0;	//flag1ç¬¬ä¸‰è¡Œè®°å½•å½“å‰åˆ—æ˜¯ç¬¬å‡ ä¸ªè¢«å¤„ç†çš„
 	}
-	int k = 0;	//¼ÇÂ¼flag2¸³Öµµ½ÄÄÒ»ÁĞÁË
+	int k = 0;	//è®°å½•flag2èµ‹å€¼åˆ°å“ªä¸€åˆ—äº†
 
-	//¹²Ñ­»·nT´Î
+	//å…±å¾ªç¯nTæ¬¡
 	for (int i = 0; i < H_temp0.lc; i++)
 	{
-		//¸ù¾İflag1Æ´³öÈ¥µôÒÑ´¦ÀíÁĞµÄĞÂHºÍÈ¥ÏàÓ¦ĞĞµÄx£¬ºÍ¼ÇÂ¼µ±Ç°Ê£ÏÂµÄÁĞ¶ÔÓ¦µÄÔ­ÏÂ±êµÄflag2
+		//æ ¹æ®flag1æ‹¼å‡ºå»æ‰å·²å¤„ç†åˆ—çš„æ–°Hå’Œå»ç›¸åº”è¡Œçš„xï¼Œå’Œè®°å½•å½“å‰å‰©ä¸‹çš„åˆ—å¯¹åº”çš„åŸä¸‹æ ‡çš„flag2
 		int* flag2 = new int[H_temp0.lc - i];
 		k = 0;
 		for (int j = 0; j < H_temp0.lc; j++)
@@ -553,9 +553,9 @@ ComplexMatrix MMSE_V_BLAST_layer(ComplexMatrix& x, ComplexMatrix& H, int* bits)
 			h = H_temp0.get_column(flag2[j]);
 			H_temp = H_temp.combine_columns(H_temp, h);
 		}
-		//ÇóH_tempµÄÎ±ÄæG
+		//æ±‚H_tempçš„ä¼ªé€†G
 		G = H_temp.Moore_Penrose_pseudo_inverse();
-		//ÕÒ³öGÖĞ2-·¶Êı×îĞ¡µÄÒ»ĞĞ£¨³õÊ¼ÎªµÚÒ»ĞĞ£©
+		//æ‰¾å‡ºGä¸­2-èŒƒæ•°æœ€å°çš„ä¸€è¡Œï¼ˆåˆå§‹ä¸ºç¬¬ä¸€è¡Œï¼‰
 		g_2_norm_min_row = 0;
 		g = G.get_row(0);
 		g_2_norm_min = g.vector_2_norm();
@@ -569,66 +569,66 @@ ComplexMatrix MMSE_V_BLAST_layer(ComplexMatrix& x, ComplexMatrix& H, int* bits)
 				g_2_norm_min = g_2_norm;
 			}
 		}
-		//È¡µÃGÖĞ2-·¶Êı×îĞ¡µÄÒ»ĞĞ
+		//å–å¾—Gä¸­2-èŒƒæ•°æœ€å°çš„ä¸€è¡Œ
 		g = G.get_row(g_2_norm_min_row);
-		//½ÓÊÕĞÅºÅ»¹Ô­
+		//æ¥æ”¶ä¿¡å·è¿˜åŸ
 		y = g * x_temp;
-		//»¹Ô­µÄĞÅºÅÓÃÁ¿»¯Ëã×Ó¹ÀËã£¨¾­¹ıÉè¼Æ£¬±¾ÊµÑé²âÊÔÔËĞĞ·¶Î§ÄÚ²»»áÔ½½ç£©
+		//è¿˜åŸçš„ä¿¡å·ç”¨é‡åŒ–ç®—å­ä¼°ç®—ï¼ˆç»è¿‡è®¾è®¡ï¼Œæœ¬å®éªŒæµ‹è¯•è¿è¡ŒèŒƒå›´å†…ä¸ä¼šè¶Šç•Œï¼‰
 		c_hat.c[flag2[g_2_norm_min_row]][0] = estimating_quantization_operation(y.c[0][0]);
-		//ÓÃ¹ÀËãµÄ»¹Ô­ĞÅºÅĞŞÕı½ÓÊÕĞÅºÅx_temp
+		//ç”¨ä¼°ç®—çš„è¿˜åŸä¿¡å·ä¿®æ­£æ¥æ”¶ä¿¡å·x_temp
 		h = H_temp.get_column(g_2_norm_min_row);
 		temp = h * c_hat.c[flag2[g_2_norm_min_row]][0];
 		x_temp = x_temp - temp;
-		//flag1ÖĞµ±Ç°´¦ÀíµÄÒ»ÁĞ±ê¼ÇÎªÒÑ´¦Àí
+		//flag1ä¸­å½“å‰å¤„ç†çš„ä¸€åˆ—æ ‡è®°ä¸ºå·²å¤„ç†
 		flag1[1][flag2[g_2_norm_min_row]] = 1;
 		flag1[2][flag2[g_2_norm_min_row]] = i;
-		//ÊÍ·ÅÄÚ´æ
+		//é‡Šæ”¾å†…å­˜
 		delete[]flag2;
 	}
-	//»¹Ô­ĞÅºÅ·­Òë»Ø±ÈÌØÁ÷
+	//è¿˜åŸä¿¡å·ç¿»è¯‘å›æ¯”ç‰¹æµ
 	int* bits_hat = signal_to_bits(c_hat);
-	//°´ÕÕ¼ÇÂ¼µÄ´¦ÀíË³ĞòÖ´ĞĞ·Ö²ãÎóÂëÂÊ¼ì²â£¬×îÏÈÎª×î¸ß²ã
-	ComplexMatrix BER_per_layer(1, H_temp0.lc, true);	//³õÊ¼»¯·Ö²ãÎóÂëÂÊ¼ÇÂ¼¾ØÕó
-	for (int i = 0; i < H_temp0.lc; i++)				//¹²nT²ã
+	//æŒ‰ç…§è®°å½•çš„å¤„ç†é¡ºåºæ‰§è¡Œåˆ†å±‚è¯¯ç ç‡æ£€æµ‹ï¼Œæœ€å…ˆä¸ºæœ€é«˜å±‚
+	ComplexMatrix BER_per_layer(1, H_temp0.lc, true);	//åˆå§‹åŒ–åˆ†å±‚è¯¯ç ç‡è®°å½•çŸ©é˜µ
+	for (int i = 0; i < H_temp0.lc; i++)				//å…±nTå±‚
 	{
-		int order = flag1[2][i];		//µÚiÁĞµÄ´¦ÀíË³Î»(0¿ªÊ¼)
-		int layer = H.lc - order;		//µÚiÁĞµÄ²ãÊı(µÚ0¸ö´¦Àí¶ÔÓ¦µÚnT²ã£¬Ö®ºó´¦ÀíË³Î»Ã¿+1£¬²ãÊı-1)
-		//»ñÈ¡µÚiÁĞÔ­Ê¼µÄ2Î»±ÈÌØ
+		int order = flag1[2][i];		//ç¬¬iåˆ—çš„å¤„ç†é¡ºä½(0å¼€å§‹)
+		int layer = H.lc - order;		//ç¬¬iåˆ—çš„å±‚æ•°(ç¬¬0ä¸ªå¤„ç†å¯¹åº”ç¬¬nTå±‚ï¼Œä¹‹åå¤„ç†é¡ºä½æ¯+1ï¼Œå±‚æ•°-1)
+		//è·å–ç¬¬iåˆ—åŸå§‹çš„2ä½æ¯”ç‰¹
 		int bit0 = bits[2 * i];
 		int bit1 = bits[2 * i + 1];
-		//»ñÈ¡µÚiÁĞ·­Òë»ØµÄ2Î»±ÈÌØ
+		//è·å–ç¬¬iåˆ—ç¿»è¯‘å›çš„2ä½æ¯”ç‰¹
 		int bit0_hat = bits_hat[2 * i];
 		int bit1_hat = bits_hat[2 * i + 1];
-		//µÚiÁĞÊÇµÚlayer²ã£¬´¢´æÔÚÎóÂëÂÊ¼ì²âµÄµÚ(layer-1)ÁĞ
-		//ÎóÂëÂÊ£º´íÎóÒ»¸öÂë¼Ó1£¬×îºó³ıÒÔ2
+		//ç¬¬iåˆ—æ˜¯ç¬¬layerå±‚ï¼Œå‚¨å­˜åœ¨è¯¯ç ç‡æ£€æµ‹çš„ç¬¬(layer-1)åˆ—
+		//è¯¯ç ç‡ï¼šé”™è¯¯ä¸€ä¸ªç åŠ 1ï¼Œæœ€åé™¤ä»¥2
 		BER_per_layer.c[0][layer - 1].re += (bit0 != bit0_hat);
 		BER_per_layer.c[0][layer - 1].re += (bit1 != bit1_hat);
 		BER_per_layer.c[0][layer - 1].re /= 2.0;
 	}
-	//ÊÍ·ÅÄÚ´æ
+	//é‡Šæ”¾å†…å­˜
 	delete[] flag1[2]; delete[]flag1[1]; delete[]flag1[0];	delete[]flag1;	delete[] bits_hat;
 	return BER_per_layer;
 }
 
-//MMSE-ÎŞÅÅĞòQRDËã·¨
+//MMSE-æ— æ’åºQRDç®—æ³•
 ComplexMatrix MMSE_QRD(ComplexMatrix& x, ComplexMatrix& H, double sigma_n)
 {
-	//½ÓÊÕx:nR * 1		//ĞÅµÀH:nR * nT		//»¹Ô­³öc_hat:nT * 1
-	ComplexMatrix c_hat(H.lc, 1, x.is_real);		//¹ÀËãµÄ»¹Ô­³öµÄ·¢ÉäĞÅºÅ
-	ComplexMatrix H_temp(H.lr, H.lc, H.is_real, H.c);	//´æ´¢HÔÚ±¾´ÎV-BLAST¼ÆËãÖĞµÄÁÙÊ±¸´ÖÆ
-	ComplexMatrix I0 = H.make_eyes(H.lc);				//µ¥Î»Õó
+	//æ¥æ”¶x:nR * 1		//ä¿¡é“H:nR * nT		//è¿˜åŸå‡ºc_hat:nT * 1
+	ComplexMatrix c_hat(H.lc, 1, x.is_real);		//ä¼°ç®—çš„è¿˜åŸå‡ºçš„å‘å°„ä¿¡å·
+	ComplexMatrix H_temp(H.lr, H.lc, H.is_real, H.c);	//å­˜å‚¨Håœ¨æœ¬æ¬¡V-BLASTè®¡ç®—ä¸­çš„ä¸´æ—¶å¤åˆ¶
+	ComplexMatrix I0 = H.make_eyes(H.lc);				//å•ä½é˜µ
 	I0 = I0 * sigma_n;
-	H_temp = H_temp.combine_rows(H_temp, I0);			//Æ´³ÉÀ©³äH¾ØÕó
-	ComplexMatrix y;		//´æ´¢½ÓÊÕĞÅºÅx±»QĞŞÕıºóµÄĞÅºÅ
-	ComplexMatrix Q_H;		//´æ´¢QµÄ¹²éî×ªÖÃ
-	Complex temp;		//¼ÆËãÖĞ½é
-	//¶ÔH_temp½øĞĞQR·Ö½â£¬Ö®ºóH_tempÖĞ´æ´¢ÁËQ
+	H_temp = H_temp.combine_rows(H_temp, I0);			//æ‹¼æˆæ‰©å……HçŸ©é˜µ
+	ComplexMatrix y;		//å­˜å‚¨æ¥æ”¶ä¿¡å·xè¢«Qä¿®æ­£åçš„ä¿¡å·
+	ComplexMatrix Q_H;		//å­˜å‚¨Qçš„å…±è½­è½¬ç½®
+	Complex temp;		//è®¡ç®—ä¸­ä»‹
+	//å¯¹H_tempè¿›è¡ŒQRåˆ†è§£ï¼Œä¹‹åH_tempä¸­å­˜å‚¨äº†Q
 	ComplexMatrix R = H_temp.Gram_Schmidt_QR_modified__Complex(H_temp);
-	//È¡³öQ1£¬x¸ù¾İQ±ä»»Îªy
+	//å–å‡ºQ1ï¼Œxæ ¹æ®Qå˜æ¢ä¸ºy
 	H_temp = H_temp.get_rows(0, H.lr - 1);
 	Q_H = !H_temp;
 	y = Q_H * x;
-	//ÀûÓÃRµÄnTĞĞºÍy»¹Ô­³ö·¢ÉäĞÅºÅ
+	//åˆ©ç”¨Rçš„nTè¡Œå’Œyè¿˜åŸå‡ºå‘å°„ä¿¡å·
 	for (int i = c_hat.lr - 1; i >= 0; i--)
 	{
 		c_hat.c[i][0] = y.c[i][0];
@@ -640,37 +640,37 @@ ComplexMatrix MMSE_QRD(ComplexMatrix& x, ComplexMatrix& H, double sigma_n)
 		c_hat.c[i][0] = c_hat.c[i][0] / R.c[i][i];
 		c_hat.c[i][0] = estimating_quantization_operation(c_hat.c[i][0]);
 	}
-	//ÊÍ·ÅÄÚ´æ
+	//é‡Šæ”¾å†…å­˜
 	//H_temp.clear();	y.clear(); Q_H.clear(); R.clear();
 	return c_hat;
 }
 
-//MMSE-SQRDËã·¨
+//MMSE-SQRDç®—æ³•
 ComplexMatrix MMSE_SQRD(ComplexMatrix& x, ComplexMatrix& H, double sigma_n)
 {
-	//½ÓÊÕx:nR * 1		//ĞÅµÀH:nR * nT		//»¹Ô­³öc_hat:nT * 1
-	ComplexMatrix c_hat(H.lc, 1, x.is_real);		//¹ÀËãµÄ»¹Ô­³öµÄ·¢ÉäĞÅºÅ
-	ComplexMatrix qi;								//ÌáÈ¡QµÄÁĞ
-	ComplexMatrix qk;								//ÌáÈ¡QµÄÁĞ
-	ComplexMatrix qiH;								//´¢´æQµÄÁĞµÄ¹²éî×ªÖÃ
+	//æ¥æ”¶x:nR * 1		//ä¿¡é“H:nR * nT		//è¿˜åŸå‡ºc_hat:nT * 1
+	ComplexMatrix c_hat(H.lc, 1, x.is_real);		//ä¼°ç®—çš„è¿˜åŸå‡ºçš„å‘å°„ä¿¡å·
+	ComplexMatrix qi;								//æå–Qçš„åˆ—
+	ComplexMatrix qk;								//æå–Qçš„åˆ—
+	ComplexMatrix qiH;								//å‚¨å­˜Qçš„åˆ—çš„å…±è½­è½¬ç½®
 
-	double q_2_norm_min;			//´æ´¢QµÄ2-·¶Êı×îĞ¡µÄÒ»ÁĞµÄ2-·¶Êı
-	int q_2_norm_min_column;		//´æ´¢QµÄ2-·¶Êı×îĞ¡µÄÒ»ÁĞµÄ´æ´¢ÏÂ±ê
-	double r_ii;					//ÁÙÊ±´æ´¢r_iiÏà¹Ø¼ÆËã
-	ComplexMatrix rik;				//ÁÙÊ±´æ´¢r_ikÏà¹Ø¼ÆËã
+	double q_2_norm_min;			//å­˜å‚¨Qçš„2-èŒƒæ•°æœ€å°çš„ä¸€åˆ—çš„2-èŒƒæ•°
+	int q_2_norm_min_column;		//å­˜å‚¨Qçš„2-èŒƒæ•°æœ€å°çš„ä¸€åˆ—çš„å­˜å‚¨ä¸‹æ ‡
+	double r_ii;					//ä¸´æ—¶å­˜å‚¨r_iiç›¸å…³è®¡ç®—
+	ComplexMatrix rik;				//ä¸´æ—¶å­˜å‚¨r_ikç›¸å…³è®¡ç®—
 
-	ComplexMatrix temp;				//¼ÆËãÖĞ¼ä±äÁ¿
-															//QR·Ö½âÓĞÎÊÌâ
-	//³õÊ¼»¯QR·Ö½âµÄR
+	ComplexMatrix temp;				//è®¡ç®—ä¸­é—´å˜é‡
+															//QRåˆ†è§£æœ‰é—®é¢˜
+	//åˆå§‹åŒ–QRåˆ†è§£çš„R
 	ComplexMatrix R(H.lc, H.lc, x.is_real);
-	//³õÊ¼»¯QR·Ö½âµÄÀ©³äQÎªÀ©³äH
+	//åˆå§‹åŒ–QRåˆ†è§£çš„æ‰©å……Qä¸ºæ‰©å……H
 	ComplexMatrix Q(H);
 	ComplexMatrix I0 = Q.make_eyes(H.lc);
 	I0 = I0 * sigma_n;
 	Q = Q.combine_rows(Q, I0);
-	//³õÊ¼»¯´æ´¢½»»»¼ÇÂ¼µÄÏòÁ¿
+	//åˆå§‹åŒ–å­˜å‚¨äº¤æ¢è®°å½•çš„å‘é‡
 	int* p = new int[Q.lc];
-	//³õÊ¼»¯´æ´¢QµÄÁĞµÄ2-·¶ÊıµÄÏòÁ¿
+	//åˆå§‹åŒ–å­˜å‚¨Qçš„åˆ—çš„2-èŒƒæ•°çš„å‘é‡
 	double* norms = new double[Q.lc];
 	for (int i = 0; i < Q.lc; i++)
 	{
@@ -685,49 +685,49 @@ ComplexMatrix MMSE_SQRD(ComplexMatrix& x, ComplexMatrix& H, double sigma_n)
 	}
 	for (int i = 0; i < Q.lc; i++)
 	{
-		//ÕÒ³öQÊ£ÏÂÁĞÖĞ2-·¶Êı×îĞ¡µÄÒ»ÁĞÏÂ±ê
+		//æ‰¾å‡ºQå‰©ä¸‹åˆ—ä¸­2-èŒƒæ•°æœ€å°çš„ä¸€åˆ—ä¸‹æ ‡
 		q_2_norm_min_column = i;
 		q_2_norm_min = norms[i];
 		for (int k = i + 1; k < Q.lc; k++)
 			if (norms[k] < q_2_norm_min)
 				q_2_norm_min_column = k;
-		//½»»»µÚiÁĞºÍµÚq_2_norm_min_columnÁĞ
+		//äº¤æ¢ç¬¬iåˆ—å’Œç¬¬q_2_norm_min_columnåˆ—
 		R.exchange_column(i, q_2_norm_min_column);
 		std::swap(p[i], p[q_2_norm_min_column]);
 		std::swap(norms[i], norms[q_2_norm_min_column]);
-		//½»»»À©³äQµÄµÚiÁĞºÍµÚq_2_norm_min_columnÁĞµÄÇ°(nR+i-1)ĞĞ
+		//äº¤æ¢æ‰©å……Qçš„ç¬¬iåˆ—å’Œç¬¬q_2_norm_min_columnåˆ—çš„å‰(nR+i-1)è¡Œ
 		Q.exchange_some_rows_of_column(i, q_2_norm_min_column, 0, x.lr + i - 1);
-		//RµÄ¶Ô½ÇÔª
+		//Rçš„å¯¹è§’å…ƒ
 		R.c[i][i] = sqrt(norms[i]);
-		//QµÄÁĞ±ê×¼»¯
+		//Qçš„åˆ—æ ‡å‡†åŒ–
 		r_ii = R.c[i][i].re;
 		for (int j = 0; j < Q.lr; j++)
 			Q.c[j][i] = Q.c[j][i] / r_ii;
 		qi = Q.get_column(i);
 		qiH = !qi;
-		//´ÓºóĞøÖĞ¼õÈ¥·ÖÁ¿£¬ÒÔÕı½»»¯
+		//ä»åç»­ä¸­å‡å»åˆ†é‡ï¼Œä»¥æ­£äº¤åŒ–
 		for (int k = i + 1; k < Q.lc; k++)
 		{
 			qk = Q.get_column(k);
-			//RµÄ·Ç¶Ô½ÇÉÏÈı½ÇÔª
+			//Rçš„éå¯¹è§’ä¸Šä¸‰è§’å…ƒ
 			rik = qiH * qk;
 			R.c[i][k] = rik.c[0][0];
-			//¸üĞÂQµÄµÚkÁĞ
+			//æ›´æ–°Qçš„ç¬¬kåˆ—
 			temp = rik.c[0][0] * qi;
 			qk = qk - temp;
 			for (int j = 0; j < Q.lr; j++)
 				Q.c[j][k] = qk.c[j][0];
-			//¸üĞÂnormsµÄµÚk¸ö
+			//æ›´æ–°normsçš„ç¬¬kä¸ª
 			norms[k] -= pow(rik.c[0][0].modulus(), 2);
 		}
 	}
 
-	//È¡³öQ1£¬x¸ù¾İQ±ä»»Îªy
+	//å–å‡ºQ1ï¼Œxæ ¹æ®Qå˜æ¢ä¸ºy
 	Q = Q.get_rows(0, x.lr - 1);
 	ComplexMatrix Q_H = !Q;
 	ComplexMatrix y = Q_H * x;
-	//ÀûÓÃRµÄnTĞĞºÍy»¹Ô­³ö·¢ÉäĞÅºÅ
-	Complex temp1;						//¼ÆËãÖĞ¼ä±äÁ¿
+	//åˆ©ç”¨Rçš„nTè¡Œå’Œyè¿˜åŸå‡ºå‘å°„ä¿¡å·
+	Complex temp1;						//è®¡ç®—ä¸­é—´å˜é‡
 	for (int i = c_hat.lr - 1; i >= 0; i--)
 	{
 		c_hat.c[i][0] = y.c[i][0];
@@ -739,41 +739,41 @@ ComplexMatrix MMSE_SQRD(ComplexMatrix& x, ComplexMatrix& H, double sigma_n)
 		c_hat.c[i][0] = c_hat.c[i][0] / R.c[i][i];
 		c_hat.c[i][0] = estimating_quantization_operation(c_hat.c[i][0]);
 	}
-	//´ÓSÖĞ»¹Ô­·¢ÉäĞÅºÅcµÄÔ­Ë³Ğò£¨ÏÈ¸´ÖÆÒ»·İ£¬ÔÙ°´SË³Ğò½«¸´ÖÆÆ·ÖĞµÄÔªËØÏò½á¹ûÏòÁ¿ÖĞÈû£©
-	//£¨¾­¹ıÉè¼Æ£¬±¾ÊµÑé²âÊÔÔËĞĞ·¶Î§ÄÚ²»»áÔ½½ç£©
+	//ä»Sä¸­è¿˜åŸå‘å°„ä¿¡å·cçš„åŸé¡ºåºï¼ˆå…ˆå¤åˆ¶ä¸€ä»½ï¼Œå†æŒ‰Sé¡ºåºå°†å¤åˆ¶å“ä¸­çš„å…ƒç´ å‘ç»“æœå‘é‡ä¸­å¡ï¼‰
+	//ï¼ˆç»è¿‡è®¾è®¡ï¼Œæœ¬å®éªŒæµ‹è¯•è¿è¡ŒèŒƒå›´å†…ä¸ä¼šè¶Šç•Œï¼‰
 	ComplexMatrix c_hat_temp(c_hat);
 	for (int i = 0; i < Q.lc; i++) c_hat.c[p[i]][0] = c_hat_temp.c[i][0];
-	//ÊÍ·ÅÄÚ´æ
+	//é‡Šæ”¾å†…å­˜
 	delete[]p; delete[]norms;
 	return c_hat;
 }
 
-//MMSE-SQRD-PSAËã·¨
+//MMSE-SQRD-PSAç®—æ³•
 ComplexMatrix MMSE_SQRD_PSA(ComplexMatrix& x, ComplexMatrix& H, double sigma_n)
 {
-	//½ÓÊÕx:nR * 1		//ĞÅµÀH:nR * nT		//»¹Ô­³öc_hat:nT * 1
-	ComplexMatrix c_hat(H.lc, 1, x.is_real);		//¹ÀËãµÄ»¹Ô­³öµÄ·¢ÉäĞÅºÅ
-	ComplexMatrix qi;								//ÌáÈ¡QµÄÁĞ
-	ComplexMatrix qk;								//ÌáÈ¡QµÄÁĞ
-	ComplexMatrix qiH;								//´¢´æQµÄÁĞµÄ¹²éî×ªÖÃ
+	//æ¥æ”¶x:nR * 1		//ä¿¡é“H:nR * nT		//è¿˜åŸå‡ºc_hat:nT * 1
+	ComplexMatrix c_hat(H.lc, 1, x.is_real);		//ä¼°ç®—çš„è¿˜åŸå‡ºçš„å‘å°„ä¿¡å·
+	ComplexMatrix qi;								//æå–Qçš„åˆ—
+	ComplexMatrix qk;								//æå–Qçš„åˆ—
+	ComplexMatrix qiH;								//å‚¨å­˜Qçš„åˆ—çš„å…±è½­è½¬ç½®
 
-	double q_2_norm_min;			//´æ´¢QµÄ2-·¶Êı×îĞ¡µÄÒ»ÁĞµÄ2-·¶Êı
-	int q_2_norm_min_column;		//´æ´¢QµÄ2-·¶Êı×îĞ¡µÄÒ»ÁĞµÄ´æ´¢ÏÂ±ê
-	double r_ii;					//ÁÙÊ±´æ´¢r_iiÏà¹Ø¼ÆËã
-	ComplexMatrix rik;				//ÁÙÊ±´æ´¢r_ikÏà¹Ø¼ÆËã
+	double q_2_norm_min;			//å­˜å‚¨Qçš„2-èŒƒæ•°æœ€å°çš„ä¸€åˆ—çš„2-èŒƒæ•°
+	int q_2_norm_min_column;		//å­˜å‚¨Qçš„2-èŒƒæ•°æœ€å°çš„ä¸€åˆ—çš„å­˜å‚¨ä¸‹æ ‡
+	double r_ii;					//ä¸´æ—¶å­˜å‚¨r_iiç›¸å…³è®¡ç®—
+	ComplexMatrix rik;				//ä¸´æ—¶å­˜å‚¨r_ikç›¸å…³è®¡ç®—
 
-	ComplexMatrix temp;				//¼ÆËãÖĞ¼ä±äÁ¿
-															//QR·Ö½âÓĞÎÊÌâ
-	//³õÊ¼»¯QR·Ö½âµÄR
+	ComplexMatrix temp;				//è®¡ç®—ä¸­é—´å˜é‡
+															//QRåˆ†è§£æœ‰é—®é¢˜
+	//åˆå§‹åŒ–QRåˆ†è§£çš„R
 	ComplexMatrix R(H.lc, H.lc, x.is_real);
-	//³õÊ¼»¯QR·Ö½âµÄÀ©³äQÎªÀ©³äH
+	//åˆå§‹åŒ–QRåˆ†è§£çš„æ‰©å……Qä¸ºæ‰©å……H
 	ComplexMatrix Q(H);
 	ComplexMatrix I0 = Q.make_eyes(H.lc);
 	I0 = I0 * sigma_n;
 	Q = Q.combine_rows(Q, I0);
-	//³õÊ¼»¯´æ´¢½»»»¼ÇÂ¼µÄÏòÁ¿
+	//åˆå§‹åŒ–å­˜å‚¨äº¤æ¢è®°å½•çš„å‘é‡
 	int* p = new int[Q.lc];
-	//³õÊ¼»¯´æ´¢QµÄÁĞµÄ2-·¶ÊıµÄÏòÁ¿
+	//åˆå§‹åŒ–å­˜å‚¨Qçš„åˆ—çš„2-èŒƒæ•°çš„å‘é‡
 	double* norms = new double[Q.lc];
 	for (int i = 0; i < Q.lc; i++)
 	{
@@ -788,67 +788,67 @@ ComplexMatrix MMSE_SQRD_PSA(ComplexMatrix& x, ComplexMatrix& H, double sigma_n)
 	}
 	for (int i = 0; i < Q.lc; i++)
 	{
-		//ÕÒ³öQÊ£ÏÂÁĞÖĞ2-·¶Êı×îĞ¡µÄÒ»ÁĞÏÂ±ê
+		//æ‰¾å‡ºQå‰©ä¸‹åˆ—ä¸­2-èŒƒæ•°æœ€å°çš„ä¸€åˆ—ä¸‹æ ‡
 		q_2_norm_min_column = i;
 		q_2_norm_min = norms[i];
 		for (int k = i + 1; k < Q.lc; k++)
 			if (norms[k] < q_2_norm_min)
 				q_2_norm_min_column = k;
-		//½»»»µÚiÁĞºÍµÚq_2_norm_min_columnÁĞ
+		//äº¤æ¢ç¬¬iåˆ—å’Œç¬¬q_2_norm_min_columnåˆ—
 		R.exchange_column(i, q_2_norm_min_column);
 		std::swap(p[i], p[q_2_norm_min_column]);
 		std::swap(norms[i], norms[q_2_norm_min_column]);
-		//½»»»À©³äQµÄµÚiÁĞºÍµÚq_2_norm_min_columnÁĞµÄÇ°(nR+i-1)ĞĞ
+		//äº¤æ¢æ‰©å……Qçš„ç¬¬iåˆ—å’Œç¬¬q_2_norm_min_columnåˆ—çš„å‰(nR+i-1)è¡Œ
 		Q.exchange_some_rows_of_column(i, q_2_norm_min_column, 0, x.lr + i - 1);
-		//RµÄ¶Ô½ÇÔª
+		//Rçš„å¯¹è§’å…ƒ
 		R.c[i][i] = sqrt(norms[i]);
-		//QµÄÁĞ±ê×¼»¯
+		//Qçš„åˆ—æ ‡å‡†åŒ–
 		r_ii = R.c[i][i].re;
 		for (int j = 0; j < Q.lr; j++)
 			Q.c[j][i] = Q.c[j][i] / r_ii;
 		qi = Q.get_column(i);
 		qiH = !qi;
-		//´ÓºóĞøÖĞ¼õÈ¥·ÖÁ¿£¬ÒÔÕı½»»¯
+		//ä»åç»­ä¸­å‡å»åˆ†é‡ï¼Œä»¥æ­£äº¤åŒ–
 		for (int k = i + 1; k < Q.lc; k++)
 		{
 			qk = Q.get_column(k);
-			//RµÄ·Ç¶Ô½ÇÉÏÈı½ÇÔª
+			//Rçš„éå¯¹è§’ä¸Šä¸‰è§’å…ƒ
 			rik = qiH * qk;
 			R.c[i][k] = rik.c[0][0];
-			//¸üĞÂQµÄµÚkÁĞ
+			//æ›´æ–°Qçš„ç¬¬kåˆ—
 			temp = rik.c[0][0] * qi;
 			qk = qk - temp;
 			for (int j = 0; j < Q.lr; j++)
 				Q.c[j][k] = qk.c[j][0];
-			//¸üĞÂnormsµÄµÚk¸ö
+			//æ›´æ–°normsçš„ç¬¬kä¸ª
 			norms[k] -= pow(rik.c[0][0].modulus(), 2);
 		}
 	}
 
 	//*********************************PSA*********************************
-	ComplexMatrix Q1 = Q.get_rows(0, x.lr - 1);		//È¡³öQ1
-	ComplexMatrix Q2 = Q.get_rows(x.lr, Q.lr - 1);	//È¡³öQ2
-	ComplexMatrix Householder;						//´¢´æHouseholder±ä»»Õó
-	ComplexMatrix a, u, aH, uH, w1, w2;				//¼ÆËãHouseholder±ä»»ÕóµÄÖĞ¼ä±äÁ¿
-	int k_min = H.lc;								//Ñ°ÕÒÎó²î×îĞ¡ĞĞ
-	int ki = 0;										//Ñ°ÕÒÎó²î×îĞ¡ĞĞ
-	double* error_l = new double[H.lc];				//´¢´æÎó²îerror
+	ComplexMatrix Q1 = Q.get_rows(0, x.lr - 1);		//å–å‡ºQ1
+	ComplexMatrix Q2 = Q.get_rows(x.lr, Q.lr - 1);	//å–å‡ºQ2
+	ComplexMatrix Householder;						//å‚¨å­˜Householderå˜æ¢é˜µ
+	ComplexMatrix a, u, aH, uH, w1, w2;				//è®¡ç®—Householderå˜æ¢é˜µçš„ä¸­é—´å˜é‡
+	int k_min = H.lc;								//å¯»æ‰¾è¯¯å·®æœ€å°è¡Œ
+	int ki = 0;										//å¯»æ‰¾è¯¯å·®æœ€å°è¡Œ
+	double* error_l = new double[H.lc];				//å‚¨å­˜è¯¯å·®error
 
 	for (int i = H.lc - 1; i >= 1; i--)
 	{
-		//Q2Ã¿ĞĞÊôÓÚÏÂÈı½ÇµÄ²¿·ÖµÄ2-·¶ÊıÊÓÎªÎó²î
+		//Q2æ¯è¡Œå±äºä¸‹ä¸‰è§’çš„éƒ¨åˆ†çš„2-èŒƒæ•°è§†ä¸ºè¯¯å·®
 		for (int l = 0; l <= i; l++)
 		{
 			temp = Q2.get_sub_matrix(l, l, 0, i);
 			error_l[l] = pow(temp.vector_2_norm(), 2);
 		}
-		//ÕÒµ½ÉÏÊöÎó²î×îĞ¡ĞĞ·Åµ½µ±Ç°×Ó¾ØÕó×îºó
+		//æ‰¾åˆ°ä¸Šè¿°è¯¯å·®æœ€å°è¡Œæ”¾åˆ°å½“å‰å­çŸ©é˜µæœ€å
 		ki = i;
 		for (int k = i - 1; k >= 0; k--)
 			if (error_l[k] < error_l[ki])
 				ki = k;
 		if (k_min > ki)k_min = ki;
-		//Èç¹ûÎó²î×îĞ¡ĞĞ²»ÔÚµ±Ç°×Ó¾ØÕó×îºóÒ»ĞĞ£¬ÔòºÍ×îºó½»»»£¬²¢ÓÃHouseholder¾ØÕó°ÑQ2±ä»ØÉÏÈı½Ç
+		//å¦‚æœè¯¯å·®æœ€å°è¡Œä¸åœ¨å½“å‰å­çŸ©é˜µæœ€åä¸€è¡Œï¼Œåˆ™å’Œæœ€åäº¤æ¢ï¼Œå¹¶ç”¨HouseholderçŸ©é˜µæŠŠQ2å˜å›ä¸Šä¸‰è§’
 		if (ki < i)
 		{
 			Q2.exchange_row(i, ki);
@@ -856,7 +856,7 @@ ComplexMatrix MMSE_SQRD_PSA(ComplexMatrix& x, ComplexMatrix& H, double sigma_n)
 		}
 		if (k_min < i)
 		{
-			//¼ÆËãQ2µÄµÚiĞĞµÄµÚk_minµ½µÚ(i-1)ÁĞµÄHouseholder±ä»»Õó
+			//è®¡ç®—Q2çš„ç¬¬iè¡Œçš„ç¬¬k_minåˆ°ç¬¬(i-1)åˆ—çš„Householderå˜æ¢é˜µ
 			a = Q2.get_sub_matrix(i, i, k_min, i);
 			ComplexMatrix en(1, a.lc, a.is_real);
 			en.c[0][en.lc - 1].re = a.vector_2_norm();
@@ -873,9 +873,9 @@ ComplexMatrix MMSE_SQRD_PSA(ComplexMatrix& x, ComplexMatrix& H, double sigma_n)
 			temp = w * temp;
 			Householder = Householder.make_eyes(a.lc);
 			Householder = Householder - temp;
-			//Q2µÄµÚ0µ½iĞĞµÄµÚk_minµ½µÚ(i-1)ÁĞÓÒ³ËHouseholder±ä»»Õó
-			//Q1µÄµÚk_minµ½µÚ(i-1)ÁĞÓÒ³ËHouseholder±ä»»Õó
-			//ÏÈ·Ö±ğÍÚ³ö×Ó¾ØÕó£¬Æ´ÆğÀ´ÓÒ³Ë£¬ÔÙÌî»ØÈ¥
+			//Q2çš„ç¬¬0åˆ°iè¡Œçš„ç¬¬k_minåˆ°ç¬¬(i-1)åˆ—å³ä¹˜Householderå˜æ¢é˜µ
+			//Q1çš„ç¬¬k_minåˆ°ç¬¬(i-1)åˆ—å³ä¹˜Householderå˜æ¢é˜µ
+			//å…ˆåˆ†åˆ«æŒ–å‡ºå­çŸ©é˜µï¼Œæ‹¼èµ·æ¥å³ä¹˜ï¼Œå†å¡«å›å»
 			ComplexMatrix Q1__ = Q1.get_sub_matrix(0, Q1.lr - 1, k_min, i);
 			ComplexMatrix Q2__ = Q2.get_sub_matrix(0, i, k_min, i);
 			temp = temp.combine_rows(Q1__, Q2__);
@@ -893,12 +893,12 @@ ComplexMatrix MMSE_SQRD_PSA(ComplexMatrix& x, ComplexMatrix& H, double sigma_n)
 	ComplexMatrix Q2_inverse = Q2.square_inverse();
 	R = temp2 * Q2_inverse;
 
-	//*********************************»¹Ô­ĞÅºÅ*****************************
-	//x¸ù¾İQ±ä»»Îªy
+	//*********************************è¿˜åŸä¿¡å·*****************************
+	//xæ ¹æ®Qå˜æ¢ä¸ºy
 	ComplexMatrix Q1_H = !Q1;
 	ComplexMatrix y = Q1_H * x;
-	//ÀûÓÃRµÄnTĞĞºÍy»¹Ô­³ö·¢ÉäĞÅºÅ
-	Complex temp1;						//¼ÆËãÖĞ¼ä±äÁ¿
+	//åˆ©ç”¨Rçš„nTè¡Œå’Œyè¿˜åŸå‡ºå‘å°„ä¿¡å·
+	Complex temp1;						//è®¡ç®—ä¸­é—´å˜é‡
 	for (int i = c_hat.lr - 1; i >= 0; i--)
 	{
 		c_hat.c[i][0] = y.c[i][0];
@@ -910,21 +910,21 @@ ComplexMatrix MMSE_SQRD_PSA(ComplexMatrix& x, ComplexMatrix& H, double sigma_n)
 		c_hat.c[i][0] = c_hat.c[i][0] / R.c[i][i];
 		c_hat.c[i][0] = estimating_quantization_operation(c_hat.c[i][0]);
 	}
-	//´ÓSÖĞ»¹Ô­·¢ÉäĞÅºÅcµÄÔ­Ë³Ğò£¨ÏÈ¸´ÖÆÒ»·İ£¬ÔÙ°´SË³Ğò½«¸´ÖÆÆ·ÖĞµÄÔªËØÏò½á¹ûÏòÁ¿ÖĞÈû£©
-	//£¨¾­¹ıÉè¼Æ£¬±¾ÊµÑé²âÊÔÔËĞĞ·¶Î§ÄÚ²»»áÔ½½ç£©
+	//ä»Sä¸­è¿˜åŸå‘å°„ä¿¡å·cçš„åŸé¡ºåºï¼ˆå…ˆå¤åˆ¶ä¸€ä»½ï¼Œå†æŒ‰Sé¡ºåºå°†å¤åˆ¶å“ä¸­çš„å…ƒç´ å‘ç»“æœå‘é‡ä¸­å¡ï¼‰
+	//ï¼ˆç»è¿‡è®¾è®¡ï¼Œæœ¬å®éªŒæµ‹è¯•è¿è¡ŒèŒƒå›´å†…ä¸ä¼šè¶Šç•Œï¼‰
 	ComplexMatrix c_hat_temp(c_hat);
 	for (int i = 0; i < Q.lc; i++) c_hat.c[p[i]][0] = c_hat_temp.c[i][0];
 
-	//ÊÍ·ÅÄÚ´æ
+	//é‡Šæ”¾å†…å­˜
 	delete[]p; delete[]norms; delete[]error_l;
 	return c_hat;
 }
 
-//************************************Í³¼Æ²¢ÏòÎÄ¼şÊä³ö½á¹û************************************
+//************************************ç»Ÿè®¡å¹¶å‘æ–‡ä»¶è¾“å‡ºç»“æœ************************************
 
-//¶¨ÒåÎÄ¼şÊä³öÁ÷
+//å®šä¹‰æ–‡ä»¶è¾“å‡ºæµ
 ofstream dataOut;
-//±È½ÏÁ½¸ö±ÈÌØÁ÷£¬µÃ³öÎóÂëÂÊ
+//æ¯”è¾ƒä¸¤ä¸ªæ¯”ç‰¹æµï¼Œå¾—å‡ºè¯¯ç ç‡
 double BER(int* bits, int* bits_hat, int nT)
 {
 	int error = 0;
@@ -935,328 +935,328 @@ double BER(int* bits, int* bits_hat, int nT)
 	return BER;
 }
 
-//×ÜÌåÎóÂëÂÊ²âÊÔ£ºÖ¸¶¨·¢ÉäºÍ½ÓÊÕÌìÏßÊı£¨ÊäÈë²ÎÊıÏÈ½ÓÊÕ£¬ºó·¢Éä£©£¬²úÉún¸öHĞÅµÀ
-//Ã¿´ÎÓÃÕân¸öHÅÜÒ»¸ö²ÉÑùµã£¬Ëæºó¸Ä±äĞÅÔë±È£¬ÔÙÅÜÏÂÒ»´Îsame_SNR_n_H
-//´æ´¢ÎóÂëÂÊ²ÉÓÃÒ»¸öĞĞÏòÁ¿£¬·Ö±ğ¼ÇÂ¼Ã¿ÖÖ·½·¨£¬ÓÉÒ»¸öĞÅÔë±ÈºÍÒ»ÖÖ·½·¨¿ÉÈ·¶¨¸Ã·½·¨ÔÚ´ËĞÅÔë±ÈÏÂµÄÆ½¾ùÎóÂëÂÊ
-//²ÉÑùµãµÄÊı¾İ¶¼Êä³öµ½txtÎÄ¼şÖĞÒÔ±ãMATLAB»­Í¼´¦Àí
-//Ò»¸ö²ÉÑùµã£ºÖ¸¶¨·¢ÉäºÍ½ÓÊÕÌìÏßÊı£¬ÊäÈëÒ»¸öĞÅÔë±È£¨¹¦ÂÊ±È£©
-//n¸öHÒÔ¸ÃĞÅÔë±ÈÅÜÒ»´Îone_H_nn£¬·µ»Øn¸öHÓÃÃ¿ÖÖ·½·¨Ê±µÄÆ½¾ùÎóÂëÂÊ£¬¼´Ã¿ÖÖ·½·¨ÔÚ¸ÃµãµÄÎóÂëÂÊBER
-//Ò»¸ö²ÉÑùµãµÄÒ»²¿·Ö£ºÖ¸¶¨·¢ÉäºÍ½ÓÊÕÌìÏßÊı£¨ÔÚHµÄÎ¬¶ÈĞÅÏ¢ÀïÌåÏÖ£©£¬Í¬Ò»¸öH
-//Ã¿ÖÖ·½·¨¡°Í¬²½¡±ÅÜnn´Î£¨Ô´±ÈÌØÁ÷ºÍÔëÉù¶¼²»Í¬£©£¬·µ»ØÃ¿ÖÖ·½·¨µÄÆ½¾ùÎóÂëÂÊ
+//æ€»ä½“è¯¯ç ç‡æµ‹è¯•ï¼šæŒ‡å®šå‘å°„å’Œæ¥æ”¶å¤©çº¿æ•°ï¼ˆè¾“å…¥å‚æ•°å…ˆæ¥æ”¶ï¼Œåå‘å°„ï¼‰ï¼Œäº§ç”Ÿnä¸ªHä¿¡é“
+//æ¯æ¬¡ç”¨è¿™nä¸ªHè·‘ä¸€ä¸ªé‡‡æ ·ç‚¹ï¼Œéšåæ”¹å˜ä¿¡å™ªæ¯”ï¼Œå†è·‘ä¸‹ä¸€æ¬¡same_SNR_n_H
+//å­˜å‚¨è¯¯ç ç‡é‡‡ç”¨ä¸€ä¸ªè¡Œå‘é‡ï¼Œåˆ†åˆ«è®°å½•æ¯ç§æ–¹æ³•ï¼Œç”±ä¸€ä¸ªä¿¡å™ªæ¯”å’Œä¸€ç§æ–¹æ³•å¯ç¡®å®šè¯¥æ–¹æ³•åœ¨æ­¤ä¿¡å™ªæ¯”ä¸‹çš„å¹³å‡è¯¯ç ç‡
+//é‡‡æ ·ç‚¹çš„æ•°æ®éƒ½è¾“å‡ºåˆ°txtæ–‡ä»¶ä¸­ä»¥ä¾¿MATLABç”»å›¾å¤„ç†
+//ä¸€ä¸ªé‡‡æ ·ç‚¹ï¼šæŒ‡å®šå‘å°„å’Œæ¥æ”¶å¤©çº¿æ•°ï¼Œè¾“å…¥ä¸€ä¸ªä¿¡å™ªæ¯”ï¼ˆåŠŸç‡æ¯”ï¼‰
+//nä¸ªHä»¥è¯¥ä¿¡å™ªæ¯”è·‘ä¸€æ¬¡one_H_nnï¼Œè¿”å›nä¸ªHç”¨æ¯ç§æ–¹æ³•æ—¶çš„å¹³å‡è¯¯ç ç‡ï¼Œå³æ¯ç§æ–¹æ³•åœ¨è¯¥ç‚¹çš„è¯¯ç ç‡BER
+//ä¸€ä¸ªé‡‡æ ·ç‚¹çš„ä¸€éƒ¨åˆ†ï¼šæŒ‡å®šå‘å°„å’Œæ¥æ”¶å¤©çº¿æ•°ï¼ˆåœ¨Hçš„ç»´åº¦ä¿¡æ¯é‡Œä½“ç°ï¼‰ï¼ŒåŒä¸€ä¸ªH
+//æ¯ç§æ–¹æ³•â€œåŒæ­¥â€è·‘nnæ¬¡ï¼ˆæºæ¯”ç‰¹æµå’Œå™ªå£°éƒ½ä¸åŒï¼‰ï¼Œè¿”å›æ¯ç§æ–¹æ³•çš„å¹³å‡è¯¯ç ç‡
 void BER_versus_SNR(int nR, int nT)
 {
-	int n = 100;						//H¸öÊı
-	cout << "H¸öÊı£º"; cin >> n;
-	double SNR = 1.0;					//ĞÅÔë¹¦ÂÊ±È
-	double SNR_sqrt = sqrt(SNR);		//ĞÅÔë·ù¶È±È
-	int nn = 100;						//ÔËĞĞ´ÎÊı
-	cout << "Ã¿¸öHÔËĞĞ´ÎÊı£º"; cin >> nn;
+	int n = 100;						//Hä¸ªæ•°
+	cout << "Hä¸ªæ•°ï¼š"; cin >> n;
+	double SNR = 1.0;					//ä¿¡å™ªåŠŸç‡æ¯”
+	double SNR_sqrt = sqrt(SNR);		//ä¿¡å™ªå¹…åº¦æ¯”
+	int nn = 100;						//è¿è¡Œæ¬¡æ•°
+	cout << "æ¯ä¸ªHè¿è¡Œæ¬¡æ•°ï¼š"; cin >> nn;
 
-	string filename;						//¸ù¾İnRºÍnTÃüÃûµ±Ç°²âÊÔÊı¾İÎÄ¼ş
+	string filename;						//æ ¹æ®nRå’ŒnTå‘½åå½“å‰æµ‹è¯•æ•°æ®æ–‡ä»¶
 	char nR_1[5] = { '_','n','R','_','\0' }, nR_2[16] = { 0 }, nT_1[4] = { 'n','T','_','\0' }, nT_2[16] = { 0 };
 	_itoa(nR, nR_2, 10); _itoa(nT, nT_2, 10);
 	filename = string(nT_1) + string(nT_2) + string(nR_1) + string(nR_2) + ".txt";
 	dataOut.open(filename.c_str());
 
-	//²úÉúĞÅµÀ
+	//äº§ç”Ÿä¿¡é“
 	ComplexMatrix** H_n = new ComplexMatrix * [n];
 	for (int i = 0; i < n; i++)
 		H_n[i] = new ComplexMatrix(generate_H(nR, nT));
-	//ÔËĞĞ·ÂÕæ
-	for (int k = 0; k < 10; k++)		//Ç°Ê®¸ö²ÉÑùµãSNRÃ¿´ÎÔö´ó1£¬×îĞ¡1¿ªÊ¼
+	//è¿è¡Œä»¿çœŸ
+	for (int k = 0; k < 10; k++)		//å‰åä¸ªé‡‡æ ·ç‚¹SNRæ¯æ¬¡å¢å¤§1ï¼Œæœ€å°1å¼€å§‹
 	{
-		cout << "¿ªÊ¼ÔËĞĞµÚ" << k + 1 << "¸ö²ÉÑùµã...\n";
-		ComplexMatrix AVG_BER(1, 4, true);	//Æ½¾ùÎóÂëÂÊ³õÊ¼»¯
+		cout << "å¼€å§‹è¿è¡Œç¬¬" << k + 1 << "ä¸ªé‡‡æ ·ç‚¹...\n";
+		ComplexMatrix AVG_BER(1, 4, true);	//å¹³å‡è¯¯ç ç‡åˆå§‹åŒ–
 		SNR = 1.0 + double(k);
 		for (int j = 0; j < n; j++)
 		{
 			SNR_sqrt = sqrt(SNR);
 			ComplexMatrix H_temp(*(H_n[j]));
 			H_temp = H_temp * SNR_sqrt;
-			ComplexMatrix BERs(1, 4, true);	//´¢´æËÄÖÖ·½·¨¶ÔÒ»¸öHµÄÎóÂëÂÊ£¬³õÊ¼»¯
+			ComplexMatrix BERs(1, 4, true);	//å‚¨å­˜å››ç§æ–¹æ³•å¯¹ä¸€ä¸ªHçš„è¯¯ç ç‡ï¼Œåˆå§‹åŒ–
 			for (int l = 0; l < nn; l++)
 			{
-				ComplexMatrix c_hat_0;			//´¢´æÖ±½Ó³ËÎ±Äæ´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_1;			//´¢´æV-BLAST´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_2;			//´¢´æÎŞÅÅĞòQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_3;			//´¢´æSQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				int* bits_hat_0;				//´¢´æÖ±½Ó³ËÎ±Äæ´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_1;				//´¢´æV-BLAST´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_2;				//´¢´æÎŞÅÅĞòQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_3;				//´¢´æSQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits = generate_bits(H_temp.lc);					//²úÉúÔ´±ÈÌØÁ÷
-				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//²úÉú·¢ÉäĞÅºÅ
-				ComplexMatrix niu = generate_noise(H_temp.lr);			//²úÉúÔëÉù
-				ComplexMatrix x = H_temp * c; x = x + niu;				//²úÉú½ÓÊÕĞÅºÅ
-				//ËÄÖÖ·½·¨´Ó½ÓÊÕĞÅºÅ»¹Ô­£¬²¢·­Òë³ö±ÈÌØÁ÷
+				ComplexMatrix c_hat_0;			//å‚¨å­˜ç›´æ¥ä¹˜ä¼ªé€†ä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_1;			//å‚¨å­˜V-BLASTä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_2;			//å‚¨å­˜æ— æ’åºQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_3;			//å‚¨å­˜SQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				int* bits_hat_0;				//å‚¨å­˜ç›´æ¥ä¹˜ä¼ªé€†ä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_1;				//å‚¨å­˜V-BLASTä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_2;				//å‚¨å­˜æ— æ’åºQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_3;				//å‚¨å­˜SQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits = generate_bits(H_temp.lc);					//äº§ç”Ÿæºæ¯”ç‰¹æµ
+				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//äº§ç”Ÿå‘å°„ä¿¡å·
+				ComplexMatrix niu = generate_noise(H_temp.lr);			//äº§ç”Ÿå™ªå£°
+				ComplexMatrix x = H_temp * c; x = x + niu;				//äº§ç”Ÿæ¥æ”¶ä¿¡å·
+				//å››ç§æ–¹æ³•ä»æ¥æ”¶ä¿¡å·è¿˜åŸï¼Œå¹¶ç¿»è¯‘å‡ºæ¯”ç‰¹æµ
 				c_hat_0 = Pseudo_inverse(x, H_temp);	bits_hat_0 = signal_to_bits(c_hat_0);
 				c_hat_1 = V_BLAST(x, H_temp);			bits_hat_1 = signal_to_bits(c_hat_1);
 				c_hat_2 = QRD(x, H_temp);				bits_hat_2 = signal_to_bits(c_hat_2);
 				c_hat_3 = SQRD(x, H_temp);				bits_hat_3 = signal_to_bits(c_hat_3);
-				//ËÄ¸ö·­Òë±ÈÌØÁ÷ºÍÔ´±ÈÌØÁ÷±È½Ï£¬¸üĞÂÎóÂëÂÊ
+				//å››ä¸ªç¿»è¯‘æ¯”ç‰¹æµå’Œæºæ¯”ç‰¹æµæ¯”è¾ƒï¼Œæ›´æ–°è¯¯ç ç‡
 				BERs.c[0][0].re += BER(bits, bits_hat_0, H_temp.lc);
 				BERs.c[0][1].re += BER(bits, bits_hat_1, H_temp.lc);
 				BERs.c[0][2].re += BER(bits, bits_hat_2, H_temp.lc);
 				BERs.c[0][3].re += BER(bits, bits_hat_3, H_temp.lc);
-				//ÊÍ·ÅÄÚ´æ
+				//é‡Šæ”¾å†…å­˜
 				delete[]bits;
 				delete[]bits_hat_0; delete[]bits_hat_1;
 				delete[]bits_hat_2; delete[]bits_hat_3;
 				c.clear(); niu.clear(); x.clear();
 				c_hat_0.clear(); c_hat_1.clear(); c_hat_2.clear(); c_hat_3.clear();
 			}
-			//ËÄ¸öÎóÂëÂÊ¸÷ÇóÆ½¾ùÖµ
+			//å››ä¸ªè¯¯ç ç‡å„æ±‚å¹³å‡å€¼
 			for (int i = 0; i < 4; i++)BERs.c[0][i].re /= nn;
 			for (int i = 0; i < 4; i++)AVG_BER.c[0][i].re += BERs.c[0][i].re;
-			//ÊÍ·ÅÄÚ´æ
+			//é‡Šæ”¾å†…å­˜
 			//H_temp.clear();
 		}
-		//ÎóÂëÂÊÇóÆ½¾ùÖµ²¢Êä³ö
+		//è¯¯ç ç‡æ±‚å¹³å‡å€¼å¹¶è¾“å‡º
 		for (int i = 0; i < 4; i++)AVG_BER.c[0][i].re /= n;
 		dataOut << SNR << " " << AVG_BER;
-		//ÊÍ·ÅÄÚ´æ
+		//é‡Šæ”¾å†…å­˜
 		//AVG_BER.clear();
 	}
-	for (int k = 0; k < 2; k++)			//ºó2¸ö²ÉÑùµãSNRÃ¿´ÎÔö´ó10£¬×î´ó20½áÊø,ÒòÎª·¢ÏÖ²âÊÔ¾«¶ÈÄÚºóÃæËÄÖÖ·½·¨¶¼Îª0
+	for (int k = 0; k < 2; k++)			//å2ä¸ªé‡‡æ ·ç‚¹SNRæ¯æ¬¡å¢å¤§10ï¼Œæœ€å¤§20ç»“æŸ,å› ä¸ºå‘ç°æµ‹è¯•ç²¾åº¦å†…åé¢å››ç§æ–¹æ³•éƒ½ä¸º0
 	{
-		cout << "¿ªÊ¼ÔËĞĞµÚ" << k + 11 << "¸ö²ÉÑùµã...\n";
-		ComplexMatrix AVG_BER(1, 4, true);	//Æ½¾ùÎóÂëÂÊ³õÊ¼»¯
+		cout << "å¼€å§‹è¿è¡Œç¬¬" << k + 11 << "ä¸ªé‡‡æ ·ç‚¹...\n";
+		ComplexMatrix AVG_BER(1, 4, true);	//å¹³å‡è¯¯ç ç‡åˆå§‹åŒ–
 		SNR = 20.0 + double(k) * 10;
 		for (int j = 0; j < n; j++)
 		{
 			SNR_sqrt = sqrt(SNR);
 			ComplexMatrix H_temp(*(H_n[j]));
 			H_temp = H_temp * SNR_sqrt;
-			ComplexMatrix BERs(1, 4, true);	//´¢´æËÄÖÖ·½·¨¶ÔÒ»¸öHµÄÎóÂëÂÊ£¬³õÊ¼»¯
+			ComplexMatrix BERs(1, 4, true);	//å‚¨å­˜å››ç§æ–¹æ³•å¯¹ä¸€ä¸ªHçš„è¯¯ç ç‡ï¼Œåˆå§‹åŒ–
 			for (int l = 0; l < nn; l++)
 			{
-				ComplexMatrix c_hat_0;			//´¢´æÖ±½Ó³ËÎ±Äæ´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_1;			//´¢´æV-BLAST´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_2;			//´¢´æÎŞÅÅĞòQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_3;			//´¢´æSQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				int* bits_hat_0;				//´¢´æÖ±½Ó³ËÎ±Äæ´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_1;				//´¢´æV-BLAST´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_2;				//´¢´æÎŞÅÅĞòQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_3;				//´¢´æSQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits = generate_bits(H_temp.lc);					//²úÉúÔ´±ÈÌØÁ÷
-				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//²úÉú·¢ÉäĞÅºÅ
-				ComplexMatrix niu = generate_noise(H_temp.lr);			//²úÉúÔëÉù
-				ComplexMatrix x = H_temp * c; x = x + niu;				//²úÉú½ÓÊÕĞÅºÅ
-				//ËÄÖÖ·½·¨´Ó½ÓÊÕĞÅºÅ»¹Ô­£¬²¢·­Òë³ö±ÈÌØÁ÷
+				ComplexMatrix c_hat_0;			//å‚¨å­˜ç›´æ¥ä¹˜ä¼ªé€†ä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_1;			//å‚¨å­˜V-BLASTä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_2;			//å‚¨å­˜æ— æ’åºQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_3;			//å‚¨å­˜SQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				int* bits_hat_0;				//å‚¨å­˜ç›´æ¥ä¹˜ä¼ªé€†ä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_1;				//å‚¨å­˜V-BLASTä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_2;				//å‚¨å­˜æ— æ’åºQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_3;				//å‚¨å­˜SQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits = generate_bits(H_temp.lc);					//äº§ç”Ÿæºæ¯”ç‰¹æµ
+				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//äº§ç”Ÿå‘å°„ä¿¡å·
+				ComplexMatrix niu = generate_noise(H_temp.lr);			//äº§ç”Ÿå™ªå£°
+				ComplexMatrix x = H_temp * c; x = x + niu;				//äº§ç”Ÿæ¥æ”¶ä¿¡å·
+				//å››ç§æ–¹æ³•ä»æ¥æ”¶ä¿¡å·è¿˜åŸï¼Œå¹¶ç¿»è¯‘å‡ºæ¯”ç‰¹æµ
 				c_hat_0 = Pseudo_inverse(x, H_temp);	bits_hat_0 = signal_to_bits(c_hat_0);
 				c_hat_1 = V_BLAST(x, H_temp);			bits_hat_1 = signal_to_bits(c_hat_1);
 				c_hat_2 = QRD(x, H_temp);				bits_hat_2 = signal_to_bits(c_hat_2);
 				c_hat_3 = SQRD(x, H_temp);				bits_hat_3 = signal_to_bits(c_hat_3);
-				//ËÄ¸ö·­Òë±ÈÌØÁ÷ºÍÔ´±ÈÌØÁ÷±È½Ï£¬¸üĞÂÎóÂëÂÊ
+				//å››ä¸ªç¿»è¯‘æ¯”ç‰¹æµå’Œæºæ¯”ç‰¹æµæ¯”è¾ƒï¼Œæ›´æ–°è¯¯ç ç‡
 				BERs.c[0][0].re += BER(bits, bits_hat_0, H_temp.lc);
 				BERs.c[0][1].re += BER(bits, bits_hat_1, H_temp.lc);
 				BERs.c[0][2].re += BER(bits, bits_hat_2, H_temp.lc);
 				BERs.c[0][3].re += BER(bits, bits_hat_3, H_temp.lc);
-				//ÊÍ·ÅÄÚ´æ
+				//é‡Šæ”¾å†…å­˜
 				delete[]bits;
 				delete[]bits_hat_0; delete[]bits_hat_1;
 				delete[]bits_hat_2; delete[]bits_hat_3;
 				c.clear(); niu.clear(); x.clear();
 				c_hat_0.clear(); c_hat_1.clear(); c_hat_2.clear(); c_hat_3.clear();
 			}
-			//ËÄ¸öÎóÂëÂÊ¸÷ÇóÆ½¾ùÖµ
+			//å››ä¸ªè¯¯ç ç‡å„æ±‚å¹³å‡å€¼
 			for (int i = 0; i < 4; i++)BERs.c[0][i].re /= nn;
 			for (int i = 0; i < 4; i++)AVG_BER.c[0][i].re += BERs.c[0][i].re;
-			//ÊÍ·ÅÄÚ´æ
+			//é‡Šæ”¾å†…å­˜
 			//H_temp.clear();
 		}
-		//ÎóÂëÂÊÇóÆ½¾ùÖµ²¢Êä³ö
+		//è¯¯ç ç‡æ±‚å¹³å‡å€¼å¹¶è¾“å‡º
 		for (int i = 0; i < 4; i++)AVG_BER.c[0][i].re /= n;
 		dataOut << SNR << " " << AVG_BER;
-		//ÊÍ·ÅÄÚ´æ
+		//é‡Šæ”¾å†…å­˜
 		//AVG_BER.clear();
 	}
 }
 
-//MMSE×ÜÌåÎóÂëÂÊ²âÊÔ
+//MMSEæ€»ä½“è¯¯ç ç‡æµ‹è¯•
 void MMSE_BER_versus_SNR(int nR, int nT)
 {
-	int n = 100;						//H¸öÊı
-	cout << "H¸öÊı£º"; cin >> n;
-	double SNR = 1.0;					//ĞÅÔë¹¦ÂÊ±È
-	double SNR_sqrt = sqrt(SNR);		//ĞÅÔë·ù¶È±È
-	int nn = 100;						//ÔËĞĞ´ÎÊı
-	cout << "Ã¿¸öHÔËĞĞ´ÎÊı£º"; cin >> nn;
+	int n = 100;						//Hä¸ªæ•°
+	cout << "Hä¸ªæ•°ï¼š"; cin >> n;
+	double SNR = 1.0;					//ä¿¡å™ªåŠŸç‡æ¯”
+	double SNR_sqrt = sqrt(SNR);		//ä¿¡å™ªå¹…åº¦æ¯”
+	int nn = 100;						//è¿è¡Œæ¬¡æ•°
+	cout << "æ¯ä¸ªHè¿è¡Œæ¬¡æ•°ï¼š"; cin >> nn;
 
-	string filename;						//¸ù¾İnRºÍnTÃüÃûµ±Ç°²âÊÔÊı¾İÎÄ¼ş
+	string filename;						//æ ¹æ®nRå’ŒnTå‘½åå½“å‰æµ‹è¯•æ•°æ®æ–‡ä»¶
 	char nR_1[5] = { '_','n','R','_','\0' }, nR_2[16] = { 0 }, nT_1[4] = { 'n','T','_','\0' }, nT_2[16] = { 0 };
 	_itoa(nR, nR_2, 10); _itoa(nT, nT_2, 10);
 	filename = string(nT_1) + string(nT_2) + string(nR_1) + string(nR_2) + "_MMSE.txt";
 	dataOut.open(filename.c_str());
 
-	//²úÉúĞÅµÀ
+	//äº§ç”Ÿä¿¡é“
 	ComplexMatrix** H_n = new ComplexMatrix * [n];
 	for (int i = 0; i < n; i++)
 		H_n[i] = new ComplexMatrix(generate_H(nR, nT));
-	//ÔËĞĞ·ÂÕæ
-	for (int k = 0; k < 10; k++)		//Ç°10¸ö²ÉÑùµãSNRÃ¿´ÎÔö´ó1£¬×îĞ¡1¿ªÊ¼
+	//è¿è¡Œä»¿çœŸ
+	for (int k = 0; k < 10; k++)		//å‰10ä¸ªé‡‡æ ·ç‚¹SNRæ¯æ¬¡å¢å¤§1ï¼Œæœ€å°1å¼€å§‹
 	{
-		cout << "¿ªÊ¼ÔËĞĞµÚ" << k + 1 << "¸ö²ÉÑùµã...\n";
-		ComplexMatrix AVG_BER(1, 5, true);	//Æ½¾ùÎóÂëÂÊ³õÊ¼»¯
+		cout << "å¼€å§‹è¿è¡Œç¬¬" << k + 1 << "ä¸ªé‡‡æ ·ç‚¹...\n";
+		ComplexMatrix AVG_BER(1, 5, true);	//å¹³å‡è¯¯ç ç‡åˆå§‹åŒ–
 		SNR = 1.0 + double(k);
 		for (int j = 0; j < n; j++)
 		{
 			SNR_sqrt = sqrt(SNR);
 			ComplexMatrix H_temp(*(H_n[j]));
 			H_temp = H_temp * SNR_sqrt;
-			ComplexMatrix BERs(1, 5, true);	//´¢´æÃ¿ÖÖ·½·¨¶ÔÒ»¸öHµÄÎóÂëÂÊ£¬³õÊ¼»¯
+			ComplexMatrix BERs(1, 5, true);	//å‚¨å­˜æ¯ç§æ–¹æ³•å¯¹ä¸€ä¸ªHçš„è¯¯ç ç‡ï¼Œåˆå§‹åŒ–
 			for (int l = 0; l < nn; l++)
 			{
-				ComplexMatrix c_hat_0;			//´¢´æÖ±½Ó³ËÎ±Äæ´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_1;			//´¢´æV-BLAST´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_2;			//´¢´æÎŞÅÅĞòQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_3;			//´¢´æSQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_4;			//´¢´æSQRD_PSA´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				int* bits_hat_0;				//´¢´æÖ±½Ó³ËÎ±Äæ´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_1;				//´¢´æV-BLAST´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_2;				//´¢´æÎŞÅÅĞòQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_3;				//´¢´æSQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_4;				//´¢´æSQRD_PSA´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits = generate_bits(H_temp.lc);					//²úÉúÔ´±ÈÌØÁ÷
-				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//²úÉú·¢ÉäĞÅºÅ
-				ComplexMatrix niu = generate_noise(H_temp.lr);			//²úÉúÔëÉù
-				ComplexMatrix x = H_temp * c; x = x + niu;				//²úÉú½ÓÊÕĞÅºÅ
-				//´Ó½ÓÊÕĞÅºÅ»¹Ô­£¬²¢·­Òë³ö±ÈÌØÁ÷
+				ComplexMatrix c_hat_0;			//å‚¨å­˜ç›´æ¥ä¹˜ä¼ªé€†ä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_1;			//å‚¨å­˜V-BLASTä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_2;			//å‚¨å­˜æ— æ’åºQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_3;			//å‚¨å­˜SQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_4;			//å‚¨å­˜SQRD_PSAä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				int* bits_hat_0;				//å‚¨å­˜ç›´æ¥ä¹˜ä¼ªé€†ä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_1;				//å‚¨å­˜V-BLASTä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_2;				//å‚¨å­˜æ— æ’åºQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_3;				//å‚¨å­˜SQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_4;				//å‚¨å­˜SQRD_PSAä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits = generate_bits(H_temp.lc);					//äº§ç”Ÿæºæ¯”ç‰¹æµ
+				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//äº§ç”Ÿå‘å°„ä¿¡å·
+				ComplexMatrix niu = generate_noise(H_temp.lr);			//äº§ç”Ÿå™ªå£°
+				ComplexMatrix x = H_temp * c; x = x + niu;				//äº§ç”Ÿæ¥æ”¶ä¿¡å·
+				//ä»æ¥æ”¶ä¿¡å·è¿˜åŸï¼Œå¹¶ç¿»è¯‘å‡ºæ¯”ç‰¹æµ
 				c_hat_0 = MMSE_Pseudo_inverse(x, H_temp);	bits_hat_0 = signal_to_bits(c_hat_0);
 				c_hat_1 = MMSE_V_BLAST(x, H_temp);			bits_hat_1 = signal_to_bits(c_hat_1);
 				c_hat_2 = MMSE_QRD(x, H_temp, 1.0);			bits_hat_2 = signal_to_bits(c_hat_2);
 				c_hat_3 = MMSE_SQRD(x, H_temp, 1.0);		bits_hat_3 = signal_to_bits(c_hat_3);
 				c_hat_4 = MMSE_SQRD_PSA(x, H_temp, 1.0);	bits_hat_4 = signal_to_bits(c_hat_4);
-				//·­Òë±ÈÌØÁ÷ºÍÔ´±ÈÌØÁ÷±È½Ï£¬¸üĞÂÎóÂëÂÊ
+				//ç¿»è¯‘æ¯”ç‰¹æµå’Œæºæ¯”ç‰¹æµæ¯”è¾ƒï¼Œæ›´æ–°è¯¯ç ç‡
 				BERs.c[0][0].re += BER(bits, bits_hat_0, H_temp.lc);
 				BERs.c[0][1].re += BER(bits, bits_hat_1, H_temp.lc);
 				BERs.c[0][2].re += BER(bits, bits_hat_2, H_temp.lc);
 				BERs.c[0][3].re += BER(bits, bits_hat_3, H_temp.lc);
 				BERs.c[0][4].re += BER(bits, bits_hat_4, H_temp.lc);
-				//ÊÍ·ÅÄÚ´æ
+				//é‡Šæ”¾å†…å­˜
 				delete[]bits;		delete[]bits_hat_4;
 				delete[]bits_hat_0; delete[]bits_hat_1;
 				delete[]bits_hat_2; delete[]bits_hat_3;
 			}
-			//ÎóÂëÂÊ¸÷ÇóÆ½¾ùÖµ
+			//è¯¯ç ç‡å„æ±‚å¹³å‡å€¼
 			for (int i = 0; i < 5; i++)BERs.c[0][i].re /= nn;
 			for (int i = 0; i < 5; i++)AVG_BER.c[0][i].re += BERs.c[0][i].re;
 		}
-		//ÎóÂëÂÊÇóÆ½¾ùÖµ²¢Êä³ö
+		//è¯¯ç ç‡æ±‚å¹³å‡å€¼å¹¶è¾“å‡º
 		for (int i = 0; i < 5; i++)AVG_BER.c[0][i].re /= n;
 		dataOut << SNR << " " << AVG_BER;
 	}
-	for (int k = 0; k < 9; k++)			//ºó9¸ö²ÉÑùµãSNRÃ¿´ÎÔö´ó10£¬×î´ó100½áÊø
+	for (int k = 0; k < 9; k++)			//å9ä¸ªé‡‡æ ·ç‚¹SNRæ¯æ¬¡å¢å¤§10ï¼Œæœ€å¤§100ç»“æŸ
 	{
-		cout << "¿ªÊ¼ÔËĞĞµÚ" << k + 11 << "¸ö²ÉÑùµã...\n";
-		ComplexMatrix AVG_BER(1, 5, true);	//Æ½¾ùÎóÂëÂÊ³õÊ¼»¯
+		cout << "å¼€å§‹è¿è¡Œç¬¬" << k + 11 << "ä¸ªé‡‡æ ·ç‚¹...\n";
+		ComplexMatrix AVG_BER(1, 5, true);	//å¹³å‡è¯¯ç ç‡åˆå§‹åŒ–
 		SNR = 20.0 + double(k) * 10;
 		for (int j = 0; j < n; j++)
 		{
 			SNR_sqrt = sqrt(SNR);
 			ComplexMatrix H_temp(*(H_n[j]));
 			H_temp = H_temp * SNR_sqrt;
-			ComplexMatrix BERs(1, 5, true);	//´¢´æÃ¿ÖÖ·½·¨¶ÔÒ»¸öHµÄÎóÂëÂÊ£¬³õÊ¼»¯
+			ComplexMatrix BERs(1, 5, true);	//å‚¨å­˜æ¯ç§æ–¹æ³•å¯¹ä¸€ä¸ªHçš„è¯¯ç ç‡ï¼Œåˆå§‹åŒ–
 			for (int l = 0; l < nn; l++)
 			{
-				ComplexMatrix c_hat_0;			//´¢´æÖ±½Ó³ËÎ±Äæ´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_1;			//´¢´æV-BLAST´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_2;			//´¢´æÎŞÅÅĞòQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_3;			//´¢´æSQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_4;			//´¢´æSQRD_PSA´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				int* bits_hat_0;				//´¢´æÖ±½Ó³ËÎ±Äæ´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_1;				//´¢´æV-BLAST´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_2;				//´¢´æÎŞÅÅĞòQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_3;				//´¢´æSQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_4;				//´¢´æSQRD_PSA´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits = generate_bits(H_temp.lc);					//²úÉúÔ´±ÈÌØÁ÷
-				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//²úÉú·¢ÉäĞÅºÅ
-				ComplexMatrix niu = generate_noise(H_temp.lr);			//²úÉúÔëÉù
-				ComplexMatrix x = H_temp * c; x = x + niu;				//²úÉú½ÓÊÕĞÅºÅ
-				//´Ó½ÓÊÕĞÅºÅ»¹Ô­£¬²¢·­Òë³ö±ÈÌØÁ÷
+				ComplexMatrix c_hat_0;			//å‚¨å­˜ç›´æ¥ä¹˜ä¼ªé€†ä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_1;			//å‚¨å­˜V-BLASTä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_2;			//å‚¨å­˜æ— æ’åºQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_3;			//å‚¨å­˜SQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_4;			//å‚¨å­˜SQRD_PSAä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				int* bits_hat_0;				//å‚¨å­˜ç›´æ¥ä¹˜ä¼ªé€†ä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_1;				//å‚¨å­˜V-BLASTä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_2;				//å‚¨å­˜æ— æ’åºQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_3;				//å‚¨å­˜SQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_4;				//å‚¨å­˜SQRD_PSAä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits = generate_bits(H_temp.lc);					//äº§ç”Ÿæºæ¯”ç‰¹æµ
+				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//äº§ç”Ÿå‘å°„ä¿¡å·
+				ComplexMatrix niu = generate_noise(H_temp.lr);			//äº§ç”Ÿå™ªå£°
+				ComplexMatrix x = H_temp * c; x = x + niu;				//äº§ç”Ÿæ¥æ”¶ä¿¡å·
+				//ä»æ¥æ”¶ä¿¡å·è¿˜åŸï¼Œå¹¶ç¿»è¯‘å‡ºæ¯”ç‰¹æµ
 				c_hat_0 = MMSE_Pseudo_inverse(x, H_temp);	bits_hat_0 = signal_to_bits(c_hat_0);
 				c_hat_1 = MMSE_V_BLAST(x, H_temp);			bits_hat_1 = signal_to_bits(c_hat_1);
 				c_hat_2 = MMSE_QRD(x, H_temp, 1.0);			bits_hat_2 = signal_to_bits(c_hat_2);
 				c_hat_3 = MMSE_SQRD(x, H_temp, 1.0);		bits_hat_3 = signal_to_bits(c_hat_3);
 				c_hat_4 = MMSE_SQRD_PSA(x, H_temp, 1.0);	bits_hat_4 = signal_to_bits(c_hat_4);
-				//·­Òë±ÈÌØÁ÷ºÍÔ´±ÈÌØÁ÷±È½Ï£¬¸üĞÂÎóÂëÂÊ
+				//ç¿»è¯‘æ¯”ç‰¹æµå’Œæºæ¯”ç‰¹æµæ¯”è¾ƒï¼Œæ›´æ–°è¯¯ç ç‡
 				BERs.c[0][0].re += BER(bits, bits_hat_0, H_temp.lc);
 				BERs.c[0][1].re += BER(bits, bits_hat_1, H_temp.lc);
 				BERs.c[0][2].re += BER(bits, bits_hat_2, H_temp.lc);
 				BERs.c[0][3].re += BER(bits, bits_hat_3, H_temp.lc);
 				BERs.c[0][4].re += BER(bits, bits_hat_4, H_temp.lc);
-				//ÊÍ·ÅÄÚ´æ
+				//é‡Šæ”¾å†…å­˜
 				delete[]bits;		delete[]bits_hat_4;
 				delete[]bits_hat_0; delete[]bits_hat_1;
 				delete[]bits_hat_2; delete[]bits_hat_3;
 			}
-			//ÎóÂëÂÊ¸÷ÇóÆ½¾ùÖµ
+			//è¯¯ç ç‡å„æ±‚å¹³å‡å€¼
 			for (int i = 0; i < 5; i++)BERs.c[0][i].re /= nn;
 			for (int i = 0; i < 5; i++)AVG_BER.c[0][i].re += BERs.c[0][i].re;
 		}
-		//ÎóÂëÂÊÇóÆ½¾ùÖµ²¢Êä³ö
+		//è¯¯ç ç‡æ±‚å¹³å‡å€¼å¹¶è¾“å‡º
 		for (int i = 0; i < 5; i++)AVG_BER.c[0][i].re /= n;
 		dataOut << SNR << " " << AVG_BER;
 	}
 }
 
-//ZFºÍMMSE×ÜÌåÎóÂëÂÊ²âÊÔ
+//ZFå’ŒMMSEæ€»ä½“è¯¯ç ç‡æµ‹è¯•
 void ZF_MMSE_BER_versus_SNR(int nR, int nT)
 {
-	int n = 100;						//H¸öÊı
-	cout << "H¸öÊı£º"; cin >> n;
-	double SNR = 1.0;					//ĞÅÔë¹¦ÂÊ±È
-	double SNR_sqrt = sqrt(SNR);		//ĞÅÔë·ù¶È±È
-	int nn = 100;						//ÔËĞĞ´ÎÊı
-	cout << "Ã¿¸öHÔËĞĞ´ÎÊı£º"; cin >> nn;
+	int n = 100;						//Hä¸ªæ•°
+	cout << "Hä¸ªæ•°ï¼š"; cin >> n;
+	double SNR = 1.0;					//ä¿¡å™ªåŠŸç‡æ¯”
+	double SNR_sqrt = sqrt(SNR);		//ä¿¡å™ªå¹…åº¦æ¯”
+	int nn = 100;						//è¿è¡Œæ¬¡æ•°
+	cout << "æ¯ä¸ªHè¿è¡Œæ¬¡æ•°ï¼š"; cin >> nn;
 
-	string filename;						//¸ù¾İnRºÍnTÃüÃûµ±Ç°²âÊÔÊı¾İÎÄ¼ş
+	string filename;						//æ ¹æ®nRå’ŒnTå‘½åå½“å‰æµ‹è¯•æ•°æ®æ–‡ä»¶
 	char nR_1[5] = { '_','n','R','_','\0' }, nR_2[16] = { 0 }, nT_1[4] = { 'n','T','_','\0' }, nT_2[16] = { 0 };
 	_itoa(nR, nR_2, 10); _itoa(nT, nT_2, 10);
 	filename = string(nT_1) + string(nT_2) + string(nR_1) + string(nR_2) + "_ZF_MMSE.txt";
 	dataOut.open(filename.c_str());
 
-	//²úÉúĞÅµÀ
+	//äº§ç”Ÿä¿¡é“
 	ComplexMatrix** H_n = new ComplexMatrix * [n];
 	for (int i = 0; i < n; i++)
 		H_n[i] = new ComplexMatrix(generate_H(nR, nT));
-	//ÔËĞĞ·ÂÕæ
-	for (int k = 0; k < 10; k++)		//Ç°10¸ö²ÉÑùµãSNRÃ¿´ÎÔö´ó1£¬×îĞ¡1¿ªÊ¼
+	//è¿è¡Œä»¿çœŸ
+	for (int k = 0; k < 10; k++)		//å‰10ä¸ªé‡‡æ ·ç‚¹SNRæ¯æ¬¡å¢å¤§1ï¼Œæœ€å°1å¼€å§‹
 	{
-		cout << "¿ªÊ¼ÔËĞĞµÚ" << k + 1 << "¸ö²ÉÑùµã...\n";
-		ComplexMatrix AVG_BER(1, 9, true);	//Æ½¾ùÎóÂëÂÊ³õÊ¼»¯
+		cout << "å¼€å§‹è¿è¡Œç¬¬" << k + 1 << "ä¸ªé‡‡æ ·ç‚¹...\n";
+		ComplexMatrix AVG_BER(1, 9, true);	//å¹³å‡è¯¯ç ç‡åˆå§‹åŒ–
 		SNR = 1.0 + double(k);
 		for (int j = 0; j < n; j++)
 		{
 			SNR_sqrt = sqrt(SNR);
 			ComplexMatrix H_temp(*(H_n[j]));
 			H_temp = H_temp * SNR_sqrt;
-			ComplexMatrix BERs(1, 9, true);		//´¢´æÃ¿ÖÖ·½·¨¶ÔÒ»¸öHµÄÎóÂëÂÊ£¬³õÊ¼»¯
+			ComplexMatrix BERs(1, 9, true);		//å‚¨å­˜æ¯ç§æ–¹æ³•å¯¹ä¸€ä¸ªHçš„è¯¯ç ç‡ï¼Œåˆå§‹åŒ–
 			for (int l = 0; l < nn; l++)
 			{
-				ComplexMatrix c_hat_0;			//´¢´æÖ±½Ó³ËÎ±Äæ´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_1;			//´¢´æV-BLAST´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_2;			//´¢´æÎŞÅÅĞòQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_3;			//´¢´æSQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_4;			//´¢´æMMSEÏßĞÔ(Ö±½Ó³ËÎ±Äæ)´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_5;			//´¢´æMMSE-V-BLAST´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_6;			//´¢´æMMSE-ÎŞÅÅĞòQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_7;			//´¢´æMMSE-SQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_8;			//´¢´æMMSE-SQRD_PSA´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				int* bits_hat_0;				//´¢´æÖ±½Ó³ËÎ±Äæ´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_1;				//´¢´æV-BLAST´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_2;				//´¢´æÎŞÅÅĞòQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_3;				//´¢´æSQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_4;				//´¢´æMMSEÏßĞÔ(Ö±½Ó³ËÎ±Äæ)´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_5;				//´¢´æMMSE-V-BLAST´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_6;				//´¢´æMMSE-ÎŞÅÅĞòQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_7;				//´¢´æMMSE-SQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_8;				//´¢´æMMSE-SQRD_PSA´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits = generate_bits(H_temp.lc);					//²úÉúÔ´±ÈÌØÁ÷
-				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//²úÉú·¢ÉäĞÅºÅ
-				ComplexMatrix niu = generate_noise(H_temp.lr);			//²úÉúÔëÉù
-				ComplexMatrix x = H_temp * c; x = x + niu;				//²úÉú½ÓÊÕĞÅºÅ
-				//´Ó½ÓÊÕĞÅºÅ»¹Ô­£¬²¢·­Òë³ö±ÈÌØÁ÷
+				ComplexMatrix c_hat_0;			//å‚¨å­˜ç›´æ¥ä¹˜ä¼ªé€†ä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_1;			//å‚¨å­˜V-BLASTä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_2;			//å‚¨å­˜æ— æ’åºQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_3;			//å‚¨å­˜SQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_4;			//å‚¨å­˜MMSEçº¿æ€§(ç›´æ¥ä¹˜ä¼ªé€†)ä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_5;			//å‚¨å­˜MMSE-V-BLASTä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_6;			//å‚¨å­˜MMSE-æ— æ’åºQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_7;			//å‚¨å­˜MMSE-SQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_8;			//å‚¨å­˜MMSE-SQRD_PSAä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				int* bits_hat_0;				//å‚¨å­˜ç›´æ¥ä¹˜ä¼ªé€†ä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_1;				//å‚¨å­˜V-BLASTä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_2;				//å‚¨å­˜æ— æ’åºQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_3;				//å‚¨å­˜SQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_4;				//å‚¨å­˜MMSEçº¿æ€§(ç›´æ¥ä¹˜ä¼ªé€†)ä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_5;				//å‚¨å­˜MMSE-V-BLASTä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_6;				//å‚¨å­˜MMSE-æ— æ’åºQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_7;				//å‚¨å­˜MMSE-SQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_8;				//å‚¨å­˜MMSE-SQRD_PSAä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits = generate_bits(H_temp.lc);					//äº§ç”Ÿæºæ¯”ç‰¹æµ
+				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//äº§ç”Ÿå‘å°„ä¿¡å·
+				ComplexMatrix niu = generate_noise(H_temp.lr);			//äº§ç”Ÿå™ªå£°
+				ComplexMatrix x = H_temp * c; x = x + niu;				//äº§ç”Ÿæ¥æ”¶ä¿¡å·
+				//ä»æ¥æ”¶ä¿¡å·è¿˜åŸï¼Œå¹¶ç¿»è¯‘å‡ºæ¯”ç‰¹æµ
 				c_hat_0 = Pseudo_inverse(x, H_temp);		bits_hat_0 = signal_to_bits(c_hat_0);
 				c_hat_1 = V_BLAST(x, H_temp);				bits_hat_1 = signal_to_bits(c_hat_1);
 				c_hat_2 = QRD(x, H_temp);					bits_hat_2 = signal_to_bits(c_hat_2);
@@ -1266,7 +1266,7 @@ void ZF_MMSE_BER_versus_SNR(int nR, int nT)
 				c_hat_6 = MMSE_QRD(x, H_temp, 1.0);			bits_hat_6 = signal_to_bits(c_hat_6);
 				c_hat_7 = MMSE_SQRD(x, H_temp, 1.0);		bits_hat_7 = signal_to_bits(c_hat_7);
 				c_hat_8 = MMSE_SQRD_PSA(x, H_temp, 1.0);	bits_hat_8 = signal_to_bits(c_hat_8);
-				//·­Òë±ÈÌØÁ÷ºÍÔ´±ÈÌØÁ÷±È½Ï£¬¸üĞÂÎóÂëÂÊ
+				//ç¿»è¯‘æ¯”ç‰¹æµå’Œæºæ¯”ç‰¹æµæ¯”è¾ƒï¼Œæ›´æ–°è¯¯ç ç‡
 				BERs.c[0][0].re += BER(bits, bits_hat_0, H_temp.lc);
 				BERs.c[0][1].re += BER(bits, bits_hat_1, H_temp.lc);
 				BERs.c[0][2].re += BER(bits, bits_hat_2, H_temp.lc);
@@ -1276,57 +1276,57 @@ void ZF_MMSE_BER_versus_SNR(int nR, int nT)
 				BERs.c[0][6].re += BER(bits, bits_hat_6, H_temp.lc);
 				BERs.c[0][7].re += BER(bits, bits_hat_7, H_temp.lc);
 				BERs.c[0][8].re += BER(bits, bits_hat_8, H_temp.lc);
-				//ÊÍ·ÅÄÚ´æ
+				//é‡Šæ”¾å†…å­˜
 				delete[]bits;		delete[]bits_hat_0;
 				delete[]bits_hat_1; delete[]bits_hat_2;
 				delete[]bits_hat_3; delete[]bits_hat_4;
 				delete[]bits_hat_5; delete[]bits_hat_6;
 				delete[]bits_hat_7; delete[]bits_hat_8;
 			}
-			//ÎóÂëÂÊ¸÷ÇóÆ½¾ùÖµ
+			//è¯¯ç ç‡å„æ±‚å¹³å‡å€¼
 			for (int i = 0; i < 9; i++)BERs.c[0][i].re /= nn;
 			for (int i = 0; i < 9; i++)AVG_BER.c[0][i].re += BERs.c[0][i].re;
 		}
-		//ÎóÂëÂÊÇóÆ½¾ùÖµ²¢Êä³ö
+		//è¯¯ç ç‡æ±‚å¹³å‡å€¼å¹¶è¾“å‡º
 		for (int i = 0; i < 9; i++)AVG_BER.c[0][i].re /= n;
 		dataOut << SNR << " " << AVG_BER;
 	}
-	for (int k = 0; k < 9; k++)			//ºó9¸ö²ÉÑùµãSNRÃ¿´ÎÔö´ó10£¬×î´ó100½áÊø
+	for (int k = 0; k < 9; k++)			//å9ä¸ªé‡‡æ ·ç‚¹SNRæ¯æ¬¡å¢å¤§10ï¼Œæœ€å¤§100ç»“æŸ
 	{
-		cout << "¿ªÊ¼ÔËĞĞµÚ" << k + 11 << "¸ö²ÉÑùµã...\n";
-		ComplexMatrix AVG_BER(1, 9, true);	//Æ½¾ùÎóÂëÂÊ³õÊ¼»¯
+		cout << "å¼€å§‹è¿è¡Œç¬¬" << k + 11 << "ä¸ªé‡‡æ ·ç‚¹...\n";
+		ComplexMatrix AVG_BER(1, 9, true);	//å¹³å‡è¯¯ç ç‡åˆå§‹åŒ–
 		SNR = 20.0 + double(k) * 10;
 		for (int j = 0; j < n; j++)
 		{
 			SNR_sqrt = sqrt(SNR);
 			ComplexMatrix H_temp(*(H_n[j]));
 			H_temp = H_temp * SNR_sqrt;
-			ComplexMatrix BERs(1, 9, true);		//´¢´æÃ¿ÖÖ·½·¨¶ÔÒ»¸öHµÄÎóÂëÂÊ£¬³õÊ¼»¯
+			ComplexMatrix BERs(1, 9, true);		//å‚¨å­˜æ¯ç§æ–¹æ³•å¯¹ä¸€ä¸ªHçš„è¯¯ç ç‡ï¼Œåˆå§‹åŒ–
 			for (int l = 0; l < nn; l++)
 			{
-				ComplexMatrix c_hat_0;			//´¢´æÖ±½Ó³ËÎ±Äæ´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_1;			//´¢´æV-BLAST´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_2;			//´¢´æÎŞÅÅĞòQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_3;			//´¢´æSQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_4;			//´¢´æMMSEÏßĞÔ(Ö±½Ó³ËÎ±Äæ)´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_5;			//´¢´æMMSE-V-BLAST´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_6;			//´¢´æMMSE-ÎŞÅÅĞòQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_7;			//´¢´æMMSE-SQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_8;			//´¢´æMMSE-SQRD_PSA´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				int* bits_hat_0;				//´¢´æÖ±½Ó³ËÎ±Äæ´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_1;				//´¢´æV-BLAST´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_2;				//´¢´æÎŞÅÅĞòQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_3;				//´¢´æSQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_4;				//´¢´æMMSEÏßĞÔ(Ö±½Ó³ËÎ±Äæ)´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_5;				//´¢´æMMSE-V-BLAST´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_6;				//´¢´æMMSE-ÎŞÅÅĞòQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_7;				//´¢´æMMSE-SQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_8;				//´¢´æMMSE-SQRD_PSA´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits = generate_bits(H_temp.lc);					//²úÉúÔ´±ÈÌØÁ÷
-				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//²úÉú·¢ÉäĞÅºÅ
-				ComplexMatrix niu = generate_noise(H_temp.lr);			//²úÉúÔëÉù
-				ComplexMatrix x = H_temp * c; x = x + niu;				//²úÉú½ÓÊÕĞÅºÅ
-				//´Ó½ÓÊÕĞÅºÅ»¹Ô­£¬²¢·­Òë³ö±ÈÌØÁ÷
+				ComplexMatrix c_hat_0;			//å‚¨å­˜ç›´æ¥ä¹˜ä¼ªé€†ä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_1;			//å‚¨å­˜V-BLASTä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_2;			//å‚¨å­˜æ— æ’åºQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_3;			//å‚¨å­˜SQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_4;			//å‚¨å­˜MMSEçº¿æ€§(ç›´æ¥ä¹˜ä¼ªé€†)ä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_5;			//å‚¨å­˜MMSE-V-BLASTä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_6;			//å‚¨å­˜MMSE-æ— æ’åºQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_7;			//å‚¨å­˜MMSE-SQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_8;			//å‚¨å­˜MMSE-SQRD_PSAä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				int* bits_hat_0;				//å‚¨å­˜ç›´æ¥ä¹˜ä¼ªé€†ä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_1;				//å‚¨å­˜V-BLASTä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_2;				//å‚¨å­˜æ— æ’åºQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_3;				//å‚¨å­˜SQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_4;				//å‚¨å­˜MMSEçº¿æ€§(ç›´æ¥ä¹˜ä¼ªé€†)ä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_5;				//å‚¨å­˜MMSE-V-BLASTä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_6;				//å‚¨å­˜MMSE-æ— æ’åºQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_7;				//å‚¨å­˜MMSE-SQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_8;				//å‚¨å­˜MMSE-SQRD_PSAä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits = generate_bits(H_temp.lc);					//äº§ç”Ÿæºæ¯”ç‰¹æµ
+				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//äº§ç”Ÿå‘å°„ä¿¡å·
+				ComplexMatrix niu = generate_noise(H_temp.lr);			//äº§ç”Ÿå™ªå£°
+				ComplexMatrix x = H_temp * c; x = x + niu;				//äº§ç”Ÿæ¥æ”¶ä¿¡å·
+				//ä»æ¥æ”¶ä¿¡å·è¿˜åŸï¼Œå¹¶ç¿»è¯‘å‡ºæ¯”ç‰¹æµ
 				c_hat_0 = Pseudo_inverse(x, H_temp);		bits_hat_0 = signal_to_bits(c_hat_0);
 				c_hat_1 = V_BLAST(x, H_temp);				bits_hat_1 = signal_to_bits(c_hat_1);
 				c_hat_2 = QRD(x, H_temp);					bits_hat_2 = signal_to_bits(c_hat_2);
@@ -1336,7 +1336,7 @@ void ZF_MMSE_BER_versus_SNR(int nR, int nT)
 				c_hat_6 = MMSE_QRD(x, H_temp, 1.0);			bits_hat_6 = signal_to_bits(c_hat_6);
 				c_hat_7 = MMSE_SQRD(x, H_temp, 1.0);		bits_hat_7 = signal_to_bits(c_hat_7);
 				c_hat_8 = MMSE_SQRD_PSA(x, H_temp, 1.0);	bits_hat_8 = signal_to_bits(c_hat_8);
-				//·­Òë±ÈÌØÁ÷ºÍÔ´±ÈÌØÁ÷±È½Ï£¬¸üĞÂÎóÂëÂÊ
+				//ç¿»è¯‘æ¯”ç‰¹æµå’Œæºæ¯”ç‰¹æµæ¯”è¾ƒï¼Œæ›´æ–°è¯¯ç ç‡
 				BERs.c[0][0].re += BER(bits, bits_hat_0, H_temp.lc);
 				BERs.c[0][1].re += BER(bits, bits_hat_1, H_temp.lc);
 				BERs.c[0][2].re += BER(bits, bits_hat_2, H_temp.lc);
@@ -1346,49 +1346,49 @@ void ZF_MMSE_BER_versus_SNR(int nR, int nT)
 				BERs.c[0][6].re += BER(bits, bits_hat_6, H_temp.lc);
 				BERs.c[0][7].re += BER(bits, bits_hat_7, H_temp.lc);
 				BERs.c[0][8].re += BER(bits, bits_hat_8, H_temp.lc);
-				//ÊÍ·ÅÄÚ´æ
+				//é‡Šæ”¾å†…å­˜
 				delete[]bits;		delete[]bits_hat_0;
 				delete[]bits_hat_1; delete[]bits_hat_2;
 				delete[]bits_hat_3; delete[]bits_hat_4;
 				delete[]bits_hat_5; delete[]bits_hat_6;
 				delete[]bits_hat_7; delete[]bits_hat_8;
 			}
-			//ÎóÂëÂÊ¸÷ÇóÆ½¾ùÖµ
+			//è¯¯ç ç‡å„æ±‚å¹³å‡å€¼
 			for (int i = 0; i < 9; i++)BERs.c[0][i].re /= nn;
 			for (int i = 0; i < 9; i++)AVG_BER.c[0][i].re += BERs.c[0][i].re;
 		}
-		//ÎóÂëÂÊÇóÆ½¾ùÖµ²¢Êä³ö
+		//è¯¯ç ç‡æ±‚å¹³å‡å€¼å¹¶è¾“å‡º
 		for (int i = 0; i < 9; i++)AVG_BER.c[0][i].re /= n;
 		dataOut << SNR << " " << AVG_BER;
 	}
 }
 
-//V-BLASTºÍMMSE-V-BLAST·Ö²ãÎóÂëÂÊ²âÊÔ
+//V-BLASTå’ŒMMSE-V-BLASTåˆ†å±‚è¯¯ç ç‡æµ‹è¯•
 void BER_versus_SNR_per_layer(int nR, int nT)
 {
-	int n = 100;						//H¸öÊı
-	cout << "H¸öÊı£º"; cin >> n;
-	double SNR = 1.0;					//ĞÅÔë¹¦ÂÊ±È
-	double SNR_sqrt = sqrt(SNR);		//ĞÅÔë·ù¶È±È
-	int nn = 100;						//ÔËĞĞ´ÎÊı
-	cout << "Ã¿¸öHÔËĞĞ´ÎÊı£º"; cin >> nn;
+	int n = 100;						//Hä¸ªæ•°
+	cout << "Hä¸ªæ•°ï¼š"; cin >> n;
+	double SNR = 1.0;					//ä¿¡å™ªåŠŸç‡æ¯”
+	double SNR_sqrt = sqrt(SNR);		//ä¿¡å™ªå¹…åº¦æ¯”
+	int nn = 100;						//è¿è¡Œæ¬¡æ•°
+	cout << "æ¯ä¸ªHè¿è¡Œæ¬¡æ•°ï¼š"; cin >> nn;
 
-	string filename;						//¸ù¾İnRºÍnTÃüÃûµ±Ç°²âÊÔÊı¾İÎÄ¼ş
+	string filename;						//æ ¹æ®nRå’ŒnTå‘½åå½“å‰æµ‹è¯•æ•°æ®æ–‡ä»¶
 	char nR_1[5] = { '_','n','R','_','\0' }, nR_2[16] = { 0 }, nT_1[4] = { 'n','T','_','\0' }, nT_2[16] = { 0 };
 	_itoa(nR, nR_2, 10); _itoa(nT, nT_2, 10);
 	filename = string(nT_1) + string(nT_2) + string(nR_1) + string(nR_2) + "_V-BLAST_layers.txt";
 	dataOut.open(filename.c_str());
 
-	//²úÉúĞÅµÀ
+	//äº§ç”Ÿä¿¡é“
 	ComplexMatrix** H_n = new ComplexMatrix * [n];
 	for (int i = 0; i < n; i++)
 		H_n[i] = new ComplexMatrix(generate_H(nR, nT));
-	//ÔËĞĞ·ÂÕæ
-	for (int k = 0; k < 10; k++)		//Ç°10¸ö²ÉÑùµãSNRÃ¿´ÎÔö´ó1£¬×îĞ¡1¿ªÊ¼
+	//è¿è¡Œä»¿çœŸ
+	for (int k = 0; k < 10; k++)		//å‰10ä¸ªé‡‡æ ·ç‚¹SNRæ¯æ¬¡å¢å¤§1ï¼Œæœ€å°1å¼€å§‹
 	{
-		cout << "¿ªÊ¼ÔËĞĞµÚ" << k + 1 << "¸ö²ÉÑùµã...\n";
-		ComplexMatrix AVG_BER1(1, 4, true);	//V-BLASTÆ½¾ù·Ö²ãÎóÂëÂÊ³õÊ¼»¯
-		ComplexMatrix AVG_BER2(1, 4, true);	//MMSE-V-BLASTÆ½¾ù·Ö²ãÎóÂëÂÊ³õÊ¼»¯
+		cout << "å¼€å§‹è¿è¡Œç¬¬" << k + 1 << "ä¸ªé‡‡æ ·ç‚¹...\n";
+		ComplexMatrix AVG_BER1(1, 4, true);	//V-BLASTå¹³å‡åˆ†å±‚è¯¯ç ç‡åˆå§‹åŒ–
+		ComplexMatrix AVG_BER2(1, 4, true);	//MMSE-V-BLASTå¹³å‡åˆ†å±‚è¯¯ç ç‡åˆå§‹åŒ–
 		SNR = 1.0 + double(k);
 		for (int j = 0; j < n; j++)
 		{
@@ -1397,33 +1397,33 @@ void BER_versus_SNR_per_layer(int nR, int nT)
 			H_temp = H_temp * SNR_sqrt;
 			for (int l = 0; l < nn; l++)
 			{
-				ComplexMatrix BER_layers1;		//´¢´æV-BLAST·Ö²ãÎóÂëÂÊ
-				ComplexMatrix BER_layers2;		//´¢´æMMSE-V-BLAST·Ö²ãÎóÂëÂÊ
-				int* bits = generate_bits(H_temp.lc);					//²úÉúÔ´±ÈÌØÁ÷
-				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//²úÉú·¢ÉäĞÅºÅ
-				ComplexMatrix niu = generate_noise(H_temp.lr);			//²úÉúÔëÉù
-				ComplexMatrix x = H_temp * c; x = x + niu;				//²úÉú½ÓÊÕĞÅºÅ
-				//»ñÈ¡ĞÂµÄ·Ö²ãÎóÂëÂÊ
+				ComplexMatrix BER_layers1;		//å‚¨å­˜V-BLASTåˆ†å±‚è¯¯ç ç‡
+				ComplexMatrix BER_layers2;		//å‚¨å­˜MMSE-V-BLASTåˆ†å±‚è¯¯ç ç‡
+				int* bits = generate_bits(H_temp.lc);					//äº§ç”Ÿæºæ¯”ç‰¹æµ
+				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//äº§ç”Ÿå‘å°„ä¿¡å·
+				ComplexMatrix niu = generate_noise(H_temp.lr);			//äº§ç”Ÿå™ªå£°
+				ComplexMatrix x = H_temp * c; x = x + niu;				//äº§ç”Ÿæ¥æ”¶ä¿¡å·
+				//è·å–æ–°çš„åˆ†å±‚è¯¯ç ç‡
 				BER_layers2 = MMSE_V_BLAST_layer(x, H_temp, bits);
 				BER_layers1 = V_BLAST_layer(x, H_temp, bits);
-				//¸üĞÂÆ½¾ùÎóÂëÂÊ
+				//æ›´æ–°å¹³å‡è¯¯ç ç‡
 				AVG_BER1 = AVG_BER1 + BER_layers1;
 				AVG_BER2 = AVG_BER2 + BER_layers2;
-				//ÊÍ·ÅÄÚ´æ
+				//é‡Šæ”¾å†…å­˜
 				delete[]bits;
 			}
 		}
-		//ÎóÂëÂÊÇóÆ½¾ùÖµ²¢Êä³ö
+		//è¯¯ç ç‡æ±‚å¹³å‡å€¼å¹¶è¾“å‡º
 		for (int i = 0; i < AVG_BER1.lc; i++) AVG_BER1.c[0][i].re /= (double(n) * double(nn));
 		for (int i = 0; i < AVG_BER2.lc; i++) AVG_BER2.c[0][i].re /= (double(n) * double(nn));
 		ComplexMatrix AVG_BER = AVG_BER1.combine_columns(AVG_BER1, AVG_BER2);
 		dataOut << SNR << " " << AVG_BER;
 	}
-	for (int k = 0; k < 9; k++)			//ºó¾Å¸ö²ÉÑùµãSNRÃ¿´ÎÔö´ó10£¬×î´ó100½áÊø
+	for (int k = 0; k < 9; k++)			//åä¹ä¸ªé‡‡æ ·ç‚¹SNRæ¯æ¬¡å¢å¤§10ï¼Œæœ€å¤§100ç»“æŸ
 	{
-		cout << "¿ªÊ¼ÔËĞĞµÚ" << k + 11 << "¸ö²ÉÑùµã...\n";
-		ComplexMatrix AVG_BER1(1, 4, true);	//V-BLASTÆ½¾ù·Ö²ãÎóÂëÂÊ³õÊ¼»¯
-		ComplexMatrix AVG_BER2(1, 4, true);	//MMSE-V-BLASTÆ½¾ù·Ö²ãÎóÂëÂÊ³õÊ¼»¯
+		cout << "å¼€å§‹è¿è¡Œç¬¬" << k + 11 << "ä¸ªé‡‡æ ·ç‚¹...\n";
+		ComplexMatrix AVG_BER1(1, 4, true);	//V-BLASTå¹³å‡åˆ†å±‚è¯¯ç ç‡åˆå§‹åŒ–
+		ComplexMatrix AVG_BER2(1, 4, true);	//MMSE-V-BLASTå¹³å‡åˆ†å±‚è¯¯ç ç‡åˆå§‹åŒ–
 		SNR = 20.0 + double(k) * 10;
 		for (int j = 0; j < n; j++)
 		{
@@ -1432,23 +1432,23 @@ void BER_versus_SNR_per_layer(int nR, int nT)
 			H_temp = H_temp * SNR_sqrt;
 			for (int l = 0; l < nn; l++)
 			{
-				ComplexMatrix BER_layers1;		//´¢´æV-BLAST·Ö²ãÎóÂëÂÊ
-				ComplexMatrix BER_layers2;		//´¢´æMMSE-V-BLAST·Ö²ãÎóÂëÂÊ
-				int* bits = generate_bits(H_temp.lc);					//²úÉúÔ´±ÈÌØÁ÷
-				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//²úÉú·¢ÉäĞÅºÅ
-				ComplexMatrix niu = generate_noise(H_temp.lr);			//²úÉúÔëÉù
-				ComplexMatrix x = H_temp * c; x = x + niu;				//²úÉú½ÓÊÕĞÅºÅ
-				//»ñÈ¡ĞÂµÄ·Ö²ãÎóÂëÂÊ
+				ComplexMatrix BER_layers1;		//å‚¨å­˜V-BLASTåˆ†å±‚è¯¯ç ç‡
+				ComplexMatrix BER_layers2;		//å‚¨å­˜MMSE-V-BLASTåˆ†å±‚è¯¯ç ç‡
+				int* bits = generate_bits(H_temp.lc);					//äº§ç”Ÿæºæ¯”ç‰¹æµ
+				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//äº§ç”Ÿå‘å°„ä¿¡å·
+				ComplexMatrix niu = generate_noise(H_temp.lr);			//äº§ç”Ÿå™ªå£°
+				ComplexMatrix x = H_temp * c; x = x + niu;				//äº§ç”Ÿæ¥æ”¶ä¿¡å·
+				//è·å–æ–°çš„åˆ†å±‚è¯¯ç ç‡
 				BER_layers2 = MMSE_V_BLAST_layer(x, H_temp, bits);
 				BER_layers1 = V_BLAST_layer(x, H_temp, bits);
-				//¸üĞÂÆ½¾ùÎóÂëÂÊ
+				//æ›´æ–°å¹³å‡è¯¯ç ç‡
 				AVG_BER1 = AVG_BER1 + BER_layers1;
 				AVG_BER2 = AVG_BER2 + BER_layers2;
-				//ÊÍ·ÅÄÚ´æ
+				//é‡Šæ”¾å†…å­˜
 				delete[]bits;
 			}
 		}
-		//ÎóÂëÂÊÇóÆ½¾ùÖµ²¢Êä³ö
+		//è¯¯ç ç‡æ±‚å¹³å‡å€¼å¹¶è¾“å‡º
 		for (int i = 0; i < AVG_BER1.lc; i++) AVG_BER1.c[0][i].re /= (double(n) * double(nn));
 		for (int i = 0; i < AVG_BER2.lc; i++) AVG_BER2.c[0][i].re /= (double(n) * double(nn));
 		ComplexMatrix AVG_BER = AVG_BER1.combine_columns(AVG_BER1, AVG_BER2);
@@ -1456,61 +1456,61 @@ void BER_versus_SNR_per_layer(int nR, int nT)
 	}
 }
 
-//MMSE×ÜÌåÎóÖ¡ÂÊ²âÊÔ
+//MMSEæ€»ä½“è¯¯å¸§ç‡æµ‹è¯•
 void MMSE_FER_versus_SNR(int nR, int nT)
 {
-	int n = 100;						//H¸öÊı
-	cout << "H¸öÊı£º"; cin >> n;
-	double SNR = 1.0;					//ĞÅÔë¹¦ÂÊ±È
-	double SNR_sqrt = sqrt(SNR);		//ĞÅÔë·ù¶È±È
-	int nn = 100;						//ÔËĞĞ´ÎÊı
-	cout << "Ã¿¸öHÔËĞĞ´ÎÊı£º"; cin >> nn;
+	int n = 100;						//Hä¸ªæ•°
+	cout << "Hä¸ªæ•°ï¼š"; cin >> n;
+	double SNR = 1.0;					//ä¿¡å™ªåŠŸç‡æ¯”
+	double SNR_sqrt = sqrt(SNR);		//ä¿¡å™ªå¹…åº¦æ¯”
+	int nn = 100;						//è¿è¡Œæ¬¡æ•°
+	cout << "æ¯ä¸ªHè¿è¡Œæ¬¡æ•°ï¼š"; cin >> nn;
 
-	string filename;						//¸ù¾İnRºÍnTÃüÃûµ±Ç°²âÊÔÊı¾İÎÄ¼ş
+	string filename;						//æ ¹æ®nRå’ŒnTå‘½åå½“å‰æµ‹è¯•æ•°æ®æ–‡ä»¶
 	char nR_1[5] = { '_','n','R','_','\0' }, nR_2[16] = { 0 }, nT_1[4] = { 'n','T','_','\0' }, nT_2[16] = { 0 };
 	_itoa(nR, nR_2, 10); _itoa(nT, nT_2, 10);
 	filename = string(nT_1) + string(nT_2) + string(nR_1) + string(nR_2) + "_MMSE_FER.txt";
 	dataOut.open(filename.c_str());
 
-	//²úÉúĞÅµÀ
+	//äº§ç”Ÿä¿¡é“
 	ComplexMatrix** H_n = new ComplexMatrix * [n];
 	for (int i = 0; i < n; i++)
 		H_n[i] = new ComplexMatrix(generate_H(nR, nT));
-	//ÔËĞĞ·ÂÕæ
-	for (int k = 0; k < 10; k++)		//Ç°10¸ö²ÉÑùµãSNRÃ¿´ÎÔö´ó1£¬×îĞ¡1¿ªÊ¼
+	//è¿è¡Œä»¿çœŸ
+	for (int k = 0; k < 10; k++)		//å‰10ä¸ªé‡‡æ ·ç‚¹SNRæ¯æ¬¡å¢å¤§1ï¼Œæœ€å°1å¼€å§‹
 	{
-		cout << "¿ªÊ¼ÔËĞĞµÚ" << k + 1 << "¸ö²ÉÑùµã...\n";
-		ComplexMatrix AVG_FER(1, 5, true);	//Æ½¾ùÎóÖ¡ÂÊ³õÊ¼»¯
+		cout << "å¼€å§‹è¿è¡Œç¬¬" << k + 1 << "ä¸ªé‡‡æ ·ç‚¹...\n";
+		ComplexMatrix AVG_FER(1, 5, true);	//å¹³å‡è¯¯å¸§ç‡åˆå§‹åŒ–
 		SNR = 1.0 + double(k);
 		for (int j = 0; j < n; j++)
 		{
 			SNR_sqrt = sqrt(SNR);
 			ComplexMatrix H_temp(*(H_n[j]));
 			H_temp = H_temp * SNR_sqrt;
-			ComplexMatrix FERs(1, 5, true);	//´¢´æÃ¿ÖÖ·½·¨¶ÔÒ»¸öHµÄÎóÂëÂÊ£¬³õÊ¼»¯
+			ComplexMatrix FERs(1, 5, true);	//å‚¨å­˜æ¯ç§æ–¹æ³•å¯¹ä¸€ä¸ªHçš„è¯¯ç ç‡ï¼Œåˆå§‹åŒ–
 			for (int l = 0; l < nn; l++)
 			{
-				ComplexMatrix c_hat_0;			//´¢´æÖ±½Ó³ËÎ±Äæ´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_1;			//´¢´æV-BLAST´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_2;			//´¢´æÎŞÅÅĞòQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_3;			//´¢´æSQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_4;			//´¢´æSQRD_PSA´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				int* bits_hat_0;				//´¢´æÖ±½Ó³ËÎ±Äæ´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_1;				//´¢´æV-BLAST´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_2;				//´¢´æÎŞÅÅĞòQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_3;				//´¢´æSQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_4;				//´¢´æSQRD_PSA´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits = generate_bits(H_temp.lc);					//²úÉúÔ´±ÈÌØÁ÷
-				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//²úÉú·¢ÉäĞÅºÅ
-				ComplexMatrix niu = generate_noise(H_temp.lr);			//²úÉúÔëÉù
-				ComplexMatrix x = H_temp * c; x = x + niu;				//²úÉú½ÓÊÕĞÅºÅ
-				//´Ó½ÓÊÕĞÅºÅ»¹Ô­£¬²¢·­Òë³ö±ÈÌØÁ÷
+				ComplexMatrix c_hat_0;			//å‚¨å­˜ç›´æ¥ä¹˜ä¼ªé€†ä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_1;			//å‚¨å­˜V-BLASTä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_2;			//å‚¨å­˜æ— æ’åºQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_3;			//å‚¨å­˜SQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_4;			//å‚¨å­˜SQRD_PSAä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				int* bits_hat_0;				//å‚¨å­˜ç›´æ¥ä¹˜ä¼ªé€†ä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_1;				//å‚¨å­˜V-BLASTä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_2;				//å‚¨å­˜æ— æ’åºQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_3;				//å‚¨å­˜SQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_4;				//å‚¨å­˜SQRD_PSAä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits = generate_bits(H_temp.lc);					//äº§ç”Ÿæºæ¯”ç‰¹æµ
+				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//äº§ç”Ÿå‘å°„ä¿¡å·
+				ComplexMatrix niu = generate_noise(H_temp.lr);			//äº§ç”Ÿå™ªå£°
+				ComplexMatrix x = H_temp * c; x = x + niu;				//äº§ç”Ÿæ¥æ”¶ä¿¡å·
+				//ä»æ¥æ”¶ä¿¡å·è¿˜åŸï¼Œå¹¶ç¿»è¯‘å‡ºæ¯”ç‰¹æµ
 				c_hat_0 = MMSE_Pseudo_inverse(x, H_temp);	bits_hat_0 = signal_to_bits(c_hat_0);
 				c_hat_1 = MMSE_V_BLAST(x, H_temp);			bits_hat_1 = signal_to_bits(c_hat_1);
 				c_hat_2 = MMSE_QRD(x, H_temp, 1.0);			bits_hat_2 = signal_to_bits(c_hat_2);
 				c_hat_3 = MMSE_SQRD(x, H_temp, 1.0);		bits_hat_3 = signal_to_bits(c_hat_3);
 				c_hat_4 = MMSE_SQRD_PSA(x, H_temp, 1.0);	bits_hat_4 = signal_to_bits(c_hat_4);
-				//·­Òë±ÈÌØÁ÷ºÍÔ´±ÈÌØÁ÷±È½Ï£¬¸üĞÂÎóÖ¡ÂÊ
+				//ç¿»è¯‘æ¯”ç‰¹æµå’Œæºæ¯”ç‰¹æµæ¯”è¾ƒï¼Œæ›´æ–°è¯¯å¸§ç‡
 				bool* Frame_error = new bool[5];
 				for (int i = 0; i < 5; i++)Frame_error[i] = false;
 				for (int i = 0; i < nT * 2; i++)
@@ -1523,54 +1523,54 @@ void MMSE_FER_versus_SNR(int nR, int nT)
 				}
 				for (int i = 0; i < 5; i++)
 					if (Frame_error[i]) FERs.c[0][i].re += 1.0;
-				//ÊÍ·ÅÄÚ´æ
+				//é‡Šæ”¾å†…å­˜
 				delete[]bits;		delete[]Frame_error;
 				delete[]bits_hat_0; delete[]bits_hat_1;
 				delete[]bits_hat_2; delete[]bits_hat_3;
 				delete[]bits_hat_4;
 			}
-			//ÎóÖ¡ÂÊ¸÷ÇóÆ½¾ùÖµ
+			//è¯¯å¸§ç‡å„æ±‚å¹³å‡å€¼
 			for (int i = 0; i < 5; i++)FERs.c[0][i].re /= nn;
 			for (int i = 0; i < 5; i++)AVG_FER.c[0][i].re += FERs.c[0][i].re;
 		}
-		//ÎóÖ¡ÂÊÇóÆ½¾ùÖµ²¢Êä³ö
+		//è¯¯å¸§ç‡æ±‚å¹³å‡å€¼å¹¶è¾“å‡º
 		for (int i = 0; i < 5; i++)AVG_FER.c[0][i].re /= n;
 		dataOut << SNR << " " << AVG_FER;
 	}
-	for (int k = 0; k < 9; k++)			//ºó9¸ö²ÉÑùµãSNRÃ¿´ÎÔö´ó10£¬×î´ó100½áÊø
+	for (int k = 0; k < 9; k++)			//å9ä¸ªé‡‡æ ·ç‚¹SNRæ¯æ¬¡å¢å¤§10ï¼Œæœ€å¤§100ç»“æŸ
 	{
-		cout << "¿ªÊ¼ÔËĞĞµÚ" << k + 11 << "¸ö²ÉÑùµã...\n";
-		ComplexMatrix AVG_FER(1, 5, true);	//Æ½¾ùÎóÖ¡ÂÊ³õÊ¼»¯
+		cout << "å¼€å§‹è¿è¡Œç¬¬" << k + 11 << "ä¸ªé‡‡æ ·ç‚¹...\n";
+		ComplexMatrix AVG_FER(1, 5, true);	//å¹³å‡è¯¯å¸§ç‡åˆå§‹åŒ–
 		SNR = 20.0 + double(k) * 10;
 		for (int j = 0; j < n; j++)
 		{
 			SNR_sqrt = sqrt(SNR);
 			ComplexMatrix H_temp(*(H_n[j]));
 			H_temp = H_temp * SNR_sqrt;
-			ComplexMatrix FERs(1, 5, true);	//´¢´æÃ¿ÖÖ·½·¨¶ÔÒ»¸öHµÄÎóÂëÂÊ£¬³õÊ¼»¯
+			ComplexMatrix FERs(1, 5, true);	//å‚¨å­˜æ¯ç§æ–¹æ³•å¯¹ä¸€ä¸ªHçš„è¯¯ç ç‡ï¼Œåˆå§‹åŒ–
 			for (int l = 0; l < nn; l++)
 			{
-				ComplexMatrix c_hat_0;			//´¢´æÖ±½Ó³ËÎ±Äæ´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_1;			//´¢´æV-BLAST´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_2;			//´¢´æÎŞÅÅĞòQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_3;			//´¢´æSQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_4;			//´¢´æSQRD_PSA´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				int* bits_hat_0;				//´¢´æÖ±½Ó³ËÎ±Äæ´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_1;				//´¢´æV-BLAST´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_2;				//´¢´æÎŞÅÅĞòQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_3;				//´¢´æSQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_4;				//´¢´æSQRD_PSA´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits = generate_bits(H_temp.lc);					//²úÉúÔ´±ÈÌØÁ÷
-				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//²úÉú·¢ÉäĞÅºÅ
-				ComplexMatrix niu = generate_noise(H_temp.lr);			//²úÉúÔëÉù
-				ComplexMatrix x = H_temp * c; x = x + niu;				//²úÉú½ÓÊÕĞÅºÅ
-				//´Ó½ÓÊÕĞÅºÅ»¹Ô­£¬²¢·­Òë³ö±ÈÌØÁ÷
+				ComplexMatrix c_hat_0;			//å‚¨å­˜ç›´æ¥ä¹˜ä¼ªé€†ä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_1;			//å‚¨å­˜V-BLASTä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_2;			//å‚¨å­˜æ— æ’åºQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_3;			//å‚¨å­˜SQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_4;			//å‚¨å­˜SQRD_PSAä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				int* bits_hat_0;				//å‚¨å­˜ç›´æ¥ä¹˜ä¼ªé€†ä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_1;				//å‚¨å­˜V-BLASTä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_2;				//å‚¨å­˜æ— æ’åºQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_3;				//å‚¨å­˜SQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_4;				//å‚¨å­˜SQRD_PSAä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits = generate_bits(H_temp.lc);					//äº§ç”Ÿæºæ¯”ç‰¹æµ
+				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//äº§ç”Ÿå‘å°„ä¿¡å·
+				ComplexMatrix niu = generate_noise(H_temp.lr);			//äº§ç”Ÿå™ªå£°
+				ComplexMatrix x = H_temp * c; x = x + niu;				//äº§ç”Ÿæ¥æ”¶ä¿¡å·
+				//ä»æ¥æ”¶ä¿¡å·è¿˜åŸï¼Œå¹¶ç¿»è¯‘å‡ºæ¯”ç‰¹æµ
 				c_hat_0 = MMSE_Pseudo_inverse(x, H_temp);	bits_hat_0 = signal_to_bits(c_hat_0);
 				c_hat_1 = MMSE_V_BLAST(x, H_temp);			bits_hat_1 = signal_to_bits(c_hat_1);
 				c_hat_2 = MMSE_QRD(x, H_temp, 1.0);			bits_hat_2 = signal_to_bits(c_hat_2);
 				c_hat_3 = MMSE_SQRD(x, H_temp, 1.0);		bits_hat_3 = signal_to_bits(c_hat_3);
 				c_hat_4 = MMSE_SQRD_PSA(x, H_temp, 1.0);	bits_hat_4 = signal_to_bits(c_hat_4);
-				//·­Òë±ÈÌØÁ÷ºÍÔ´±ÈÌØÁ÷±È½Ï£¬¸üĞÂÎóÖ¡ÂÊ
+				//ç¿»è¯‘æ¯”ç‰¹æµå’Œæºæ¯”ç‰¹æµæ¯”è¾ƒï¼Œæ›´æ–°è¯¯å¸§ç‡
 				bool* Frame_error = new bool[5];
 				for (int i = 0; i < 5; i++)Frame_error[i] = false;
 				for (int i = 0; i < nT * 2; i++)
@@ -1583,54 +1583,54 @@ void MMSE_FER_versus_SNR(int nR, int nT)
 				}
 				for (int i = 0; i < 5; i++)
 					if (Frame_error[i]) FERs.c[0][i].re += 1.0;
-				//ÊÍ·ÅÄÚ´æ
+				//é‡Šæ”¾å†…å­˜
 				delete[]bits;		delete[]Frame_error;
 				delete[]bits_hat_0; delete[]bits_hat_1;
 				delete[]bits_hat_2; delete[]bits_hat_3;
 				delete[]bits_hat_4;
 			}
-			//ÎóÖ¡ÂÊ¸÷ÇóÆ½¾ùÖµ
+			//è¯¯å¸§ç‡å„æ±‚å¹³å‡å€¼
 			for (int i = 0; i < 5; i++)FERs.c[0][i].re /= nn;
 			for (int i = 0; i < 5; i++)AVG_FER.c[0][i].re += FERs.c[0][i].re;
 		}
-		//ÎóÖ¡ÂÊÇóÆ½¾ùÖµ²¢Êä³ö
+		//è¯¯å¸§ç‡æ±‚å¹³å‡å€¼å¹¶è¾“å‡º
 		for (int i = 0; i < 5; i++)AVG_FER.c[0][i].re /= n;
 		dataOut << SNR << " " << AVG_FER;
 	}
-	for (int k = 0; k < 9; k++)			//ºó9¸ö²ÉÑùµãSNRÃ¿´ÎÔö´ó100£¬×î´ó1000½áÊø
+	for (int k = 0; k < 9; k++)			//å9ä¸ªé‡‡æ ·ç‚¹SNRæ¯æ¬¡å¢å¤§100ï¼Œæœ€å¤§1000ç»“æŸ
 	{
-		cout << "¿ªÊ¼ÔËĞĞµÚ" << k + 20 << "¸ö²ÉÑùµã...\n";
-		ComplexMatrix AVG_FER(1, 5, true);	//Æ½¾ùÎóÖ¡ÂÊ³õÊ¼»¯
+		cout << "å¼€å§‹è¿è¡Œç¬¬" << k + 20 << "ä¸ªé‡‡æ ·ç‚¹...\n";
+		ComplexMatrix AVG_FER(1, 5, true);	//å¹³å‡è¯¯å¸§ç‡åˆå§‹åŒ–
 		SNR = 200.0 + double(k) * 100;
 		for (int j = 0; j < n; j++)
 		{
 			SNR_sqrt = sqrt(SNR);
 			ComplexMatrix H_temp(*(H_n[j]));
 			H_temp = H_temp * SNR_sqrt;
-			ComplexMatrix FERs(1, 5, true);	//´¢´æÃ¿ÖÖ·½·¨¶ÔÒ»¸öHµÄÎóÂëÂÊ£¬³õÊ¼»¯
+			ComplexMatrix FERs(1, 5, true);	//å‚¨å­˜æ¯ç§æ–¹æ³•å¯¹ä¸€ä¸ªHçš„è¯¯ç ç‡ï¼Œåˆå§‹åŒ–
 			for (int l = 0; l < nn; l++)
 			{
-				ComplexMatrix c_hat_0;			//´¢´æÖ±½Ó³ËÎ±Äæ´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_1;			//´¢´æV-BLAST´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_2;			//´¢´æÎŞÅÅĞòQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_3;			//´¢´æSQRD´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				ComplexMatrix c_hat_4;			//´¢´æSQRD_PSA´Ó½ÓÊÕĞÅºÅÖĞ»¹Ô­µÄ·¢ÉäĞÅºÅ
-				int* bits_hat_0;				//´¢´æÖ±½Ó³ËÎ±Äæ´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_1;				//´¢´æV-BLAST´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_2;				//´¢´æÎŞÅÅĞòQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_3;				//´¢´æSQRD´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits_hat_4;				//´¢´æSQRD_PSA´Ó»¹Ô­ĞÅºÅ·­Òë³öµÄ±ÈÌØÁ÷
-				int* bits = generate_bits(H_temp.lc);					//²úÉúÔ´±ÈÌØÁ÷
-				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//²úÉú·¢ÉäĞÅºÅ
-				ComplexMatrix niu = generate_noise(H_temp.lr);			//²úÉúÔëÉù
-				ComplexMatrix x = H_temp * c; x = x + niu;				//²úÉú½ÓÊÕĞÅºÅ
-				//´Ó½ÓÊÕĞÅºÅ»¹Ô­£¬²¢·­Òë³ö±ÈÌØÁ÷
+				ComplexMatrix c_hat_0;			//å‚¨å­˜ç›´æ¥ä¹˜ä¼ªé€†ä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_1;			//å‚¨å­˜V-BLASTä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_2;			//å‚¨å­˜æ— æ’åºQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_3;			//å‚¨å­˜SQRDä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				ComplexMatrix c_hat_4;			//å‚¨å­˜SQRD_PSAä»æ¥æ”¶ä¿¡å·ä¸­è¿˜åŸçš„å‘å°„ä¿¡å·
+				int* bits_hat_0;				//å‚¨å­˜ç›´æ¥ä¹˜ä¼ªé€†ä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_1;				//å‚¨å­˜V-BLASTä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_2;				//å‚¨å­˜æ— æ’åºQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_3;				//å‚¨å­˜SQRDä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits_hat_4;				//å‚¨å­˜SQRD_PSAä»è¿˜åŸä¿¡å·ç¿»è¯‘å‡ºçš„æ¯”ç‰¹æµ
+				int* bits = generate_bits(H_temp.lc);					//äº§ç”Ÿæºæ¯”ç‰¹æµ
+				ComplexMatrix c = generate_signal(bits, H_temp.lc);		//äº§ç”Ÿå‘å°„ä¿¡å·
+				ComplexMatrix niu = generate_noise(H_temp.lr);			//äº§ç”Ÿå™ªå£°
+				ComplexMatrix x = H_temp * c; x = x + niu;				//äº§ç”Ÿæ¥æ”¶ä¿¡å·
+				//ä»æ¥æ”¶ä¿¡å·è¿˜åŸï¼Œå¹¶ç¿»è¯‘å‡ºæ¯”ç‰¹æµ
 				c_hat_0 = MMSE_Pseudo_inverse(x, H_temp);	bits_hat_0 = signal_to_bits(c_hat_0);
 				c_hat_1 = MMSE_V_BLAST(x, H_temp);			bits_hat_1 = signal_to_bits(c_hat_1);
 				c_hat_2 = MMSE_QRD(x, H_temp, 1.0);			bits_hat_2 = signal_to_bits(c_hat_2);
 				c_hat_3 = MMSE_SQRD(x, H_temp, 1.0);		bits_hat_3 = signal_to_bits(c_hat_3);
 				c_hat_4 = MMSE_SQRD_PSA(x, H_temp, 1.0);	bits_hat_4 = signal_to_bits(c_hat_4);
-				//·­Òë±ÈÌØÁ÷ºÍÔ´±ÈÌØÁ÷±È½Ï£¬¸üĞÂÎóÖ¡ÂÊ
+				//ç¿»è¯‘æ¯”ç‰¹æµå’Œæºæ¯”ç‰¹æµæ¯”è¾ƒï¼Œæ›´æ–°è¯¯å¸§ç‡
 				bool* Frame_error = new bool[5];
 				for (int i = 0; i < 5; i++)Frame_error[i] = false;
 				for (int i = 0; i < nT * 2; i++)
@@ -1643,108 +1643,108 @@ void MMSE_FER_versus_SNR(int nR, int nT)
 				}
 				for (int i = 0; i < 5; i++)
 					if (Frame_error[i]) FERs.c[0][i].re += 1.0;
-				//ÊÍ·ÅÄÚ´æ
+				//é‡Šæ”¾å†…å­˜
 				delete[]bits;		delete[]Frame_error;
 				delete[]bits_hat_0; delete[]bits_hat_1;
 				delete[]bits_hat_2; delete[]bits_hat_3;
 				delete[]bits_hat_4;
 			}
-			//ÎóÖ¡ÂÊ¸÷ÇóÆ½¾ùÖµ
+			//è¯¯å¸§ç‡å„æ±‚å¹³å‡å€¼
 			for (int i = 0; i < 5; i++)FERs.c[0][i].re /= nn;
 			for (int i = 0; i < 5; i++)AVG_FER.c[0][i].re += FERs.c[0][i].re;
 		}
-		//ÎóÖ¡ÂÊÇóÆ½¾ùÖµ²¢Êä³ö
+		//è¯¯å¸§ç‡æ±‚å¹³å‡å€¼å¹¶è¾“å‡º
 		for (int i = 0; i < 5; i++)AVG_FER.c[0][i].re /= n;
 		dataOut << SNR << " " << AVG_FER;
 	}
 }
 
-//************************************Ö÷³ÌĞò************************************************
+//************************************ä¸»ç¨‹åº************************************************
 
 int main()
 {
-	srand(int(time(NULL)));	//¸üĞÂËæ»úÊıÖÖ×Ó
+	srand(int(time(NULL)));	//æ›´æ–°éšæœºæ•°ç§å­
 	int nT, nR;
 	
-	//*******************************(1)¸ö±ğ²âÊÔ1*******************************************
-	nT = 4;		//·¢ÉäÌìÏßÊı
-	nR = 4;		//½ÓÊÕÌìÏßÊı
-	cout << "(1)¸ö±ğ²âÊÔ1\n";
-	//²úÉúbits²¢ÏÔÊ¾
+	//*******************************(1)ä¸ªåˆ«æµ‹è¯•1*******************************************
+	nT = 4;		//å‘å°„å¤©çº¿æ•°
+	nR = 4;		//æ¥æ”¶å¤©çº¿æ•°
+	cout << "(1)ä¸ªåˆ«æµ‹è¯•1\n";
+	//äº§ç”Ÿbitså¹¶æ˜¾ç¤º
 	int* bits = generate_bits(nT);
-	cout << "±ÈÌØÁ÷ ="; for (int i = 0; i < nT * 2; i++) cout << bits[i]; cout << endl;
-	//µ÷ÖÆ³É·¢ÉäĞÅºÅ£¬²úÉúĞÅµÀ£¬²úÉúÔëÉù£¬È«²¿ÏÔÊ¾
+	cout << "æ¯”ç‰¹æµ ="; for (int i = 0; i < nT * 2; i++) cout << bits[i]; cout << endl;
+	//è°ƒåˆ¶æˆå‘å°„ä¿¡å·ï¼Œäº§ç”Ÿä¿¡é“ï¼Œäº§ç”Ÿå™ªå£°ï¼Œå…¨éƒ¨æ˜¾ç¤º
 	ComplexMatrix c = generate_signal(bits, nT);
-	cout << "·¢ÉäĞÅºÅc = \n" << c << endl;
+	cout << "å‘å°„ä¿¡å·c = \n" << c << endl;
 	ComplexMatrix H = generate_H(nR, nT);
-	cout << "ĞÅµÀ¾ØÕóH = \n" << H << endl;
+	cout << "ä¿¡é“çŸ©é˜µH = \n" << H << endl;
 	ComplexMatrix niu = generate_noise(nR);
-	cout << "ÔëÉù¦Í = \n" << niu << endl;
-	//²úÉú½ÓÊÕĞÅºÅ
+	cout << "å™ªå£°Î½ = \n" << niu << endl;
+	//äº§ç”Ÿæ¥æ”¶ä¿¡å·
 	ComplexMatrix x = H * c;
 	x = x + niu;
-	//¾ÅÖÖËã·¨³¢ÊÔ»Ö¸´½ÓÊÕĞÅºÅÎª·¢ÉäĞÅºÅ£¬ÏÔÊ¾½á¹û£»²¢»¹Ô­Îªbits£¬ÏÔÊ¾½á¹û
+	//ä¹ç§ç®—æ³•å°è¯•æ¢å¤æ¥æ”¶ä¿¡å·ä¸ºå‘å°„ä¿¡å·ï¼Œæ˜¾ç¤ºç»“æœï¼›å¹¶è¿˜åŸä¸ºbitsï¼Œæ˜¾ç¤ºç»“æœ
 	ComplexMatrix result = Pseudo_inverse(x, H);  int* result_bits = signal_to_bits(result);
-	cout << "Ö±½Ó³ËÎ±ÄæËã·¨½á¹û = \n" << result << endl << "½á¹û±ÈÌØÁ÷ =";
+	cout << "ç›´æ¥ä¹˜ä¼ªé€†ç®—æ³•ç»“æœ = \n" << result << endl << "ç»“æœæ¯”ç‰¹æµ =";
 	for (int i = 0; i < nT * 2; i++) cout << result_bits[i]; cout << endl << endl;
 	
 	result = V_BLAST(x, H);  result_bits = signal_to_bits(result); 
-	cout << "V-BLASTËã·¨½á¹û = \n" << result << endl << "½á¹û±ÈÌØÁ÷ =";
+	cout << "V-BLASTç®—æ³•ç»“æœ = \n" << result << endl << "ç»“æœæ¯”ç‰¹æµ =";
 	for (int i = 0; i < nT * 2; i++) cout << result_bits[i]; cout << endl << endl;
 
 	result = QRD(x, H);	result_bits = signal_to_bits(result); 
-	cout << "ÎŞÅÅĞòQRDËã·¨½á¹û = \n" << result << endl << "½á¹û±ÈÌØÁ÷ =";
+	cout << "æ— æ’åºQRDç®—æ³•ç»“æœ = \n" << result << endl << "ç»“æœæ¯”ç‰¹æµ =";
 	for (int i = 0; i < nT * 2; i++) cout << result_bits[i]; cout << endl << endl;
 
 	result = SQRD(x, H); result_bits = signal_to_bits(result); 
-	cout << "SQRDËã·¨½á¹û = \n" << result << endl << "½á¹û±ÈÌØÁ÷ =";
+	cout << "SQRDç®—æ³•ç»“æœ = \n" << result << endl << "ç»“æœæ¯”ç‰¹æµ =";
 	for (int i = 0; i < nT * 2; i++) cout << result_bits[i]; cout << endl << endl;
 
 	result = MMSE_Pseudo_inverse(x, H); result_bits = signal_to_bits(result);
-	cout << "MMSE_Ö±½Ó³ËÎ±ÄæËã·¨½á¹û = \n" << result << endl << "½á¹û±ÈÌØÁ÷ =";
+	cout << "MMSE_ç›´æ¥ä¹˜ä¼ªé€†ç®—æ³•ç»“æœ = \n" << result << endl << "ç»“æœæ¯”ç‰¹æµ =";
 	for (int i = 0; i < nT * 2; i++) cout << result_bits[i]; cout << endl << endl;
 
 	result = MMSE_V_BLAST(x, H); result_bits = signal_to_bits(result);
-	cout << "MMSE_V-BLASTËã·¨½á¹û = \n" << result << endl << "½á¹û±ÈÌØÁ÷ =";
+	cout << "MMSE_V-BLASTç®—æ³•ç»“æœ = \n" << result << endl << "ç»“æœæ¯”ç‰¹æµ =";
 	for (int i = 0; i < nT * 2; i++) cout << result_bits[i]; cout << endl << endl;
 
 	result = MMSE_QRD(x, H, 1.0); result_bits = signal_to_bits(result);
-	cout << "MMSE_QRDËã·¨½á¹û = \n" << result << endl << "½á¹û±ÈÌØÁ÷ =";
+	cout << "MMSE_QRDç®—æ³•ç»“æœ = \n" << result << endl << "ç»“æœæ¯”ç‰¹æµ =";
 	for (int i = 0; i < nT * 2; i++) cout << result_bits[i]; cout << endl << endl;
 
 	result = MMSE_SQRD(x, H, 1.0); result_bits = signal_to_bits(result);
-	cout << "MMSE_SQRDËã·¨½á¹û = \n" << result << endl << "½á¹û±ÈÌØÁ÷ =";
+	cout << "MMSE_SQRDç®—æ³•ç»“æœ = \n" << result << endl << "ç»“æœæ¯”ç‰¹æµ =";
 	for (int i = 0; i < nT * 2; i++) cout << result_bits[i]; cout << endl << endl;
 
 	result = MMSE_SQRD_PSA(x, H, 1.0); result_bits = signal_to_bits(result);
-	cout << "MMSE_SQRD_PSAËã·¨½á¹û = \n" << result << endl << "½á¹û±ÈÌØÁ÷ =";
+	cout << "MMSE_SQRD_PSAç®—æ³•ç»“æœ = \n" << result << endl << "ç»“æœæ¯”ç‰¹æµ =";
 	for (int i = 0; i < nT * 2; i++) cout << result_bits[i]; cout << endl << endl;
 
-	//*******************************(2)ÃÉÌØ¿¨Âå·ÂÕæ²âÊÔ************************************
+	//*******************************(2)è’™ç‰¹å¡æ´›ä»¿çœŸæµ‹è¯•************************************
 	int input;
-	cout << "Ñ¡Ôñ£º\n2.ZF×ÜÌåÎóÂëÂÊ²âÊÔ£»3.V-BLASTºÍMMSE-V-BLAST·Ö²ãÎóÂëÂÊ²âÊÔ£»4.MMSE×ÜÌåÎóÖ¡ÂÊ²âÊÔ£»5.ZFºÍMMSE×ÜÌåÎóÂëÂÊ²âÊÔ£º";
+	cout << "é€‰æ‹©ï¼š\n2.ZFæ€»ä½“è¯¯ç ç‡æµ‹è¯•ï¼›3.V-BLASTå’ŒMMSE-V-BLASTåˆ†å±‚è¯¯ç ç‡æµ‹è¯•ï¼›4.MMSEæ€»ä½“è¯¯å¸§ç‡æµ‹è¯•ï¼›5.ZFå’ŒMMSEæ€»ä½“è¯¯ç ç‡æµ‹è¯•ï¼š";
 	cin >> input;
-	cout << "ÊäÈë½ÓÊÕÌìÏßÊınR£º"; cin >> nR;
-	cout << "ÊäÈë·¢ÉäÌìÏßÊınT£º"; cin >> nT;
+	cout << "è¾“å…¥æ¥æ”¶å¤©çº¿æ•°nRï¼š"; cin >> nR;
+	cout << "è¾“å…¥å‘å°„å¤©çº¿æ•°nTï¼š"; cin >> nT;
 	if (input == 2)
 	{
 		BER_versus_SNR(nR, nT);
-		cout << "²âÊÔÍê³É\n";
+		cout << "æµ‹è¯•å®Œæˆ\n";
 	}
 	else if (input == 3)
 	{
 		BER_versus_SNR_per_layer(nR, nT);
-		cout << "²âÊÔÍê³É\n";
+		cout << "æµ‹è¯•å®Œæˆ\n";
 	}
 	else if (input == 4)
 	{
 		MMSE_FER_versus_SNR(nR, nT);
-		cout << "²âÊÔÍê³É\n";
+		cout << "æµ‹è¯•å®Œæˆ\n";
 	}
 	else if (input == 5)
 	{
 		ZF_MMSE_BER_versus_SNR(nR, nT);
-		cout << "²âÊÔÍê³É\n";
+		cout << "æµ‹è¯•å®Œæˆ\n";
 	}
 	return 0;
 }
